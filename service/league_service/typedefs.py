@@ -95,9 +95,10 @@ class LeagueScore(NamedTuple):
     score: int
     game_count: int
 
-    def __eq__(self, other: "LeagueScore") -> bool:
+    def __eq__(self, other) -> bool:
         return (
-            self.division_id == other.division_id
+            type(self) == type(other)
+            and self.division_id == other.division_id
             and self.score == other.score
             and self.game_count == other.game_count
         )

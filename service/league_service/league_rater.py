@@ -36,7 +36,7 @@ class LeagueRater:
         player_div = league.get_division(current_score.division_id)
         if player_div is None or current_score.score is None:
             cls._logger.warning(
-                "Doing placement again, because a division not found or score set to null. "
+                "Doing placement again, because the division was not found or the score set to null. "
                 "Current league score: %s",
                 current_score,
             )

@@ -12,7 +12,13 @@ class ServiceNotReadyError(LeagueServiceError):
     pass
 
 
-class DivisionDoesNotExistError(Exception):
+class DivisionDoesNotExistError(LeagueServiceError):
+    pass
+
+
+class InvalidScoreError(LeagueServiceError):
+    """Raised when trying to persist a malformed score."""
+
     pass
 
 
@@ -88,6 +94,13 @@ class LeagueScore(NamedTuple):
     division_id: int
     score: int
     game_count: int
+
+    def __eq__(self, other: "LeagueScore") -> bool:
+        return (
+            self.division_id == other.division_id
+            and self.score == other.score
+            and self.game_count == other.game_count
+        )
 
 
 class LeagueRatingRequest(NamedTuple):

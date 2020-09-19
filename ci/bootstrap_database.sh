@@ -8,7 +8,7 @@ docker network create faf
 docker run --network="faf" --network-alias="faf-db" -p 3306:3306\
            -e MYSQL_ROOT_PASSWORD=banana \
            -e MYSQL_DATABASE=faf-league \
-           -d --name faf-db \
+           --rm -d --name faf-db \
            mysql:5.7
 
 echo -n 'Waiting on faf-db container'

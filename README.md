@@ -10,10 +10,10 @@ The current state depends on a custom version of
 [faf-stack](https://github.com/FAForever/faf-stack)
 found [here](https://github.com/cleborys/faf-stack/tree/add-faf-league-service).
 
-The following assumes the db container is called `faf-league-db`,
+The following assumes the db container is called `faf-db`,
 the database is called `faf-league`,
 and the root password is `banana`.
-Cloning the above repository and running `scripts/init-league-db.sh` will set this up.
+Cloning the above repository and running `scripts/init-db.sh` will set this up.
 
 Additionally, the service needs a running RabbitMQ server, which can be started
 via docker by running `ci/init-rabbitmq.sh`,
@@ -27,7 +27,12 @@ using pipenv:
 
     $ pipenv install --dev
 
-You can start the service:
+If you have just set up the database for development, you will have to apply the
+database migrations manually by running
+
+    $ pipenv run migrate-develop
+
+You can now start the service:
 
     $ pipenv run devserver
 
@@ -36,11 +41,11 @@ deployment use `faf-stack`*
 
 ## Running the tests
 
-Run
+Make sure to follow the setup steps above. Then run
 
     $ pipenv run tests
 
-To run the tests directly in PyCharm you need to add `--mysql_database=faf`
+To run the tests directly in PyCharm you need to add `--mysql_database=faf-league`
 in the Additional Arguments field in the Run Configuration.
 
 # License

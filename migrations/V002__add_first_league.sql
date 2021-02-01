@@ -53,7 +53,7 @@ INSERT INTO league_season_division_subdivision (league_season_division_id, subdi
   (5, 3, "TMM2v2League.subdivision.5.3.name", "TMM2v2League.subdivision.5.3.description", 1500, 1600, 10),
   (5, 4, "TMM2v2League.subdivision.5.4.name", "TMM2v2League.subdivision.5.4.description", 1600, 1700, 10),
   (5, 5, "TMM2v2League.subdivision.5.5.name", "TMM2v2League.subdivision.5.5.description", 1700, 1800, 10),
-  (6, 1, "TMM2v2League.subdivision.6.1.name", "TMM2v2League.subdivision.6.1.description", 1800, 3000, 100),
+  (6, 1, "TMM2v2League.subdivision.6.1.name", "TMM2v2League.subdivision.6.1.description", 1800, 3000, 120),
   (7, 1, "Ladder1v1League.subdivision.1.1.name", "Ladder1v1League.subdivision.1.1.description", -1000, -600, 10),
   (7, 2, "Ladder1v1League.subdivision.1.2.name", "Ladder1v1League.subdivision.1.2.description", -600, -500, 10),
   (7, 3, "Ladder1v1League.subdivision.1.3.name", "Ladder1v1League.subdivision.1.3.description", -500, -400, 10),
@@ -79,4 +79,4 @@ INSERT INTO league_season_division_subdivision (league_season_division_id, subdi
   (11, 3, "Ladder1v1League.subdivision.5.3.name", "Ladder1v1League.subdivision.5.3.description", 1500, 1600, 10),
   (11, 4, "Ladder1v1League.subdivision.5.4.name", "Ladder1v1League.subdivision.5.4.description", 1600, 1700, 10),
   (11, 5, "Ladder1v1League.subdivision.5.5.name", "Ladder1v1League.subdivision.5.5.description", 1700, 1800, 10),
-  (12, 1, "Ladder1v1League.subdivision.6.1.name", "Ladder1v1League.subdivision.6.1.description", 1800, 3000, 100);
+  (12, 1, "Ladder1v1League.subdivision.6.1.name", "Ladder1v1League.subdivision.6.1.description", 1800, 3000, 120);

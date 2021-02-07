@@ -38,5 +38,5 @@ deploy:
   github_token: $GITHUB_PAGES_TOKEN
   keep_history: false
   on:
-    branch: add-schemaspy
+    branch: develop
   local_dir: ./public 

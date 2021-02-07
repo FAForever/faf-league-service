@@ -30,6 +30,7 @@ script:
 
 after_success:
   - coveralls
+  - ./ci/schemaspy.sh
 
 deploy:
   provider: pages

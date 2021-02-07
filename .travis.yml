@@ -30,3 +30,13 @@ script:
 
 after_success:
   - coveralls
+  - ./ci/schemaspy.sh
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_PAGES_TOKEN
+  keep_history: false
+  on:
+    branch: develop
+  local_dir: ./public 

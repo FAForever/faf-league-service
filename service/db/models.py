@@ -51,6 +51,7 @@ league_season_division_subdivision = Table(
 league_season_score = Table(
     "league_season_score",
     metadata,
+    Column("id", Integer, primary_key=True),
     Column("login_id", Integer, ForeignKey("login.id")),
     Column("league_season_id", Integer, ForeignKey("league_season.id")),
     Column(

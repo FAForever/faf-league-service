@@ -9,5 +9,6 @@ CREATE TABLE league_season_score
     score            INT,
     game_count       INT NOT NULL DEFAULT 0,
     FOREIGN KEY (subdivision_id) REFERENCES league_season_division_subdivision (id),
+    UNIQUE INDEX (login_id, league_season_id),
     UNIQUE INDEX (login_id, score, league_season_id)
 );

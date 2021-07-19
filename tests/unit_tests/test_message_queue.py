@@ -1,7 +1,8 @@
 import aio_pika
 import pytest
 
-from service.message_queue_service import MessageQueueService, ConnectionAttemptFailed
+from service.message_queue_service import (ConnectionAttemptFailed,
+                                           MessageQueueService)
 
 pytestmark = pytest.mark.asyncio
 

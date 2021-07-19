@@ -45,7 +45,7 @@ class LeagueService:
 
         # Listen for league events
         await self._mq_service.listen(
-            config.EXCHANGE_NAME, config.LEAGUE_REQUEST_ROUTING_KEY, self.handle_message
+            config.EXCHANGE_NAME, config.LEAGUE_UPDATE_ROUTING_KEY, self.handle_message
         )
 
     async def update_data(self):

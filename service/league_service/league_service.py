@@ -43,9 +43,9 @@ class LeagueService:
         self._logger.debug("LeagueService starting...")
         self._task = asyncio.create_task(self._handle_queue())
 
-        # Listen for league events
+        # Listen for rating change events
         await self._mq_service.listen(
-            config.EXCHANGE_NAME, config.LEAGUE_REQUEST_ROUTING_KEY, self.handle_message
+            config.EXCHANGE_NAME, config.TRUESKILL_RATING_UPDATE_ROUTING_KEY, self.handle_message
         )
 
     async def update_data(self):

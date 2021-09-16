@@ -23,7 +23,8 @@ async def test_rate_new_player(league_service):
         "rating_type": rating_type,
         "new_rating_mean": 1200,
         "new_rating_deviation": 200,
-        "game_id": 1,
+        "old_rating_mean": 1150,
+        "old_rating_deviation": 250,
         "outcome": "VICTORY",
     }
 
@@ -41,13 +42,14 @@ async def test_rate_new_player_twice(league_service):
     new_player_id = 50
     rating_type = "global"
 
-    for game_nbr in range(2):
+    for _ in range(2):
         rating_change_message = {
             "player_id": new_player_id,
             "rating_type": rating_type,
             "new_rating_mean": 1200,
             "new_rating_deviation": 200,
-            "game_id": game_nbr,
+            "old_rating_mean": 1150,
+            "old_rating_deviation": 250,
             "outcome": "VICTORY",
         }
         await league_service.enqueue(rating_change_message)
@@ -64,13 +66,14 @@ async def test_rate_new_player_until_placement(league_service):
     new_player_id = 50
     rating_type = "global"
 
-    for game_nbr in range(10):
+    for _ in range(10):
         rating_change_message = {
             "player_id": new_player_id,
             "rating_type": rating_type,
             "new_rating_mean": 1200,
             "new_rating_deviation": 200,
-            "game_id": game_nbr,
+            "old_rating_mean": 1150,
+            "old_rating_deviation": 250,
             "outcome": "VICTORY",
         }
         await league_service.enqueue(rating_change_message)

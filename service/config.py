@@ -22,7 +22,7 @@ MQ_VHOST = os.getenv("MQ_VHOST", "/faf-lobby")
 MQ_PREFETCH_COUNT = int(os.getenv("MQ_PREFETCH_COUNT", 300))
 
 
-EXCHANGE_NAME = os.getenv("EXCHANGE_NAME", "faf-lobby")
+EXCHANGE_NAME = os.getenv("EXCHANGE_NAME", "faf-rabbitmq")
 QUEUE_NAME = os.getenv("QUEUE_NAME", "faf-league-service")
 TRUESKILL_RATING_UPDATE_ROUTING_KEY = os.getenv(
     "TRUESKILL_RATING_UPDATE_ROUTING_KEY", "success.rating.update"

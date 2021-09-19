@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<database name="faf-league" schema="faf-league" type="MySQL - 5.7.35">
+   <tables>
+      <table catalog="faf-league" name="_yoyo_log" numRows="4" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="36" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="migration_hash" nullable="true" remarks="" size="64" type="VARCHAR" typeCode="12">
+            <parent catalog="faf-league" column="migration_hash" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="_yoyo_migration"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="migration_id" nullable="true" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="operation" nullable="true" remarks="" size="10" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="username" nullable="true" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="hostname" nullable="true" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="comment" nullable="true" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="0" id="7" name="created_at_utc" nullable="false" remarks="" size="26" type="TIMESTAMP" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table catalog="faf-league" name="_yoyo_migration" numRows="4" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="migration_hash" nullable="false" remarks="" size="64" type="VARCHAR" typeCode="12">
+            <child catalog="faf-league" column="migration_hash" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="_yoyo_log"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="migration_id" nullable="true" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="0" id="2" name="applied_at_utc" nullable="false" remarks="" size="26" type="TIMESTAMP" typeCode="93"/>
+         <primaryKey column="migration_hash" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="migration_hash"/>
+         </index>
+      </table>
+      <table catalog="faf-league" name="_yoyo_version" numRows="1" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="version" nullable="false" remarks="" size="10" type="INT" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="0" id="1" name="installed_at_utc" nullable="false" remarks="" size="26" type="TIMESTAMP" typeCode="93"/>
+         <primaryKey column="version" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="version"/>
+         </index>
+      </table>
+      <table catalog="faf-league" name="leaderboard" numRows="2" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="5" type="SMALLINT UNSIGNED" typeCode="5">
+            <child catalog="faf-league" column="leaderboard_id" foreignKey="league_season_ibfk_2" implied="false" onDeleteCascade="false" table="league_season"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="technical_name" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="technical_name" unique="true">
+            <column ascending="true" name="technical_name"/>
+         </index>
+      </table>
+      <table catalog="faf-league" name="league" numRows="3" remarks="" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="5" type="SMALLINT UNSIGNED" typeCode="5">
+            <child catalog="faf-league" column="league_id" foreignKey="league_season_ibfk_1" implied="false" onDeleteCascade="false" table="league_season"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="technical_name" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="name_key" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="description_key" nullable="false" remarks="The league's i18n description key" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="0" id="4" name="create_time" nullable="false" remarks="" size="26" type="TIMESTAMP" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="0" id="5" name="update_time" nullable="false" remarks="" size="26" type="TIMESTAMP" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="technical_name" unique="true">
+            <column ascending="true" name="technical_name"/>
+         </index>
+      </table>
+      <table catalog="faf-league" name="league_season" numRows="3" remarks="" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="8" type="MEDIUMINT UNSIGNED" typeCode="4">
+            <child catalog="faf-league" column="league_season_id" foreignKey="league_season_division_ibfk_1" implied="false" onDeleteCascade="false" table="league_season_division"/>
+            <child catalog="faf-league" column="league_season_id" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="league_season_score"/>
+            <child catalog="faf-league" column="login_id" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="league_season_score"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="league_id" nullable="false" remarks="" size="5" type="SMALLINT UNSIGNED" typeCode="5">
+            <parent catalog="faf-league" column="id" foreignKey="league_season_ibfk_1" implied="false" onDeleteCascade="false" table="league"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="leaderboard_id" nullable="false" remarks="" size="5" type="SMALLINT UNSIGNED" typeCode="5">
+            <parent catalog="faf-league" column="id" foreignKey="league_season_ibfk_2" implied="false" onDeleteCascade="false" table="leaderboard"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="name_key" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="start_date" nullable="false" remarks="" size="26" type="DATETIME" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="end_date" nullable="true" remarks="" size="26" type="DATETIME" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="leaderboard_id" unique="false">
+            <column ascending="true" name="leaderboard_id"/>
+         </index>
+         <index name="league_id" unique="false">
+            <column ascending="true" name="league_id"/>
+         </index>
+         <index name="start_date" unique="false">
+            <column ascending="true" name="start_date"/>
+            <column ascending="true" name="end_date"/>
+            <column ascending="true" name="league_id"/>
+         </index>
+      </table>
+      <table catalog="faf-league" name="league_season_division" numRows="6" remarks="" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT UNSIGNED" typeCode="4">
+            <child catalog="faf-league" column="league_season_division_id" foreignKey="league_season_division_subdivision_ibfk_1" implied="false" onDeleteCascade="false" table="league_season_division_subdivision"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="league_season_id" nullable="false" remarks="" size="8" type="MEDIUMINT UNSIGNED" typeCode="4">
+            <parent catalog="faf-league" column="id" foreignKey="league_season_division_ibfk_1" implied="false" onDeleteCascade="false" table="league_season"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="division_index" nullable="false" remarks="" size="5" type="SMALLINT UNSIGNED" typeCode="5"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="name_key" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="description_key" nullable="false" remarks="The division's i18n flavor text key" size="255" type="VARCHAR" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="league_season_id" unique="false">
+            <column ascending="true" name="league_season_id"/>
+         </index>
+      </table>
+      <table catalog="faf-league" name="league_season_division_subdivision" numRows="9" remarks="" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT UNSIGNED" typeCode="4">
+            <child catalog="faf-league" column="subdivision_id" foreignKey="league_season_score_ibfk_1" implied="false" onDeleteCascade="false" table="league_season_score"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="league_season_division_id" nullable="false" remarks="" size="10" type="INT UNSIGNED" typeCode="4">
+            <parent catalog="faf-league" column="id" foreignKey="league_season_division_subdivision_ibfk_1" implied="false" onDeleteCascade="false" table="league_season_division"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="subdivision_index" nullable="false" remarks="" size="5" type="SMALLINT UNSIGNED" typeCode="5"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="name_key" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="description_key" nullable="false" remarks="The subdivision's i18n flavor text key" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="min_rating" nullable="false" remarks="" size="12" type="FLOAT" typeCode="7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="max_rating" nullable="false" remarks="" size="12" type="FLOAT" typeCode="7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="highest_score" nullable="false" remarks="" size="10" type="INT" typeCode="4"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="league_season_division_id" unique="false">
+            <column ascending="true" name="league_season_division_id"/>
+         </index>
+      </table>
+      <table catalog="faf-league" name="league_season_score" numRows="5" remarks="" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT UNSIGNED" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="login_id" nullable="false" remarks="" size="8" type="MEDIUMINT UNSIGNED" typeCode="4">
+            <parent catalog="faf-league" column="id" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="league_season"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="league_season_id" nullable="false" remarks="" size="8" type="MEDIUMINT UNSIGNED" typeCode="4">
+            <parent catalog="faf-league" column="id" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="league_season"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="subdivision_id" nullable="true" remarks="" size="10" type="INT UNSIGNED" typeCode="4">
+            <parent catalog="faf-league" column="id" foreignKey="league_season_score_ibfk_1" implied="false" onDeleteCascade="false" table="league_season_division_subdivision"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="score" nullable="true" remarks="" size="10" type="INT" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="0" digits="0" id="5" name="game_count" nullable="false" remarks="" size="10" type="INT" typeCode="4"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="login_id" unique="true">
+            <column ascending="true" name="login_id"/>
+            <column ascending="true" name="league_season_id"/>
+         </index>
+         <index name="login_id_2" unique="true">
+            <column ascending="true" name="login_id"/>
+            <column ascending="true" name="score"/>
+            <column ascending="true" name="league_season_id"/>
+         </index>
+         <index name="subdivision_id" unique="false">
+            <column ascending="true" name="subdivision_id"/>
+         </index>
+      </table>
+      <table catalog="faf-league" name="yoyo_lock" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="false" defaultValue="1" digits="0" id="0" name="locked" nullable="false" remarks="" size="10" type="INT" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="0" id="1" name="ctime" nullable="false" remarks="" size="26" type="TIMESTAMP" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="pid" nullable="false" remarks="" size="10" type="INT" typeCode="4"/>
+         <primaryKey column="locked" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="locked"/>
+         </index>
+      </table>
+   </tables>
+</database>

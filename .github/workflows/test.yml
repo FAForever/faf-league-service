@@ -96,8 +96,3 @@ jobs:
 
         - name: Build docker image
           run: docker build -t test_image .
-
-        - name: Test image
-          run: |
-            docker run --rm -d -p 8001:8001 test_image
-            nc -z localhost 8001

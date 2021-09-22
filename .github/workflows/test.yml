@@ -1,0 +1,98 @@
+# Run unit tests
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+
+jobs:
+  # Static Analysis
+  isort:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+
+      - name: Install dependencies
+        run: pip install isort
+
+      - run: isort . --check --diff
+
+  # Tests
+  unit-test:
+    runs-on: ubuntu-latest
+    services:
+      faf-db:
+        image: mysql:5.7
+        ports:
+          - 3306:3306
+        options: >-
+          --name faf-db
+          --health-cmd "mysqladmin ping --silent"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        env:
+          MYSQL_ROOT_PASSWORD: banana
+          MYSQL_DATABASE: faf-league
+          MYSQL_USER: faf-league-service
+          MYSQL_PASSWORD: banana
+
+      faf-rabbitmq:
+        image: rabbitmq:3-alpine
+        ports:
+          - 5672:5672
+        options: >-
+          --name faf-rabbitmq
+          --health-cmd "rabbitmq-diagnostics check_running --silent"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        env:
+          RABBITMQ_PID_FILE: /var/lib/rabbitmq/pid
+          RABBITMQ_DEFAULT_USER: admin
+          RABBITMQ_DEFAULT_PASS: banana
+          RABBITMQ_DEFAULT_VHOST: /
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+
+      - name: Setup RabbitMQ
+        run: ./.github/workflows/scripts/init-rabbitmq.sh
+
+      - name: Install dependencies
+        run: |
+          pip install pipenv
+          pipenv sync --dev
+
+      - name: Setup db
+        run: pipenv run migrate-develop
+
+      - name: Run tests with pipenv
+        run: pipenv run tests --cov-report=xml
+
+      - name: Report coverage
+        uses: codecov/codecov-action@v1
+        with:
+          files: coverage.xml
+          fail_ci_if_error: true
+
+  docker-build:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+
+        - name: Build docker image
+          run: docker build -t test_image .

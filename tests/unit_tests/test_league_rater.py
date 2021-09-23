@@ -2,14 +2,13 @@ import pytest
 
 from service import config
 from service.league_service.league_rater import LeagueRater
-from service.league_service.typedefs import (GameOutcome, League,
-                                             LeagueDivision, LeagueScore)
+from service.league_service.typedefs import (GameOutcome, LeagueScore)
 
 
 @pytest.fixture
-def unplaced_player_score():
+def unplaced_player_score(example_league):
     return LeagueScore(
-        division_id=None, score=None, game_count=config.PLACEMENT_GAMES - 1
+        division_id=None, score=None, game_count=example_league.placement_games - 1
     )
 
 
@@ -135,7 +134,7 @@ def test_placement_after_enough_games(example_league, unplaced_player_score):
 
 def test_replacement_at_invalid_player_division(example_league):
     current_score = LeagueScore(
-        division_id=999, score=4, game_count=config.PLACEMENT_GAMES
+        division_id=999, score=4, game_count=example_league.placement_games
     )
     rating = (150.0 - config.RATING_MODIFIER_FOR_PLACEMENT, 0.0)
 
@@ -150,7 +149,7 @@ def test_replacement_at_invalid_player_division(example_league):
 
 def test_replacement_at_null_division(example_league):
     current_score = LeagueScore(
-        division_id=None, score=4, game_count=config.PLACEMENT_GAMES
+        division_id=None, score=4, game_count=example_league.placement_games
     )
     rating = (150.0 - config.RATING_MODIFIER_FOR_PLACEMENT, 0.0)
 
@@ -166,7 +165,7 @@ def test_replacement_at_null_division(example_league):
 def test_replacement_at_null_score(example_league):
     expected_division_id = example_league.divisions[1].id
     current_score = LeagueScore(
-        division_id=expected_division_id, score=None, game_count=config.PLACEMENT_GAMES
+        division_id=expected_division_id, score=None, game_count=example_league.placement_games
     )
     rating = (150.0 - config.RATING_MODIFIER_FOR_PLACEMENT, 0.0)
 

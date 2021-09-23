@@ -83,6 +83,7 @@ class LeagueService:
         self._leagues_by_rating_type = defaultdict(list)
         for league_name, division_list in divisions_by_league.items():
             rating_type = division_list[0][leaderboard.c.technical_name]
+            placement_games = division_list[0][league_season.c.placement_games]
             division_list.sort(
                 key=lambda row: (
                     row[league_season_division.c.division_index],
@@ -103,6 +104,7 @@ class LeagueService:
                         for row in division_list
                     ],
                     division_list[0][league_season.c.id],
+                    placement_games,
                     rating_type,
                 )
             )

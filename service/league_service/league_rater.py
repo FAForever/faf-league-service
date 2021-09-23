@@ -21,7 +21,7 @@ class LeagueRater:
         player_rating: Rating,
     ):
         if (
-            current_score.game_count < config.PLACEMENT_GAMES - 1
+            current_score.game_count < league.placement_games - 1
         ):  # This check is before we increase game_count
             return LeagueScore(
                 current_score.division_id,

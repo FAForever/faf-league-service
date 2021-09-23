@@ -13,5 +13,6 @@ def example_league():
             LeagueDivision(id=3, min_rating=200, max_rating=400, highest_score=10),
         ],
         current_season_id=0,
+        placement_games=10,
         rating_type="global",
     )

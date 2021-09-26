@@ -23,6 +23,7 @@ league_season = Table(
     Column("id", Integer, primary_key=True),
     Column("league_id", Integer, ForeignKey("league.id")),
     Column("leaderboard_id", Integer, ForeignKey("leaderboard.id")),
+    Column("placement_games", Integer),
     Column("start_date", TIMESTAMP),
     Column("end_date", TIMESTAMP),
 )

@@ -68,7 +68,7 @@ class LeagueService:
                     .outerjoin(league)
                     .outerjoin(leaderboard)
                 )
-                .where(league_season.c.start_date < datetime.now() < league_season.c.end_date)
+                .where(and_(league_season.c.start_date < datetime.now(), datetime.now() < league_season.c.end_date))
             )
             result = await conn.execute(sql)
             division_rows = await result.fetchall()

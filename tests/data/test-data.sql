@@ -22,8 +22,9 @@ INSERT INTO league (id, technical_name, name_key, description_key) VALUES
 
 INSERT INTO league_season (id, league_id, leaderboard_id, name_key, start_date, end_date) VALUES
   (1, 1, 1, "season.1", NOW() - interval 2 year, NOW() - interval 1 year),
-  (2, 1, 1, "season.2", NOW() - interval 1 year, NULL),
-  (3, 2, 2, "season.3", NOW() - interval 2 year, NULL);
+  (2, 1, 1, "season.2", NOW() - interval 1 year, NOW() + interval 1 year),
+  (3, 2, 2, "season.3", NOW() - interval 2 year, NOW() + interval 1 year),
+  (4, 1, 1, "season.4", NOW() + interval 1 year, NOW() + interval 2 year);
 
 INSERT INTO league_season_division (id, league_season_id, division_index, name_key, description_key) VALUES
   (1, 1, 1, "L1D1", "description_key"),

@@ -5,7 +5,7 @@ from typing import Dict
 
 import aiocron
 from aio_pika import IncomingMessage
-from sqlalchemy import and_, select
+from sqlalchemy import and_, select, between
 from sqlalchemy.dialects.mysql import insert
 
 from service import config
@@ -68,7 +68,7 @@ class LeagueService:
                     .outerjoin(league)
                     .outerjoin(leaderboard)
                 )
-                .where(and_(league_season.c.start_date < datetime.now(), datetime.now() < league_season.c.end_date))
+                .where(between(datetime.now(), league_season.c.start_date, league_season.c.end_date))
             )
             result = await conn.execute(sql)
             division_rows = await result.fetchall()

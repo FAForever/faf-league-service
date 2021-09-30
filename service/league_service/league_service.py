@@ -1,10 +1,11 @@
 import asyncio
 from collections import defaultdict
+from datetime import datetime
 from typing import Dict
 
 import aiocron
 from aio_pika import IncomingMessage
-from sqlalchemy import and_, select
+from sqlalchemy import and_, between, select
 from sqlalchemy.dialects.mysql import insert
 
 from service import config
@@ -67,7 +68,7 @@ class LeagueService:
                     .outerjoin(league)
                     .outerjoin(leaderboard)
                 )
-                .where(league_season.c.end_date == None)
+                .where(between(datetime.now(), league_season.c.start_date, league_season.c.end_date))
             )
             result = await conn.execute(sql)
             division_rows = await result.fetchall()

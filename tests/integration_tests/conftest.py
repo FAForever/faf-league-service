@@ -20,7 +20,7 @@ class Consumer:
         )
         channel = await self.connection.channel()
         exchange = await channel.declare_exchange(
-            config.EXCHANGE_NAME, aio_pika.ExchangeType.TOPIC
+            config.EXCHANGE_NAME, aio_pika.ExchangeType.TOPIC, durable=True
         )
         self.queue = await channel.declare_queue("test_queue", exclusive=True)
 

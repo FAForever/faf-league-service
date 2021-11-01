@@ -15,6 +15,9 @@ league = Table(
     metadata,
     Column("id", Integer, primary_key=True),
     Column("technical_name", String, nullable=False, unique=True),
+    Column("image_key", String, nullable=False),
+    Column("medium_image_key", String, nullable=False),
+    Column("small_image_key", String, nullable=False),
 )
 
 league_season = Table(

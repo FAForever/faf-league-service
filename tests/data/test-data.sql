@@ -15,7 +15,7 @@ insert into leaderboard (id, technical_name) values
   (1, "global"),
   (2, "ladder_1v1");
 
-INSERT INTO league (id, technical_name, image_key, medium_image_key, small_image_key, name_key, description_key) VALUES
+INSERT INTO league (id, technical_name, image_url, medium_image_url, small_image_url, name_key, description_key) VALUES
   (1, "test_league", "https://faf.com/", "https://faf.com/medium/", "https://faf.com/small/", "L1", "description_key"),
   (2, "second_test_league", "https://faf.com/", "https://faf.com/medium/", "https://faf.com/small/", "L2", "description_key"),
   (3, "league_without_seasons", "https://faf.com/", "https://faf.com/medium/", "https://faf.com/small/", "L3", "description_key");

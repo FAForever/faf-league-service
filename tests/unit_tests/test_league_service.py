@@ -143,32 +143,35 @@ async def test_load_score_season_does_not_exist(league_service):
     assert league_score == LeagueScore(None, None, 0)
 
 
-async def test_persist_score_no_duplicate(league_service):
+async def test_persist_score_new_player(league_service):
     new_player_id = 5
     season_id = 2
     division_id = 3
     score = 6
     game_count = 42
-    new_score = LeagueScore(division_id, score, game_count)
+    old_score = LeagueScore(division_id, score, game_count)
+    new_score = LeagueScore(division_id, score - 1, game_count + 1)
 
-    await league_service._persist_score(new_player_id, season_id, new_score)
+    await league_service._persist_score(new_player_id, season_id, old_score, new_score)
 
     loaded_score = await league_service._load_score(new_player_id, season_id)
     assert loaded_score == new_score
 
 
-async def test_persist_score_duplicate(league_service):
+async def test_persist_score_old_player(league_service):
     old_player_id = 1
     season_id = 2
     division_id = 3
     score = 6
     game_count = 42
-    new_score = LeagueScore(division_id, score, game_count)
+    old_score = LeagueScore(division_id, score, game_count)
+    new_score = LeagueScore(division_id, score - 1, game_count + 1)
 
-    await league_service._persist_score(old_player_id, season_id, new_score)
+    await league_service._persist_score(old_player_id, season_id, old_score, new_score)
 
     loaded_score = await league_service._load_score(old_player_id, season_id)
     assert loaded_score == new_score
+    # TODO: test journal. Need to find a good way to do that
 
 
 async def test_persist_score_season_id_mismatch(league_service):
@@ -177,10 +180,11 @@ async def test_persist_score_season_id_mismatch(league_service):
     division_id = 3
     score = 6
     game_count = 42
-    new_score = LeagueScore(division_id, score, game_count)
+    old_score = LeagueScore(division_id, score, game_count)
+    new_score = LeagueScore(division_id, score - 1, game_count + 1)
 
     with pytest.raises(InvalidScoreError):
-        await league_service._persist_score(player_id, wrong_season_id, new_score)
+        await league_service._persist_score(player_id, wrong_season_id, old_score, new_score)
 
 
 async def test_persist_score_division_without_score(league_service):
@@ -189,7 +193,8 @@ async def test_persist_score_division_without_score(league_service):
     division_id = 3
     no_score = None
     game_count = 42
-    new_score = LeagueScore(division_id, no_score, game_count)
+    old_score = LeagueScore(None, no_score, game_count)
+    new_score = LeagueScore(division_id, no_score, game_count + 1)
 
     with pytest.raises(InvalidScoreError):
-        await league_service._persist_score(player_id, season_id, new_score)
+        await league_service._persist_score(player_id, season_id, old_score, new_score)

@@ -13,7 +13,7 @@ from service.db import FAFDatabase
 from service.db.models import (leaderboard, league, league_season,
                                league_season_division,
                                league_season_division_subdivision,
-                               league_season_score)
+                               league_season_score, league_score_journal)
 from service.decorators import with_logger
 from service.message_queue_service import MessageQueueService, message_to_dict
 from service.metrics import league_service_backlog
@@ -134,14 +134,14 @@ class LeagueService:
             await self._rate_single_league(league_object, request)
 
     async def _rate_single_league(self, league: League, request: LeagueRatingRequest):
-        current_score = await self._load_score(
+        old_score = await self._load_score(
             request.player_id, league.current_season_id
         )
         new_score = LeagueRater.rate(
-            league, current_score, request.outcome, request.rating
+            league, old_score, request.outcome, request.rating
         )
         await self._persist_score(
-            request.player_id, league.current_season_id, new_score
+            request.player_id, league.current_season_id, old_score, new_score
         )
         await self._broadcast_score_change(request.player_id, league, new_score)
 
@@ -165,7 +165,7 @@ class LeagueService:
         )
 
     async def _persist_score(
-        self, player_id: int, season_id: int, new_score: LeagueScore
+        self, player_id: int, season_id: int, old_score: LeagueScore, new_score: LeagueScore
     ):
         async with self._db.acquire() as conn:
             # TODO this asserts that the passed season_id matches the
@@ -195,7 +195,7 @@ class LeagueService:
                 if season_id != season_id_of_division:
                     raise InvalidScoreError("Division id did not match season id.")
 
-            upsert_sql = (
+            score_insert_sql = (
                 insert(league_season_score)
                 .values(
                     login_id=player_id,
@@ -210,7 +210,21 @@ class LeagueService:
                     game_count=new_score.game_count,
                 )
             )
-            await conn.execute(upsert_sql)
+            await conn.execute(score_insert_sql)
+
+            journal_insert_sql = (
+                insert(league_score_journal)
+                .values(
+                    login_id=player_id,
+                    league_season_id=season_id,
+                    subdivision_id_before=old_score.division_id,
+                    subdivision_id_after=new_score.division_id,
+                    score_before=old_score.score,
+                    score_after=new_score.score,
+                    game_count=new_score.game_count,
+                )
+            )
+            await conn.execute(journal_insert_sql)
 
     async def _broadcast_score_change(
         self, player_id, league: League, new_score: LeagueScore

@@ -68,7 +68,7 @@ class MessageQueueService:
         self._logger.debug("Connected to RabbitMQ %r", self._connection)
 
     async def declare_exchange(
-        self, exchange_name: str, exchange_type: ExchangeType = ExchangeType.TOPIC
+        self, exchange_name: str, exchange_type: ExchangeType = ExchangeType.TOPIC, durable: bool = True
     ) -> None:
         if self._connection is None:
             self._logger.warning(
@@ -77,7 +77,7 @@ class MessageQueueService:
             return
 
         new_exchange = await self._channel.declare_exchange(
-            exchange_name, exchange_type
+            exchange_name, exchange_type, durable
         )
 
         self._exchanges[exchange_name] = new_exchange

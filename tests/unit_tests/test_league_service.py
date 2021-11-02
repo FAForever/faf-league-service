@@ -1,11 +1,54 @@
+import asyncio
+from contextlib import asynccontextmanager
+
 import pytest
 from asynctest import CoroutineMock
+from sqlalchemy import select
 
+from service.db.models import league_score_journal
 from service.league_service import LeagueService
 from service.league_service.league_service import ServiceNotReadyError
 from service.league_service.typedefs import InvalidScoreError, LeagueScore
+from tests.utils import MockDatabase
 
 pytestmark = pytest.mark.asyncio
+
+
+@pytest.fixture
+def database_context():
+    @asynccontextmanager
+    async def make_database(request):
+        def opt(val):
+            return request.config.getoption(val)
+
+        host, user, pw, name, port = (
+            opt("--mysql_host"),
+            opt("--mysql_username"),
+            opt("--mysql_password"),
+            opt("--mysql_database"),
+            opt("--mysql_port")
+        )
+        db = MockDatabase(asyncio.get_running_loop())
+
+        await db.connect(
+            host=host,
+            user=user,
+            password=pw or None,
+            port=port,
+            db=name
+        )
+
+        yield db
+
+        await db.close()
+
+    return make_database
+
+
+@pytest.fixture
+async def database(request, database_context):
+    async with database_context(request) as db:
+        yield db
 
 
 @pytest.fixture
@@ -143,7 +186,7 @@ async def test_load_score_season_does_not_exist(league_service):
     assert league_score == LeagueScore(None, None, 0)
 
 
-async def test_persist_score_new_player(league_service):
+async def test_persist_score_new_player(league_service, database):
     new_player_id = 5
     season_id = 2
     division_id = 3
@@ -157,8 +200,21 @@ async def test_persist_score_new_player(league_service):
     loaded_score = await league_service._load_score(new_player_id, season_id)
     assert loaded_score == new_score
 
+    async with database.acquire() as conn:
+        result = await conn.execute(select([league_score_journal]))
+        rows = await result.fetchall()
+        assert len(rows) == 1
+        for row in rows:
+            assert row["login_id"] == 5
+            assert row["league_season_id"] == 2
+            assert row["subdivision_id_before"] == 3
+            assert row["subdivision_id_after"] == 3
+            assert row["score_before"] == 6
+            assert row["score_after"] == 5
+            assert row["game_count"] == 43
 
-async def test_persist_score_old_player(league_service):
+
+async def test_persist_score_old_player(league_service, database):
     old_player_id = 1
     season_id = 2
     division_id = 3
@@ -171,7 +227,19 @@ async def test_persist_score_old_player(league_service):
 
     loaded_score = await league_service._load_score(old_player_id, season_id)
     assert loaded_score == new_score
-    # TODO: test journal. Need to find a good way to do that
+
+    async with database.acquire() as conn:
+        result = await conn.execute(select([league_score_journal]))
+        rows = await result.fetchall()
+        assert len(rows) == 1
+        for row in rows:
+            assert row["login_id"] == 1
+            assert row["league_season_id"] == 2
+            assert row["subdivision_id_before"] == 3
+            assert row["subdivision_id_after"] == 3
+            assert row["score_before"] == 6
+            assert row["score_after"] == 5
+            assert row["game_count"] == 43
 
 
 async def test_persist_score_season_id_mismatch(league_service):

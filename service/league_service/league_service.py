@@ -10,10 +10,10 @@ from sqlalchemy.dialects.mysql import insert
 
 from service import config
 from service.db import FAFDatabase
-from service.db.models import (leaderboard, league, league_season,
-                               league_season_division,
+from service.db.models import (leaderboard, league, league_score_journal,
+                               league_season, league_season_division,
                                league_season_division_subdivision,
-                               league_season_score, league_score_journal)
+                               league_season_score)
 from service.decorators import with_logger
 from service.message_queue_service import MessageQueueService, message_to_dict
 from service.metrics import league_service_backlog

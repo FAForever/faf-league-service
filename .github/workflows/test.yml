@@ -74,7 +74,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install pipenv
+          pip install pipenv==2021.5.29
           pipenv sync --dev
 
       - name: Setup db

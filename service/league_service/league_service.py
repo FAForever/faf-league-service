@@ -195,6 +195,20 @@ class LeagueService:
                 if season_id != season_id_of_division:
                     raise InvalidScoreError("Division id did not match season id.")
 
+            journal_insert_sql = (
+                insert(league_score_journal)
+                .values(
+                    login_id=player_id,
+                    league_season_id=season_id,
+                    subdivision_id_before=old_score.division_id,
+                    subdivision_id_after=new_score.division_id,
+                    score_before=old_score.score,
+                    score_after=new_score.score,
+                    game_count=new_score.game_count,
+                )
+            )
+            await conn.execute(journal_insert_sql)
+
             score_insert_sql = (
                 insert(league_season_score)
                 .values(
@@ -211,20 +225,6 @@ class LeagueService:
                 )
             )
             await conn.execute(score_insert_sql)
-
-            journal_insert_sql = (
-                insert(league_score_journal)
-                .values(
-                    login_id=player_id,
-                    league_season_id=season_id,
-                    subdivision_id_before=old_score.division_id,
-                    subdivision_id_after=new_score.division_id,
-                    score_before=old_score.score,
-                    score_after=new_score.score,
-                    game_count=new_score.game_count,
-                )
-            )
-            await conn.execute(journal_insert_sql)
 
     async def _broadcast_score_change(
         self, player_id, league: League, new_score: LeagueScore

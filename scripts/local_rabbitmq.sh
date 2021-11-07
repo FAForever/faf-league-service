@@ -9,7 +9,7 @@ RABBITMQ_LEAGUE_SERVICE_USER=faf-league-service
 RABBITMQ_LEAGUE_SERVICE_PASS=banana
 RABBITMQ_LEAGUE_SERVICE_VHOST=/faf-lobby
 
-docker run -d -p 5672:5672 --restart unless-stopped --name faf-rabbitmq rabbitmq:3.8.2-management-alpine
+docker run -d -p 5672:5672 --restart unless-stopped --name faf-rabbitmq rabbitmq:3.8-management-alpine
 
 # This doesn't seem to pick up the pid file
 docker exec faf-rabbitmq rabbitmqctl wait --timeout ${MAX_WAIT_SECONDS} "${RABBITMQ_PID_FILE}"

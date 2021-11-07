@@ -15,10 +15,10 @@ insert into leaderboard (id, technical_name) values
   (1, "global"),
   (2, "ladder_1v1");
 
-INSERT INTO league (id, technical_name, name_key, description_key) VALUES
-  (1, "test_league", "L1", "description_key"),
-  (2, "second_test_league", "L2", "description_key"),
-  (3, "league_without_seasons", "L3", "description_key");
+INSERT INTO league (id, technical_name, image_url, medium_image_url, small_image_url, name_key, description_key) VALUES
+  (1, "test_league", "https://faf.com/", "https://faf.com/medium/", "https://faf.com/small/", "L1", "description_key"),
+  (2, "second_test_league", "https://faf.com/", "https://faf.com/medium/", "https://faf.com/small/", "L2", "description_key"),
+  (3, "league_without_seasons", "https://faf.com/", "https://faf.com/medium/", "https://faf.com/small/", "L3", "description_key");
 
 INSERT INTO league_season (id, league_id, leaderboard_id, name_key, start_date, end_date) VALUES
   (1, 1, 1, "season.1", NOW() - interval 2 year, NOW() - interval 1 year),

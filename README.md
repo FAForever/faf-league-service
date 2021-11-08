@@ -14,7 +14,7 @@ and running `scripts/init-db.sh` should set this up.
 
 
 Additionally, the service needs a running RabbitMQ server, which can be started
-via docker by running `ci/init-rabbitmq.sh`.
+via docker by running `scripts/local-rabbitmq.sh`.
 This starts a RabbitMQ server on vhost `/faf-lobby`.
 
 ## Setting up for development

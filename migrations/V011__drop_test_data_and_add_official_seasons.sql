@@ -19,11 +19,11 @@ INSERT INTO league (id, technical_name, name_key, description_key, image_url, me
   "https://content.faforever.com/divisions/icons/", "https://content.faforever.com/divisions/icons/medium/", "https://content.faforever.com/divisions/icons/small/");
 
 
-INSERT INTO league_season (id, league_id, leaderboard_id, placement_games, name_key, start_date, end_date) VALUES
-  (1, 1, 2, 10, "1v1_league.season.1", "2021-12-15 00:00:00", "2022-03-31 23:59:00"),
-  (2, 2, 3, 10, "2v2_league.season.1", "2021-12-15 00:00:00", "2022-03-31 23:59:00"),
-  (3, 3, 4, 10, "4v4_fs_league.season.1", "2021-12-15 00:00:00", "2022-03-31 23:59:00"),
-  (4, 4, 5, 10, "4v4_sud_league.season.1", "2021-12-15 00:00:00", "2022-03-31 23:59:00");
+INSERT INTO league_season (id, league_id, leaderboard_id, placement_games, season_number, name_key, start_date, end_date) VALUES
+  (1, 1, 2, 10, 1, "1v1_league.season.1", "2021-12-15 00:00:00", "2022-03-31 23:59:00"),
+  (2, 2, 3, 10, 1, "2v2_league.season.1", "2021-12-15 00:00:00", "2022-03-31 23:59:00"),
+  (3, 3, 4, 10, 1, "4v4_fs_league.season.1", "2021-12-15 00:00:00", "2022-03-31 23:59:00"),
+  (4, 4, 5, 10, 1, "4v4_sud_league.season.1", "2021-12-15 00:00:00", "2022-03-31 23:59:00");
 
 INSERT INTO league_season_division (id, league_season_id, division_index, description_key, name_key) VALUES
   ( 1, 1, 1, "1v1_season_1.division.1", "bronze"),

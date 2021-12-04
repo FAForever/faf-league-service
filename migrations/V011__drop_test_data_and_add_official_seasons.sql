@@ -13,9 +13,9 @@ INSERT INTO league (id, technical_name, name_key, description_key, image_url, me
   "https://content.faforever.com/divisions/icons/", "https://content.faforever.com/divisions/icons/medium/", "https://content.faforever.com/divisions/icons/small/"),
   (2, "2v2_league", "2v2_league.name", "2v2_league.description",
   "https://content.faforever.com/divisions/icons/", "https://content.faforever.com/divisions/icons/medium/", "https://content.faforever.com/divisions/icons/small/"),
-  (3, "4v4_full_share_league", "4v4_full_share_league.name", "4v4_full_share_league.description",
+  (3, "4v4_full_share_league", "4v4_fs_league.name", "4v4_fs_league.description",
   "https://content.faforever.com/divisions/icons/", "https://content.faforever.com/divisions/icons/medium/", "https://content.faforever.com/divisions/icons/small/"),
-  (4, "4v4_share_until_death_league", "4v4_share_until_death_league.name", "4v4_share_until_death_league.description",
+  (4, "4v4_share_until_death_league", "4v4_sud_league.name", "4v4_sud_league.description",
   "https://content.faforever.com/divisions/icons/", "https://content.faforever.com/divisions/icons/medium/", "https://content.faforever.com/divisions/icons/small/");
 
 

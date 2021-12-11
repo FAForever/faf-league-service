@@ -22,12 +22,13 @@ class Consumer:
         exchange = await channel.declare_exchange(
             config.EXCHANGE_NAME, aio_pika.ExchangeType.TOPIC, durable=True
         )
-        self.queue = await channel.declare_queue("test_queue", exclusive=True)
+        self.queue = await channel.declare_queue("test_queue", durable=True)
 
         await self.queue.bind(exchange, routing_key="#")
-        self.consumer_tag = await self.queue.consume(self.callback)
+        self.consumer_tag = await self.queue.consume(self.callback, exclusive=True)
 
     def callback(self, message):
+        message.ack()
         self.received_messages.append(message)
         self._logger.debug("Received message %r", message)
         self._callback()

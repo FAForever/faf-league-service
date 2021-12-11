@@ -131,11 +131,11 @@ class MessageQueueService:
         if exchange_name not in self._exchanges:
             await self.declare_exchange(exchange_name, exchange_type)
 
-        queue = await self._channel.declare_queue(config.QUEUE_NAME, exclusive=True, durable=True)
+        queue = await self._channel.declare_queue(config.QUEUE_NAME, durable=True)
 
         await queue.bind(exchange=exchange_name, routing_key=routing_key)
 
-        await queue.consume(callback)
+        await queue.consume(callback, exclusive=True)
 
     async def reconnect(self) -> None:
         await self.shutdown()

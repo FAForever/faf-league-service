@@ -1,5 +1,6 @@
 yoyo_lock
 _yoyo_version
+league_score_journal
 league_season_score
 _yoyo_log
 league_season_division_subdivision

@@ -73,7 +73,7 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>league</h1><p><span id="recordNumber">3</span> rows</p><br />
+                    <h1>league</h1><p><span id="recordNumber">4</span> rows</p><br />
                 </section>
                 <!-- Main content -->
                 <section class="content">
@@ -141,6 +141,57 @@
                                     <td></td>
                                 </tr>
                                 <tr>
+                                    <td><span id="image_url">image_url</span></td>
+                                    <td>VARCHAR</td>
+                                    <td>255</td>
+                                    <td title=''></td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="medium_image_url">medium_image_url</span></td>
+                                    <td>VARCHAR</td>
+                                    <td>255</td>
+                                    <td title=''></td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="small_image_url">small_image_url</span></td>
+                                    <td>VARCHAR</td>
+                                    <td>255</td>
+                                    <td title=''></td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
                                     <td><span id="name_key">name_key</span></td>
                                     <td>VARCHAR</td>
                                     <td>255</td>
@@ -180,7 +231,7 @@
                                     <td>26</td>
                                     <td title=''></td>
                                     <td title=''></td>
-                                    <td>CURRENT_TIMESTAMP</td>
+                                    <td>current_timestamp()</td>
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
@@ -197,7 +248,7 @@
                                     <td>26</td>
                                     <td title=''></td>
                                     <td title=''></td>
-                                    <td>CURRENT_TIMESTAMP</td>
+                                    <td>current_timestamp()</td>
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
@@ -269,34 +320,36 @@
                                 <div class="tab-content no-padding">
                                     <div class="chart tab-pane active" id="oneDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="league_season.html" target="_top" title="league_season" alt="" coords="379,5,572,240">
-<area shape="rect" id="node2" href="league.html" target="_top" title="league" alt="" coords="5,32,335,277">
+<area shape="rect" id="node1" href="league_season.html" target="_top" title="league_season" alt="" coords="404,5,597,240">
+<area shape="rect" id="node2" href="league.html" target="_top" title="league" alt="" coords="5,32,360,365">
 </map>
                                         <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/league.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                     <div class="chart tab-pane " id="twodegreesDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="league_season.html" target="_top" title="league_season" alt="" coords="379,93,572,328">
-<area shape="rect" id="node2" href="leaderboard.html" target="_top" title="leaderboard" alt="" coords="80,268,260,356">
-<area shape="rect" id="node3" href="league.html" target="_top" title="league" alt="" coords="5,5,335,251">
-<area shape="rect" id="node4" href="league_season_division.html" target="_top" title="league_season_division" alt="" coords="616,96,875,184">
+<area shape="rect" id="node1" href="league_score_journal.html" target="_top" title="league_score_journal" alt="" coords="649,88,892,176">
+<area shape="rect" id="node2" href="league_season.html" target="_top" title="league_season" alt="" coords="404,137,597,372">
+<area shape="rect" id="node3" href="leaderboard.html" target="_top" title="leaderboard" alt="" coords="93,356,273,444">
+<area shape="rect" id="node4" href="league.html" target="_top" title="league" alt="" coords="5,5,360,339">
+<area shape="rect" id="node5" href="league_season_division.html" target="_top" title="league_season_division" alt="" coords="641,193,900,281">
 </map>
                                         <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/league.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                     <div class="chart tab-pane " id="oneimpliedDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="oneDegreeRelationshipsDiagramImplied" name="oneDegreeRelationshipsDiagramImplied">
-<area shape="rect" id="node1" href="league_season.html" target="_top" title="league_season" alt="" coords="379,5,572,240">
-<area shape="rect" id="node2" href="league.html" target="_top" title="league" alt="" coords="5,32,335,277">
+<area shape="rect" id="node1" href="league_season.html" target="_top" title="league_season" alt="" coords="404,5,597,240">
+<area shape="rect" id="node2" href="league.html" target="_top" title="league" alt="" coords="5,32,360,365">
 </map>
                                         <a name='diagram'><img id="oneimpliedDegreeImg" src="../diagrams/tables/league.implied1degrees.png" usemap="#oneDegreeRelationshipsDiagramImplied" class="diagram" border="0" align="left"></a>
                                     </div>
                                     <div class="chart tab-pane " id="twoimpliedDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="twoDegreesRelationshipsDiagramImplied" name="twoDegreesRelationshipsDiagramImplied">
-<area shape="rect" id="node1" href="league_season.html" target="_top" title="league_season" alt="" coords="379,108,572,343">
-<area shape="rect" id="node2" href="leaderboard.html" target="_top" title="leaderboard" alt="" coords="80,283,260,371">
-<area shape="rect" id="node3" href="league.html" target="_top" title="league" alt="" coords="5,20,335,265">
-<area shape="rect" id="node4" href="league_season_division.html" target="_top" title="league_season_division" alt="" coords="616,5,875,93">
-<area shape="rect" id="node5" href="league_season_score.html" target="_top" title="league_season_score" alt="" coords="626,111,865,199">
+<area shape="rect" id="node1" href="league_score_journal.html" target="_top" title="league_score_journal" alt="" coords="649,35,892,123">
+<area shape="rect" id="node2" href="league_season.html" target="_top" title="league_season" alt="" coords="404,137,597,372">
+<area shape="rect" id="node3" href="leaderboard.html" target="_top" title="leaderboard" alt="" coords="93,356,273,444">
+<area shape="rect" id="node4" href="league.html" target="_top" title="league" alt="" coords="5,5,360,339">
+<area shape="rect" id="node5" href="league_season_division.html" target="_top" title="league_season_division" alt="" coords="641,140,900,228">
+<area shape="rect" id="node6" href="league_season_score.html" target="_top" title="league_season_score" alt="" coords="651,245,890,333">
 </map>
                                         <a name='diagram'><img id="twoimpliedDegreeImg" src="../diagrams/tables/league.implied2degrees.png" usemap="#twoDegreesRelationshipsDiagramImplied" class="diagram" border="0" align="left"></a>
                                     </div>

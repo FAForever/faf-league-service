@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>league_season_division_subdivision - faf-league Database</title>
+        <title>league_score_journal - faf-league Database</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="icon" type="image/png" sizes="16x16" href="../favicon.png">
@@ -73,7 +73,7 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>league_season_division_subdivision</h1><p><span id="recordNumber">105</span> rows</p><br />
+                    <h1>league_score_journal</h1><p><span id="recordNumber">0</span> rows</p><br />
                 </section>
                 <!-- Main content -->
                 <section class="content">
@@ -111,18 +111,6 @@
                                     <td>null</td>
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
-                                            <tr>
-                                                <td title="league_score_journal.subdivision_id_after references league_season_division_subdivision.id via league_score_journal_ibfk_3"><a href='league_score_journal.html'>league_score_journal</a><span class='relatedKey'>.subdivision_id_after</span></td>
-                                                <td class="constraint detail">league_score_journal_ibfk_3<span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td title="league_score_journal.subdivision_id_before references league_season_division_subdivision.id via league_score_journal_ibfk_2"><a href='league_score_journal.html'>league_score_journal</a><span class='relatedKey'>.subdivision_id_before</span></td>
-                                                <td class="constraint detail">league_score_journal_ibfk_2<span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td title="league_season_score.subdivision_id references league_season_division_subdivision.id via league_season_score_ibfk_1"><a href='league_season_score.html'>league_season_score</a><span class='relatedKey'>.subdivision_id</span></td>
-                                                <td class="constraint detail">league_season_score_ibfk_1<span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
-                                            </tr>
                                         </table>
                                     </td>
                                     <td>
@@ -132,10 +120,52 @@
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="league_season_division_id">league_season_division_id</span></td>
+                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="login_id">login_id</span></td>
+                                    <td>MEDIUMINT UNSIGNED</td>
+                                    <td>8</td>
+                                    <td title=''></td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                            <tr>
+                                                <td title="league_score_journal.login_id&#39;s name implies that it&#39;s a child of league_season.id, but it doesn&#39;t reference that column."><a href='league_season.html'>league_season</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">Implied Constraint<span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="league_season_id">league_season_id</span></td>
+                                    <td>MEDIUMINT UNSIGNED</td>
+                                    <td>8</td>
+                                    <td title=''></td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                            <tr>
+                                                <td title="league_score_journal.league_season_id references league_season.id via league_score_journal_ibfk_1"><a href='league_season.html'>league_season</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">league_score_journal_ibfk_1<span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="subdivision_id_before">subdivision_id_before</span></td>
                                     <td>INT UNSIGNED</td>
                                     <td>10</td>
-                                    <td title=''></td>
+                                    <td title='nullable'>√</td>
                                     <td title=''></td>
                                     <td>null</td>
                                     <td>
@@ -145,18 +175,39 @@
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
-                                                <td title="league_season_division_subdivision.league_season_division_id references league_season_division.id via league_season_division_subdivision_ibfk_1"><a href='league_season_division.html'>league_season_division</a><span class='relatedKey'>.id</span></td>
-                                                <td class="constraint detail">league_season_division_subdivision_ibfk_1<span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
+                                                <td title="league_score_journal.subdivision_id_before references league_season_division_subdivision.id via league_score_journal_ibfk_2"><a href='league_season_division_subdivision.html'>league_season_division_subdivision</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">league_score_journal_ibfk_2<span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
                                     </td>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td><span id="subdivision_index">subdivision_index</span></td>
-                                    <td>SMALLINT UNSIGNED</td>
-                                    <td>5</td>
+                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="subdivision_id_after">subdivision_id_after</span></td>
+                                    <td>INT UNSIGNED</td>
+                                    <td>10</td>
+                                    <td title='nullable'>√</td>
                                     <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                            <tr>
+                                                <td title="league_score_journal.subdivision_id_after references league_season_division_subdivision.id via league_score_journal_ibfk_3"><a href='league_season_division_subdivision.html'>league_season_division_subdivision</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">league_score_journal_ibfk_3<span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="score_before">score_before</span></td>
+                                    <td>INT</td>
+                                    <td>10</td>
+                                    <td title='nullable'>√</td>
                                     <td title=''></td>
                                     <td>null</td>
                                     <td>
@@ -170,44 +221,10 @@
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td><span id="name_key">name_key</span></td>
-                                    <td>VARCHAR</td>
-                                    <td>255</td>
-                                    <td title=''></td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="description_key">description_key</span></td>
-                                    <td>VARCHAR</td>
-                                    <td>255</td>
-                                    <td title=''></td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td><p>The subdivision&rsquo;s i18n flavor text key</p></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="min_rating">min_rating</span></td>
-                                    <td>FLOAT</td>
-                                    <td>12</td>
-                                    <td title=''></td>
+                                    <td><span id="score_after">score_after</span></td>
+                                    <td>INT</td>
+                                    <td>10</td>
+                                    <td title='nullable'>√</td>
                                     <td title=''></td>
                                     <td>null</td>
                                     <td>
@@ -221,29 +238,12 @@
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td><span id="max_rating">max_rating</span></td>
-                                    <td>FLOAT</td>
-                                    <td>12</td>
-                                    <td title=''></td>
-                                    <td title=''></td>
-                                    <td>null</td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table border='0' cellspacing='0' cellpadding='0'>
-                                        </table>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><span id="highest_score">highest_score</span></td>
+                                    <td><span id="game_count">game_count</span></td>
                                     <td>INT</td>
                                     <td>10</td>
                                     <td title=''></td>
                                     <td title=''></td>
-                                    <td>null</td>
+                                    <td>0</td>
                                     <td>
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                         </table>
@@ -285,10 +285,22 @@
                                     <td>id</td>
                                 </tr>
                                 <tr>
-                                    <td title='Indexed'>league_season_division_id</td>
+                                    <td title='Indexed'>league_season_id</td>
                                     <td>Performance</td>
                                     <td><span title='Ascending'>Asc</span></td>
-                                    <td>league_season_division_id</td>
+                                    <td>league_season_id</td>
+                                </tr>
+                                <tr>
+                                    <td title='Indexed'>subdivision_id_after</td>
+                                    <td>Performance</td>
+                                    <td><span title='Ascending'>Asc</span></td>
+                                    <td>subdivision_id_after</td>
+                                </tr>
+                                <tr>
+                                    <td title='Indexed'>subdivision_id_before</td>
+                                    <td>Performance</td>
+                                    <td><span title='Ascending'>Asc</span></td>
+                                    <td>subdivision_id_before</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -315,41 +327,43 @@
                                 <div class="tab-content no-padding">
                                     <div class="chart tab-pane active" id="oneDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="league_score_journal.html" target="_top" title="league_score_journal" alt="" coords="836,5,1079,240">
-<area shape="rect" id="node2" href="league_season_division_subdivision.html" target="_top" title="league_season_division_subdivision" alt="" coords="308,120,792,424">
-<area shape="rect" id="node3" href="league_season_division.html" target="_top" title="league_season_division" alt="" coords="5,152,264,299">
-<area shape="rect" id="node4" href="league_season_score.html" target="_top" title="league_season_score" alt="" coords="838,257,1077,492">
+<area shape="rect" id="node1" href="league_score_journal.html" target="_top" title="league_score_journal" alt="" coords="401,137,797,441">
+<area shape="rect" id="node2" href="league_season.html" target="_top" title="league_season" alt="" coords="85,5,278,240">
+<area shape="rect" id="node3" href="league_season_division_subdivision.html" target="_top" title="league_season_division_subdivision" alt="" coords="5,257,357,404">
 </map>
-                                        <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/league_season_division_subdivision.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
+                                        <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/league_score_journal.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                     <div class="chart tab-pane " id="twodegreesDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="league_score_journal.html" target="_top" title="league_score_journal" alt="" coords="1073,5,1316,240">
-<area shape="rect" id="node2" href="league_season.html" target="_top" title="league_season" alt="" coords="5,119,199,207">
-<area shape="rect" id="node3" href="league_season_division_subdivision.html" target="_top" title="league_season_division_subdivision" alt="" coords="545,131,1029,435">
-<area shape="rect" id="node4" href="league_season_division.html" target="_top" title="league_season_division" alt="" coords="243,147,501,293">
-<area shape="rect" id="node5" href="league_season_score.html" target="_top" title="league_season_score" alt="" coords="1075,257,1314,492">
+<area shape="rect" id="node1" href="league_score_journal.html" target="_top" title="league_score_journal" alt="" coords="1165,5,1561,309">
+<area shape="rect" id="node2" href="league_season.html" target="_top" title="league_season" alt="" coords="229,103,423,337">
+<area shape="rect" id="node3" href="league_season_division_subdivision.html" target="_top" title="league_season_division_subdivision" alt="" coords="769,135,1121,281">
+<area shape="rect" id="node4" href="leaderboard.html" target="_top" title="leaderboard" alt="" coords="5,201,185,289">
+<area shape="rect" id="node5" href="league.html" target="_top" title="league" alt="" coords="27,96,163,184">
+<area shape="rect" id="node6" href="league_season_division.html" target="_top" title="league_season_division" alt="" coords="467,151,725,239">
+<area shape="rect" id="node7" href="league_season_score.html" target="_top" title="league_season_score" alt="" coords="1244,327,1483,415">
 </map>
-                                        <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/league_season_division_subdivision.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
+                                        <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/league_score_journal.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
                                     <div class="chart tab-pane " id="oneimpliedDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="oneDegreeRelationshipsDiagramImplied" name="oneDegreeRelationshipsDiagramImplied">
-<area shape="rect" id="node1" href="league_score_journal.html" target="_top" title="league_score_journal" alt="" coords="836,5,1079,240">
-<area shape="rect" id="node2" href="league_season_division_subdivision.html" target="_top" title="league_season_division_subdivision" alt="" coords="308,120,792,424">
-<area shape="rect" id="node3" href="league_season_division.html" target="_top" title="league_season_division" alt="" coords="5,152,264,299">
-<area shape="rect" id="node4" href="league_season_score.html" target="_top" title="league_season_score" alt="" coords="838,257,1077,492">
+<area shape="rect" id="node1" href="league_score_journal.html" target="_top" title="league_score_journal" alt="" coords="401,56,797,360">
+<area shape="rect" id="node2" href="league_season.html" target="_top" title="league_season" alt="" coords="85,5,278,240">
+<area shape="rect" id="node3" href="league_season_division_subdivision.html" target="_top" title="league_season_division_subdivision" alt="" coords="5,257,357,404">
 </map>
-                                        <a name='diagram'><img id="oneimpliedDegreeImg" src="../diagrams/tables/league_season_division_subdivision.implied1degrees.png" usemap="#oneDegreeRelationshipsDiagramImplied" class="diagram" border="0" align="left"></a>
+                                        <a name='diagram'><img id="oneimpliedDegreeImg" src="../diagrams/tables/league_score_journal.implied1degrees.png" usemap="#oneDegreeRelationshipsDiagramImplied" class="diagram" border="0" align="left"></a>
                                     </div>
                                     <div class="chart tab-pane " id="twoimpliedDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="twoDegreesRelationshipsDiagramImplied" name="twoDegreesRelationshipsDiagramImplied">
-<area shape="rect" id="node1" href="league_score_journal.html" target="_top" title="league_score_journal" alt="" coords="1073,5,1316,240">
-<area shape="rect" id="node2" href="league_season.html" target="_top" title="league_season" alt="" coords="5,193,199,281">
-<area shape="rect" id="node3" href="league_season_division_subdivision.html" target="_top" title="league_season_division_subdivision" alt="" coords="545,129,1029,433">
-<area shape="rect" id="node4" href="league_season_division.html" target="_top" title="league_season_division" alt="" coords="243,161,501,308">
-<area shape="rect" id="node5" href="league_season_score.html" target="_top" title="league_season_score" alt="" coords="1075,381,1314,616">
+<area shape="rect" id="node1" href="league_score_journal.html" target="_top" title="league_score_journal" alt="" coords="1165,5,1561,309">
+<area shape="rect" id="node2" href="league_season.html" target="_top" title="league_season" alt="" coords="229,179,423,413">
+<area shape="rect" id="node3" href="league_season_division_subdivision.html" target="_top" title="league_season_division_subdivision" alt="" coords="769,149,1121,296">
+<area shape="rect" id="node4" href="leaderboard.html" target="_top" title="leaderboard" alt="" coords="5,277,185,365">
+<area shape="rect" id="node5" href="league.html" target="_top" title="league" alt="" coords="27,172,163,260">
+<area shape="rect" id="node6" href="league_season_division.html" target="_top" title="league_season_division" alt="" coords="467,181,725,269">
+<area shape="rect" id="node7" href="league_season_score.html" target="_top" title="league_season_score" alt="" coords="1244,327,1483,415">
 </map>
-                                        <a name='diagram'><img id="twoimpliedDegreeImg" src="../diagrams/tables/league_season_division_subdivision.implied2degrees.png" usemap="#twoDegreesRelationshipsDiagramImplied" class="diagram" border="0" align="left"></a>
+                                        <a name='diagram'><img id="twoimpliedDegreeImg" src="../diagrams/tables/league_score_journal.implied2degrees.png" usemap="#twoDegreesRelationshipsDiagramImplied" class="diagram" border="0" align="left"></a>
                                     </div>
                                 </div>
                             </div>

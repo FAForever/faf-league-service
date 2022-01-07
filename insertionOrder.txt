@@ -6,5 +6,6 @@ league_season_division
 league_season_division_subdivision
 _yoyo_log
 league_season_score
+league_score_journal
 _yoyo_version
 yoyo_lock

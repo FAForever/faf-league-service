@@ -3,18 +3,50 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      faf-db:
+        image: mysql:5.7
+        ports:
+          - 3306:3306
+        options: >-
+          --name faf-db
+          --health-cmd "mysqladmin ping --silent"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        env:
+          MYSQL_ROOT_PASSWORD: banana
+          MYSQL_DATABASE: faf-league
+          MYSQL_USER: faf-league-service
+          MYSQL_PASSWORD: banana
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+
+      - name: Install dependencies
+        run: |
+          pip install pipenv==2021.5.29
+          pipenv sync --dev
+
+      - name: Setup db
+        run: pipenv run migrate-develop
+
       - name: Generate schemaspy docs
         if: github.ref == 'refs/heads/develop'
         run: ./ci/schemaspy.sh
+
       - name: Publish to Github Pages
         if: github.ref == 'refs/heads/develop'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
+
       - name: Build and push Docker images
         if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/tags')
         uses: docker/build-push-action@v1.1.1

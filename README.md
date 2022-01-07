@@ -1,6 +1,8 @@
 # FA Forever - League Service
 
-This is a draft of the [Forged Alliance Forever](http://www.faforever.com/) league service.
+This is the [Forged Alliance Forever](http://www.faforever.com/) league service.
+
+You can find a visual representation of the current schema on this projects [Github page](https://faforever.github.io/faf-league-service/relationships.html).
 
 ## Installation
 

@@ -49,7 +49,7 @@ class League(NamedTuple):
     divisions: List[LeagueDivision]
     current_season_id: int
     placement_games: int
-    placement_games_veteran: int
+    placement_games_returning_player: int
     rating_type: str
 
     def get_division(self, division_id):
@@ -96,6 +96,7 @@ class LeagueScore(NamedTuple):
     division_id: int
     score: int
     game_count: int
+    returning_player: bool
 
     def __eq__(self, other) -> bool:
         return (
@@ -103,6 +104,7 @@ class LeagueScore(NamedTuple):
             and self.division_id == other.division_id
             and self.score == other.score
             and self.game_count == other.game_count
+            and self.returning_player == other.returning_player
         )
 
 

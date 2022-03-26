@@ -19,17 +19,18 @@ class LeagueRater:
         current_score: LeagueScore,
         outcome: GameOutcome,
         player_rating: Rating,
-        returning_player: bool = True,
     ):
         # This check is before we increase game_count
         if (
-            (returning_player and current_score.game_count < league.placement_games_veteran - 1)
+            (current_score.returning_player and
+             current_score.game_count < league.placement_games_returning_player - 1)
             or current_score.game_count < league.placement_games - 1
         ):
             return LeagueScore(
                 current_score.division_id,
                 current_score.score,
                 current_score.game_count + 1,
+                current_score.returning_player,
             )
 
         rating = player_rating[0] - 3 * player_rating[1]
@@ -51,7 +52,12 @@ class LeagueRater:
         new_score, new_division_id = cls._calculate_division_change(
             league, interim_score, current_score.division_id, player_div
         )
-        return LeagueScore(new_division_id, new_score, current_score.game_count + 1)
+        return LeagueScore(
+            new_division_id,
+            new_score,
+            current_score.game_count + 1,
+            current_score.returning_player,
+        )
 
     @classmethod
     def _do_placement(cls, league, current_score, rating):
@@ -63,17 +69,30 @@ class LeagueRater:
                     * (rating - div.min_rating)
                     / (div.max_rating - div.min_rating)
                 )
-                return LeagueScore(div.id, new_score, current_score.game_count + 1)
+                return LeagueScore(
+                    div.id,
+                    new_score,
+                    current_score.game_count + 1,
+                    current_score.returning_player,
+                )
 
         highest_div = league.get_highest_division()
         if rating > highest_div.max_rating:
             return LeagueScore(
-                highest_div.id, highest_div.highest_score, current_score.game_count + 1
+                highest_div.id,
+                highest_div.highest_score,
+                current_score.game_count + 1,
+                current_score.returning_player,
             )
 
         lowest_div = league.get_lowest_division()
         if rating < lowest_div.min_rating:
-            return LeagueScore(lowest_div.id, 0, current_score.game_count + 1)
+            return LeagueScore(
+                lowest_div.id,
+                0,
+                current_score.game_count + 1,
+                current_score.returning_player,
+            )
 
         cls._logger.warning(
             "Could not find a suitable division in league %s for placement for rating %s",

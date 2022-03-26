@@ -1,5 +1,5 @@
 from sqlalchemy import (TIMESTAMP, Column, Float, ForeignKey, Integer,
-                        MetaData, String, Table)
+                        MetaData, String, Table, Boolean)
 
 metadata = MetaData()
 
@@ -30,7 +30,7 @@ league_season = Table(
     Column("leaderboard_id",  Integer, ForeignKey("leaderboard.id")),
     Column("name_key",        String),
     Column("placement_games", Integer),
-    Column("placement_games_veteran", Integer),
+    Column("placement_games_returning_player", Integer),
     Column("start_date",      TIMESTAMP),
     Column("end_date",        TIMESTAMP),
 )
@@ -63,6 +63,7 @@ league_season_score = Table(
     Column("subdivision_id",   Integer, ForeignKey("league_season_division_subdivision.id")),
     Column("score",            Integer),
     Column("game_count",       Integer),
+    Column("returning_player", Boolean),
 )
 
 league_score_journal = Table(

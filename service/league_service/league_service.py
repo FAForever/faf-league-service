@@ -85,7 +85,7 @@ class LeagueService:
         for league_name, division_list in divisions_by_league.items():
             rating_type = division_list[0][leaderboard.c.technical_name]
             placement_games = division_list[0][league_season.c.placement_games]
-            placement_games_veteran = division_list[0][league_season.c.placement_games_veteran]
+            placement_games_returning_player = division_list[0][league_season.c.placement_games_returning_player]
             division_list.sort(
                 key=lambda row: (
                     row[league_season_division.c.division_index],
@@ -107,7 +107,7 @@ class LeagueService:
                     ],
                     division_list[0][league_season.c.id],
                     placement_games,
-                    placement_games_veteran,
+                    placement_games_returning_player,
                     rating_type,
                 )
             )
@@ -135,21 +135,39 @@ class LeagueService:
         for league_object in self._leagues_by_rating_type[request.rating_type]:
             await self._rate_single_league(league_object, request)
 
-    async def _rate_single_league(self, league: League, request: LeagueRatingRequest):
-        old_score = await self._load_score(
-            request.player_id, league.current_season_id
-        )
-        returning_player = await self.is_returning_player(request.player_id, league.rating_type)
+    async def _rate_single_league(self, league: League, request: LeagueRatingRequest) -> None:
+        old_score = await self._load_score(request.player_id, league)
 
         new_score = LeagueRater.rate(
-            league, old_score, request.outcome, request.rating, returning_player
+            league, old_score, request.outcome, request.rating
         )
         await self._persist_score(
             request.player_id, league.current_season_id, old_score, new_score
         )
         await self._broadcast_score_change(request.player_id, league, new_score)
 
-    async def is_returning_player(self, player_id, rating_type):
+    async def _load_score(self, player_id: int, league: League) -> LeagueScore:
+        async with self._db.acquire() as conn:
+            sql = select([league_season_score]).where(
+                and_(
+                    league_season_score.c.login_id == player_id,
+                    league_season_score.c.league_season_id == league.current_season_id,
+                )
+            )
+            result = await conn.execute(sql)
+            row = await result.fetchone()
+        if row is None:
+            returning_player = await self.is_returning_player(player_id, league.rating_type)
+            return LeagueScore(None, None, 0, returning_player)
+
+        return LeagueScore(
+            row[league_season_score.c.subdivision_id],
+            row[league_season_score.c.score],
+            row[league_season_score.c.game_count],
+            row[league_season_score.c.returning_player],
+        )
+
+    async def is_returning_player(self, player_id: int, rating_type: str) -> bool:
         async with self._db.acquire() as conn:
             sql = (
                 select([league_season_score])
@@ -165,29 +183,10 @@ class LeagueService:
             )
             result = await conn.execute(sql)
             row = await result.fetchone()
-        if row is None:
+        if row is None or row[league_season_score.c.subdivision_id] is None:
             return False
         else:
             return True
-
-    async def _load_score(self, player_id, league_season_id):
-        async with self._db.acquire() as conn:
-            sql = select([league_season_score]).where(
-                and_(
-                    league_season_score.c.login_id == player_id,
-                    league_season_score.c.league_season_id == league_season_id,
-                )
-            )
-            result = await conn.execute(sql)
-            row = await result.fetchone()
-        if row is None:
-            return LeagueScore(None, None, 0)
-
-        return LeagueScore(
-            row[league_season_score.c.subdivision_id],
-            row[league_season_score.c.score],
-            row[league_season_score.c.game_count],
-        )
 
     async def _persist_score(
         self, player_id: int, season_id: int, old_score: LeagueScore, new_score: LeagueScore
@@ -242,11 +241,13 @@ class LeagueService:
                     subdivision_id=new_score.division_id,
                     score=new_score.score,
                     game_count=new_score.game_count,
+                    returning_player=new_score.returning_player,
                 )
                 .on_duplicate_key_update(
                     subdivision_id=new_score.division_id,
                     score=new_score.score,
                     game_count=new_score.game_count,
+                    returning_player=new_score.returning_player,
                 )
             )
             await conn.execute(score_insert_sql)

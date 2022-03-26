@@ -49,6 +49,7 @@ class League(NamedTuple):
     divisions: List[LeagueDivision]
     current_season_id: int
     placement_games: int
+    placement_games_veteran: int
     rating_type: str
 
     def get_division(self, division_id):

@@ -19,10 +19,13 @@ class LeagueRater:
         current_score: LeagueScore,
         outcome: GameOutcome,
         player_rating: Rating,
+        returning_player: bool = True,
     ):
+        # This check is before we increase game_count
         if (
-            current_score.game_count < league.placement_games - 1
-        ):  # This check is before we increase game_count
+            (returning_player and current_score.game_count < league.placement_games_veteran - 1)
+            or current_score.game_count < league.placement_games - 1
+        ):
             return LeagueScore(
                 current_score.division_id,
                 current_score.score,

@@ -22,9 +22,8 @@ class LeagueRater:
     ):
         # This check is before we increase game_count
         if (
-            (current_score.returning_player and
-             current_score.game_count < league.placement_games_returning_player - 1)
-            or current_score.game_count < league.placement_games - 1
+            (not current_score.returning_player and current_score.game_count < league.placement_games - 1)
+            or current_score.game_count < league.placement_games_returning_player - 1
         ):
             return LeagueScore(
                 current_score.division_id,

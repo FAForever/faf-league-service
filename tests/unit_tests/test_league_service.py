@@ -153,6 +153,15 @@ async def test_update_data(uninitialized_service):
     ]
 
 
+async def test_is_returning_player(league_service):
+    player_id = 2
+    rating_type = "global"
+
+    is_returning = await league_service.is_returning_player(player_id, rating_type)
+
+    assert is_returning
+
+
 async def test_load_score(league_service):
     player_id = 1
     rating_type = "global"

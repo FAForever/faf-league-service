@@ -147,6 +147,24 @@ def test_placement_after_enough_games(example_league, unplaced_player_score):
     assert new_score.score == 5
 
 
+def test_placement_returning_player(example_league):
+    current_score = LeagueScore(
+        division_id=None,
+        score=None,
+        game_count=example_league.placement_games_returning_player - 1,
+        returning_player=True
+    )
+    rating = (150.0 - config.RATING_MODIFIER_FOR_PLACEMENT, 0.0)
+
+    new_score = LeagueRater.rate(
+        example_league, current_score, GameOutcome.DRAW, rating
+    )
+
+    assert new_score.division_id == example_league.divisions[1].id
+    assert new_score.game_count == current_score.game_count + 1
+    assert new_score.score == 5
+
+
 def test_replacement_at_invalid_player_division(example_league):
     current_score = LeagueScore(
         division_id=999,

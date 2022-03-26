@@ -8,12 +8,17 @@ from service.league_service.typedefs import GameOutcome, LeagueScore
 @pytest.fixture
 def unplaced_player_score(example_league):
     return LeagueScore(
-        division_id=None, score=None, game_count=example_league.placement_games - 1
+        division_id=None,
+        score=None,
+        game_count=example_league.placement_games - 1,
+        returning_player=False
     )
 
 
 def test_new_score_victory_no_boost(example_league):
-    current_score = LeagueScore(division_id=2, score=5, game_count=30)
+    current_score = LeagueScore(
+        division_id=2, score=5, game_count=30, returning_player=False
+    )
     player_rating = (180.0, 0.0)
 
     new_score = LeagueRater.rate(
@@ -36,7 +41,9 @@ def test_new_score_victory_no_boost(example_league):
 
 
 def test_new_score_victory_boost(example_league):
-    current_score = LeagueScore(division_id=2, score=5, game_count=30)
+    current_score = LeagueScore(
+        division_id=2, score=5, game_count=30, returning_player=False
+    )
     player_rating = (1800.0, 0.0)
 
     new_score = LeagueRater.rate(
@@ -52,7 +59,9 @@ def test_new_score_victory_boost(example_league):
 
 
 def test_new_score_defeat_no_boost(example_league):
-    current_score = LeagueScore(division_id=2, score=5, game_count=30)
+    current_score = LeagueScore(
+        division_id=2, score=5, game_count=30, returning_player=False
+    )
     player_rating = (180.0, 0.0)
 
     new_score = LeagueRater.rate(
@@ -75,7 +84,9 @@ def test_new_score_defeat_no_boost(example_league):
 
 
 def test_new_score_defeat_boost(example_league):
-    current_score = LeagueScore(division_id=2, score=5, game_count=30)
+    current_score = LeagueScore(
+        division_id=2, score=5, game_count=30, returning_player=False
+    )
     player_rating = (60.0, 0.0)
 
     new_score = LeagueRater.rate(
@@ -91,7 +102,9 @@ def test_new_score_defeat_boost(example_league):
 
 
 def test_new_score_victory_highest_division_no_boost(example_league):
-    current_score = LeagueScore(division_id=3, score=5, game_count=30)
+    current_score = LeagueScore(
+        division_id=3, score=5, game_count=30, returning_player=False
+    )
     player_rating = (240.0, 0.0)
 
     new_score = LeagueRater.rate(
@@ -104,7 +117,9 @@ def test_new_score_victory_highest_division_no_boost(example_league):
 
 
 def test_new_score_victory_highest_division_boost(example_league):
-    current_score = LeagueScore(division_id=3, score=5, game_count=30)
+    current_score = LeagueScore(
+        division_id=3, score=5, game_count=30, returning_player=False
+    )
     player_rating = (380.0, 0.0)
 
     new_score = LeagueRater.rate(
@@ -134,7 +149,10 @@ def test_placement_after_enough_games(example_league, unplaced_player_score):
 
 def test_replacement_at_invalid_player_division(example_league):
     current_score = LeagueScore(
-        division_id=999, score=4, game_count=example_league.placement_games
+        division_id=999,
+        score=4,
+        game_count=example_league.placement_games,
+        returning_player=False
     )
     rating = (150.0 - config.RATING_MODIFIER_FOR_PLACEMENT, 0.0)
 
@@ -149,7 +167,10 @@ def test_replacement_at_invalid_player_division(example_league):
 
 def test_replacement_at_null_division(example_league):
     current_score = LeagueScore(
-        division_id=None, score=4, game_count=example_league.placement_games
+        division_id=None,
+        score=4,
+        game_count=example_league.placement_games,
+        returning_player=False
     )
     rating = (150.0 - config.RATING_MODIFIER_FOR_PLACEMENT, 0.0)
 
@@ -165,7 +186,10 @@ def test_replacement_at_null_division(example_league):
 def test_replacement_at_null_score(example_league):
     expected_division_id = example_league.divisions[1].id
     current_score = LeagueScore(
-        division_id=expected_division_id, score=None, game_count=example_league.placement_games
+        division_id=expected_division_id,
+        score=None,
+        game_count=example_league.placement_games,
+        returning_player=False
     )
     rating = (150.0 - config.RATING_MODIFIER_FOR_PLACEMENT, 0.0)
 
@@ -210,7 +234,9 @@ def test_placement_low_rating(example_league, unplaced_player_score):
 
 
 def test_new_player(example_league):
-    current_score = LeagueScore(division_id=None, score=None, game_count=0)
+    current_score = LeagueScore(
+        division_id=None, score=None, game_count=0, returning_player=False
+    )
     player_rating = (380.0, 0.0)
 
     new_score = LeagueRater.rate(
@@ -223,7 +249,9 @@ def test_new_player(example_league):
 
 
 def test_placement_games(example_league):
-    current_score = LeagueScore(division_id=None, score=None, game_count=5)
+    current_score = LeagueScore(
+        division_id=None, score=None, game_count=5, returning_player=False
+    )
     player_rating = (380.0, 0.0)
 
     new_score = LeagueRater.rate(
@@ -236,7 +264,9 @@ def test_placement_games(example_league):
 
 
 def test_promote(example_league):
-    current_score = LeagueScore(division_id=2, score=10, game_count=30)
+    current_score = LeagueScore(
+        division_id=2, score=10, game_count=30, returning_player=False
+    )
     player_rating = (380.0, 0.0)
 
     new_score = LeagueRater.rate(
@@ -249,7 +279,9 @@ def test_promote(example_league):
 
 
 def test_demote(example_league):
-    current_score = LeagueScore(division_id=2, score=0, game_count=30)
+    current_score = LeagueScore(
+        division_id=2, score=0, game_count=30, returning_player=False
+    )
     player_rating = (380.0, 0.0)
 
     new_score = LeagueRater.rate(
@@ -262,7 +294,9 @@ def test_demote(example_league):
 
 
 def test_promote_in_highest_division(example_league):
-    current_score = LeagueScore(division_id=3, score=10, game_count=30)
+    current_score = LeagueScore(
+        division_id=3, score=10, game_count=30, returning_player=False
+    )
     player_rating = (380.0, 0.0)
 
     new_score = LeagueRater.rate(
@@ -275,7 +309,9 @@ def test_promote_in_highest_division(example_league):
 
 
 def test_demote_in_lowest_division(example_league):
-    current_score = LeagueScore(division_id=1, score=0, game_count=30)
+    current_score = LeagueScore(
+        division_id=1, score=0, game_count=30, returning_player=False
+    )
     player_rating = (380.0, 0.0)
 
     new_score = LeagueRater.rate(
@@ -288,7 +324,9 @@ def test_demote_in_lowest_division(example_league):
 
 
 def test_score_too_high(example_league):
-    current_score = LeagueScore(division_id=2, score=14, game_count=30)
+    current_score = LeagueScore(
+        division_id=2, score=14, game_count=30, returning_player=False
+    )
     player_rating = (380.0, 0.0)
 
     new_score = LeagueRater.rate(
@@ -301,7 +339,9 @@ def test_score_too_high(example_league):
 
 
 def test_score_too_low(example_league):
-    current_score = LeagueScore(division_id=2, score=-14, game_count=30)
+    current_score = LeagueScore(
+        division_id=2, score=-14, game_count=30, returning_player=False
+    )
     player_rating = (380.0, 0.0)
 
     new_score = LeagueRater.rate(
@@ -314,7 +354,9 @@ def test_score_too_low(example_league):
 
 
 def test_other_game_outcomes(example_league):
-    current_score = LeagueScore(division_id=2, score=4, game_count=30)
+    current_score = LeagueScore(
+        division_id=2, score=4, game_count=30, returning_player=False
+    )
     player_rating = (180.0, 0.0)
 
     new_score = LeagueRater.rate(

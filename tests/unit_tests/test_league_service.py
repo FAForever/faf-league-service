@@ -8,7 +8,7 @@ from sqlalchemy import select
 from service.db.models import league_score_journal
 from service.league_service import LeagueService
 from service.league_service.league_service import ServiceNotReadyError
-from service.league_service.typedefs import InvalidScoreError, LeagueScore
+from service.league_service.typedefs import InvalidScoreError, LeagueScore, League
 from tests.utils import MockDatabase
 
 pytestmark = pytest.mark.asyncio
@@ -155,35 +155,46 @@ async def test_update_data(uninitialized_service):
 
 async def test_load_score(league_service):
     player_id = 1
-    league_season_id = 2
+    rating_type = "global"
     expected_division_id = 5
     expected_score = 3
     expected_game_count = 15
+    expected_returning_player = True
 
-    league_score = await league_service._load_score(player_id, league_season_id)
+    league = league_service._leagues_by_rating_type[rating_type][0]
+    league_score = await league_service._load_score(player_id, league)
 
     assert league_score.division_id == expected_division_id
     assert league_score.score == expected_score
     assert league_score.game_count == expected_game_count
+    assert league_score.returning_player == expected_returning_player
 
 
 async def test_load_score_player_does_not_exist(league_service):
     non_player_id = 666
-    league_season_id = 2
+    rating_type = "global"
 
-    league_score = await league_service._load_score(non_player_id, league_season_id)
+    league = league_service._leagues_by_rating_type[rating_type][0]
+    league_score = await league_service._load_score(non_player_id, league)
 
-    assert league_score == LeagueScore(None, None, 0)
+    assert league_score == LeagueScore(None, None, 0, False)
 
 
-async def test_load_score_season_does_not_exist(league_service):
+async def test_load_score_league_does_not_exist(league_service):
     player_id = 1
-    non_league_season_id = 666
+    unknown_league = League(
+        "unknown",
+        [],
+        666,
+        10,
+        4,
+        "unknown leaderboard"
+    )
 
-    league_score = await league_service._load_score(player_id, non_league_season_id)
+    league_score = await league_service._load_score(player_id, unknown_league)
 
     # TODO maybe this should throw an exception instead?
-    assert league_score == LeagueScore(None, None, 0)
+    assert league_score == LeagueScore(None, None, 0, False)
 
 
 async def test_persist_score_new_player(league_service, database):
@@ -192,12 +203,14 @@ async def test_persist_score_new_player(league_service, database):
     division_id = 3
     score = 6
     game_count = 42
-    old_score = LeagueScore(division_id, score, game_count)
-    new_score = LeagueScore(division_id, score - 1, game_count + 1)
+    returning = False
+    old_score = LeagueScore(division_id, score, game_count, returning)
+    new_score = LeagueScore(division_id, score - 1, game_count + 1, returning)
 
     await league_service._persist_score(new_player_id, season_id, old_score, new_score)
 
-    loaded_score = await league_service._load_score(new_player_id, season_id)
+    league = league_service._leagues_by_rating_type["global"][0]
+    loaded_score = await league_service._load_score(new_player_id, league)
     assert loaded_score == new_score
 
     async with database.acquire() as conn:
@@ -220,12 +233,14 @@ async def test_persist_score_old_player(league_service, database):
     division_id = 3
     score = 6
     game_count = 42
-    old_score = LeagueScore(division_id, score, game_count)
-    new_score = LeagueScore(division_id, score - 1, game_count + 1)
+    returning = True
+    old_score = LeagueScore(division_id, score, game_count, returning)
+    new_score = LeagueScore(division_id, score - 1, game_count + 1, returning)
 
     await league_service._persist_score(old_player_id, season_id, old_score, new_score)
 
-    loaded_score = await league_service._load_score(old_player_id, season_id)
+    league = league_service._leagues_by_rating_type["global"][0]
+    loaded_score = await league_service._load_score(old_player_id, league)
     assert loaded_score == new_score
 
     async with database.acquire() as conn:
@@ -248,8 +263,9 @@ async def test_persist_score_season_id_mismatch(league_service):
     division_id = 3
     score = 6
     game_count = 42
-    old_score = LeagueScore(division_id, score, game_count)
-    new_score = LeagueScore(division_id, score - 1, game_count + 1)
+    returning = False
+    old_score = LeagueScore(division_id, score, game_count, returning)
+    new_score = LeagueScore(division_id, score - 1, game_count + 1, returning)
 
     with pytest.raises(InvalidScoreError):
         await league_service._persist_score(player_id, wrong_season_id, old_score, new_score)
@@ -261,8 +277,9 @@ async def test_persist_score_division_without_score(league_service):
     division_id = 3
     no_score = None
     game_count = 42
-    old_score = LeagueScore(None, no_score, game_count)
-    new_score = LeagueScore(division_id, no_score, game_count + 1)
+    returning = False
+    old_score = LeagueScore(None, no_score, game_count, returning)
+    new_score = LeagueScore(division_id, no_score, game_count + 1, returning)
 
     with pytest.raises(InvalidScoreError):
         await league_service._persist_score(player_id, season_id, old_score, new_score)

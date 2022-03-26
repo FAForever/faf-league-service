@@ -45,9 +45,9 @@ INSERT INTO league_season_division_subdivision (id, league_season_division_id, s
   (8, 5, 2, "L2D3S2", "description_key", 500, 600, 100),
   (9, 6, 1, "L3D1S1", "description_key", 0, 3000, 10);
 
-INSERT INTO league_season_score (login_id, league_season_id, subdivision_id, score, game_count) VALUES
-  (1, 1, 1, 5, 5),
-  (1, 2, 5, 3, 15),
-  (1, 3, 9, 1200, 120),
-  (2, 1, 2, 0, 15),
-  (3, 2, 8, 5, 5);
+INSERT INTO league_season_score (login_id, league_season_id, subdivision_id, score, game_count, returning_player) VALUES
+  (1, 1, 1, 5, 5, FALSE),
+  (1, 2, 5, 3, 15, TRUE),
+  (1, 3, 9, 1200, 120, FALSE),
+  (2, 1, 2, 0, 15, FALSE),
+  (3, 2, 8, 5, 5, FALSE);

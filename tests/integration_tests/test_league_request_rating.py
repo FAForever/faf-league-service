@@ -31,11 +31,9 @@ async def test_rate_new_player(league_service):
     await league_service.enqueue(rating_change_message)
     await league_service._join_queue()
 
-    league_season_id = league_service._leagues_by_rating_type[rating_type][
-        0
-    ].current_season_id
-    saved_score = await league_service._load_score(new_player_id, league_season_id)
-    assert saved_score == LeagueScore(None, None, 1)
+    league = league_service._leagues_by_rating_type[rating_type][0]
+    saved_score = await league_service._load_score(new_player_id, league)
+    assert saved_score == LeagueScore(None, None, 1, False)
 
 
 async def test_rate_new_player_twice(league_service):
@@ -55,11 +53,9 @@ async def test_rate_new_player_twice(league_service):
         await league_service.enqueue(rating_change_message)
     await league_service._join_queue()
 
-    league_season_id = league_service._leagues_by_rating_type[rating_type][
-        0
-    ].current_season_id
-    saved_score = await league_service._load_score(new_player_id, league_season_id)
-    assert saved_score == LeagueScore(None, None, 2)
+    league = league_service._leagues_by_rating_type[rating_type][0]
+    saved_score = await league_service._load_score(new_player_id, league)
+    assert saved_score == LeagueScore(None, None, 2, False)
 
 
 async def test_rate_new_player_until_placement(league_service):
@@ -79,10 +75,9 @@ async def test_rate_new_player_until_placement(league_service):
         await league_service.enqueue(rating_change_message)
     await league_service._join_queue()
 
-    league_season_id = league_service._leagues_by_rating_type[rating_type][
-        0
-    ].current_season_id
-    saved_score = await league_service._load_score(new_player_id, league_season_id)
+    league = league_service._leagues_by_rating_type[rating_type][0]
+    saved_score = await league_service._load_score(new_player_id, league)
     assert saved_score.game_count == 10
     assert saved_score.division_id is not None
     assert saved_score.score is not None
+    assert saved_score.returning_player is False

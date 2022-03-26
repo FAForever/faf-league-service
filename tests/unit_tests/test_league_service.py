@@ -8,7 +8,8 @@ from sqlalchemy import select
 from service.db.models import league_score_journal
 from service.league_service import LeagueService
 from service.league_service.league_service import ServiceNotReadyError
-from service.league_service.typedefs import InvalidScoreError, LeagueScore, League
+from service.league_service.typedefs import (InvalidScoreError, League,
+                                             LeagueScore)
 from tests.utils import MockDatabase
 
 pytestmark = pytest.mark.asyncio

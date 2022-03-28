@@ -108,7 +108,7 @@ async def test_rate_returning_player_until_placement(league_service):
     new_player_id = 2
     rating_type = "global"
 
-    for _ in range(4):
+    for _ in range(3):
         rating_change_message = {
             "player_id": new_player_id,
             "rating_type": rating_type,
@@ -123,7 +123,7 @@ async def test_rate_returning_player_until_placement(league_service):
 
     league = league_service._leagues_by_rating_type[rating_type][0]
     saved_score = await league_service._load_score(new_player_id, league)
-    assert saved_score.game_count == 4
+    assert saved_score.game_count == 3
     assert saved_score.division_id is not None
     assert saved_score.score is not None
     assert saved_score.returning_player is True

@@ -21,10 +21,10 @@ INSERT INTO league (id, technical_name, image_url, medium_image_url, small_image
   (3, "league_without_seasons", "https://faf.com/", "https://faf.com/medium/", "https://faf.com/small/", "L3", "description_key");
 
 INSERT INTO league_season (id, league_id, leaderboard_id, placement_games, placement_games_returning_player, season_number, name_key, start_date, end_date) VALUES
-  (1, 1, 1, 10, 4, 1, "season.1", NOW() - interval 2 year, NOW() - interval 1 year),
-  (2, 1, 1, 10, 4, 2, "season.2", NOW() - interval 1 year, NOW() + interval 1 year),
-  (3, 2, 2, 10, 4, 1, "season.3", NOW() - interval 2 year, NOW() + interval 1 year),
-  (4, 1, 1, 10, 4, 3, "season.4", NOW() + interval 1 year, NOW() + interval 2 year);
+  (1, 1, 1, 10, 3, 1, "season.1", NOW() - interval 2 year, NOW() - interval 1 year),
+  (2, 1, 1, 10, 3, 2, "season.2", NOW() - interval 1 year, NOW() + interval 1 year),
+  (3, 2, 2, 10, 3, 1, "season.3", NOW() - interval 2 year, NOW() + interval 1 year),
+  (4, 1, 1, 10, 3, 3, "season.4", NOW() + interval 1 year, NOW() + interval 2 year);
 
 INSERT INTO league_season_division (id, league_season_id, division_index, name_key, description_key) VALUES
   (1, 1, 1, "L1D1", "description_key"),

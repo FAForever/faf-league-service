@@ -20,11 +20,11 @@ INSERT INTO league (id, technical_name, image_url, medium_image_url, small_image
   (2, "second_test_league", "https://faf.com/", "https://faf.com/medium/", "https://faf.com/small/", "L2", "description_key"),
   (3, "league_without_seasons", "https://faf.com/", "https://faf.com/medium/", "https://faf.com/small/", "L3", "description_key");
 
-INSERT INTO league_season (id, league_id, leaderboard_id, placement_games, season_number, name_key, start_date, end_date) VALUES
-  (1, 1, 1, 10, 1, "season.1", NOW() - interval 2 year, NOW() - interval 1 year),
-  (2, 1, 1, 10, 2, "season.2", NOW() - interval 1 year, NOW() + interval 1 year),
-  (3, 2, 2, 10, 1, "season.3", NOW() - interval 2 year, NOW() + interval 1 year),
-  (4, 1, 1, 10, 3, "season.4", NOW() + interval 1 year, NOW() + interval 2 year);
+INSERT INTO league_season (id, league_id, leaderboard_id, placement_games, placement_games_returning_player, season_number, name_key, start_date, end_date) VALUES
+  (1, 1, 1, 10, 3, 1, "season.1", NOW() - interval 2 year, NOW() - interval 1 year),
+  (2, 1, 1, 10, 3, 2, "season.2", NOW() - interval 1 year, NOW() + interval 1 year),
+  (3, 2, 2, 10, 3, 1, "season.3", NOW() - interval 2 year, NOW() + interval 1 year),
+  (4, 1, 1, 10, 3, 3, "season.4", NOW() + interval 1 year, NOW() + interval 2 year);
 
 INSERT INTO league_season_division (id, league_season_id, division_index, name_key, description_key) VALUES
   (1, 1, 1, "L1D1", "description_key"),
@@ -45,9 +45,9 @@ INSERT INTO league_season_division_subdivision (id, league_season_division_id, s
   (8, 5, 2, "L2D3S2", "description_key", 500, 600, 100),
   (9, 6, 1, "L3D1S1", "description_key", 0, 3000, 10);
 
-INSERT INTO league_season_score (login_id, league_season_id, subdivision_id, score, game_count) VALUES
-  (1, 1, 1, 5, 5),
-  (1, 2, 5, 3, 15),
-  (1, 3, 9, 1200, 120),
-  (2, 1, 2, 0, 15),
-  (3, 2, 8, 5, 5);
+INSERT INTO league_season_score (login_id, league_season_id, subdivision_id, score, game_count, returning_player) VALUES
+  (1, 1, 1, 5, 5, FALSE),
+  (1, 2, 5, 3, 15, TRUE),
+  (1, 3, 9, 1200, 120, FALSE),
+  (2, 1, 2, 0, 15, FALSE),
+  (3, 2, 8, 5, 5, FALSE);

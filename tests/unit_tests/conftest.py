@@ -14,5 +14,6 @@ def example_league():
         ],
         current_season_id=0,
         placement_games=10,
+        placement_games_returning_player=3,
         rating_type="global",
     )

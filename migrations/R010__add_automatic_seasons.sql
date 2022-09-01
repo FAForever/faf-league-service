@@ -1,14 +1,18 @@
 SET time_zone='+00:00';
 
-DECLARE @Seasonnumber AS INT = 4
+SELECT @Seasonnumber := MAX(season_number) FROM league_season;
+SET @season_number = @season_number + 1;
+
+DECLARE @start_date DATE;
+DECLARE @end_date DATE;
+SET @start_date ADDDATE(LAST_DAY(CURRENT_DATE), 1);
+SET @end_date LAST_DAY(ADD_MONTHS(CURRENT_DATE, 3));
 
 -- season starts and ends at noon, so that all timezones see the same date in the client
 INSERT INTO league_season (id, league_id, leaderboard_id, placement_games, season_number, name_key, start_date, end_date) VALUES
-  (@Seasonnumber * 3,     1, 2, 10, @Seasonnumber, "1v1_season", "2022-07-01 12:00:00", "2022-09-30 12:00:00"),
-  (@Seasonnumber * 3 + 1, 2, 3, 10, @Seasonnumber, "2v2_season", "2022-07-01 12:00:00", "2022-09-30 12:00:00"),
-  (@Seasonnumber * 3 + 2, 3, 4, 10, @Seasonnumber, "4v4_fs_season", "2022-07-01 12:00:00", "2022-09-30 12:00:00");
-
-  how to set the date?
+  (@Seasonnumber * 3,     1, 2, 10, @Seasonnumber, "1v1_season", TIMESTAMP(@start_date, "12:00:00"), TIMESTAMP(@end_date, "12:00:00")),
+  (@Seasonnumber * 3 + 1, 2, 3, 10, @Seasonnumber, "2v2_season", TIMESTAMP(@start_date, "12:00:00"), TIMESTAMP(@end_date, "12:00:00")),
+  (@Seasonnumber * 3 + 2, 3, 4, 10, @Seasonnumber, "4v4_fs_season", TIMESTAMP(@start_date, "12:00:00"), TIMESTAMP(@end_date, "12:00:00"));
 
 INSERT INTO league_season_division (id, league_season_id, division_index, description_key, name_key) VALUES
   (@Seasonnumber * 18 - 6 +  1, @Seasonnumber * 3    , 1, CONCAT("1v1_season_", @Seasonnumber, ".division.1"), "bronze"),

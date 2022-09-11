@@ -1,12 +1,10 @@
 SET time_zone='+00:00';
 
 SELECT @Seasonnumber := MAX(season_number) FROM league_season;
-SET @season_number = @season_number + 1;
+SET @Seasonnumber = @Seasonnumber + 1;
 
-DECLARE @start_date DATE;
-DECLARE @end_date DATE;
-SET @start_date ADDDATE(LAST_DAY(CURRENT_DATE), 1);
-SET @end_date LAST_DAY(ADD_MONTHS(CURRENT_DATE, 3));
+SET @start_date = ADDDATE(LAST_DAY(CURRENT_DATE), 1);
+SET @end_date = LAST_DAY(ADD_MONTHS(CURRENT_DATE, 3));
 
 -- season starts and ends at noon, so that all timezones see the same date in the client
 INSERT INTO league_season (id, league_id, leaderboard_id, placement_games, season_number, name_key, start_date, end_date) VALUES

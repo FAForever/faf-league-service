@@ -7,6 +7,7 @@ import signal
 from service import config, db
 from service.league_service import LeagueService
 from service.message_queue_service import MessageQueueService
+from service.season_generator import SeasonGenerator
 
 
 async def main():
@@ -40,6 +41,9 @@ async def main():
 
     league_service = LeagueService(database, mq_service)
     await league_service.initialize()
+
+    season_generator = SeasonGenerator(database)
+    season_generator.initialize()
 
     await done
 

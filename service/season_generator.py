@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import aiocron
 from sqlalchemy import select, text
 
+from service.config import SEASON_GENERATION_DAYS_BEFORE_SEASON_END
 from service.db import FAFDatabase
 from service.db.models import league_season
 from service.decorators import with_logger
@@ -15,8 +16,12 @@ class SeasonGenerator:
 
     def initialize(self):
         self._update_cron = aiocron.crontab(
-            "0 0 * * 0", func=self.check_season_end()
+            "0 0 * * *", func=self.check_season_end()
         )
+
+    # We need this for testing
+    def now(self):
+        return datetime.now()
 
     async def check_season_end(self):
         self._logger.debug("Checking if latest season ends soon.")
@@ -29,7 +34,7 @@ class SeasonGenerator:
 
             max_date = max(rows[league_season.c.end_date])
 
-            if max_date < datetime.now() + timedelta(days=14):
+            if max_date < self.now() + timedelta(days=SEASON_GENERATION_DAYS_BEFORE_SEASON_END):
                 try:
                     await self.generate_season()
                 except Exception as e:

@@ -13,7 +13,8 @@ SET FOREIGN_KEY_CHECKS=1;
 
 insert into leaderboard (id, technical_name) values
   (1, "global"),
-  (2, "ladder_1v1");
+  (2, "ladder_1v1")
+  (3, "tmm_2v2");
 
 INSERT INTO league (id, technical_name, enabled, image_url, medium_image_url, small_image_url, name_key, description_key) VALUES
   (1, "test_league", TRUE, "https://faf.com/", "https://faf.com/medium/", "https://faf.com/small/", "L1", "description_key"),
@@ -21,10 +22,10 @@ INSERT INTO league (id, technical_name, enabled, image_url, medium_image_url, sm
   (3, "league_without_seasons", TRUE, "https://faf.com/", "https://faf.com/medium/", "https://faf.com/small/", "L3", "description_key");
 
 INSERT INTO league_season (id, league_id, leaderboard_id, placement_games, placement_games_returning_player, season_number, name_key, start_date, end_date) VALUES
-  (1, 1, 1, 10, 3, 1, "season.1", NOW() - interval 2 year, NOW() - interval 1 year),
-  (2, 1, 1, 10, 3, 2, "season.2", NOW() - interval 1 year, NOW() + interval 1 year),
-  (3, 2, 2, 10, 3, 1, "season.3", NOW() - interval 2 year, NOW() + interval 1 year),
-  (4, 1, 1, 10, 3, 3, "season.4", NOW() + interval 1 year, NOW() + interval 2 year);
+  (1, 1, 1, 10, 3, 1, "season.1", NOW() - interval 2 week, NOW() - interval 1 week),
+  (2, 1, 1, 10, 3, 2, "season.2", NOW() - interval 1 week, NOW() + interval 1 week),
+  (3, 2, 2, 10, 3, 1, "season.3", NOW() - interval 2 week, NOW() + interval 1 week),
+  (4, 1, 1, 10, 3, 3, "season.4", NOW() + interval 1 week, NOW() + interval 2 week);
 
 INSERT INTO league_season_division (id, league_season_id, division_index, name_key, description_key) VALUES
   (1, 1, 1, "L1D1", "description_key"),

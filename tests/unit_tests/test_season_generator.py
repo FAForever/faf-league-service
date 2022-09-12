@@ -16,27 +16,27 @@ def season_generator(database):
 
 
 @patch('season_generator.now')
-def test_early_season_check(season_generator, mock_now):
+async def test_early_season_check(mock_now, season_generator):
     mock_now.return_value = datetime.now() - timedelta(days=5)
     await season_generator.check_season_end()
     assert season_generator._db.acquire().call_count == 1
 
 
 @patch('season_generator.now')
-def test_late_season_check(season_generator, mock_now):
+async def test_late_season_check(mock_now, season_generator):
     mock_now.return_value = datetime.now() + timedelta(days=5)
     await season_generator.check_season_end()
     assert season_generator._db.acquire().call_count == 2
 
 
 @patch('season_generator.now')
-def test_season_check_after_season_end(season_generator, mock_now):
+async def test_season_check_after_season_end(mock_now, season_generator):
     mock_now.return_value = datetime.now() + timedelta(days=20)
     await season_generator.check_season_end()
     assert season_generator._db.acquire().call_count == 2
 
 
-def test_generate_season(season_generator, database):
+async def test_generate_season(season_generator, database):
     await season_generator.generate_season()
     async with database.acquire() as conn:
         result = await conn.execute(select([league_season]))

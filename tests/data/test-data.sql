@@ -13,7 +13,7 @@ SET FOREIGN_KEY_CHECKS=1;
 
 insert into leaderboard (id, technical_name) values
   (1, "global"),
-  (2, "ladder_1v1")
+  (2, "ladder_1v1"),
   (3, "tmm_2v2");
 
 INSERT INTO league (id, technical_name, enabled, image_url, medium_image_url, small_image_url, name_key, description_key) VALUES

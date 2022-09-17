@@ -1,0 +1,1 @@
+UPDATE league SET enabled = FALSE WHERE id = 4;

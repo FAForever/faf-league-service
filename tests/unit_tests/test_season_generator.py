@@ -1,5 +1,3 @@
-import asyncio
-from contextlib import asynccontextmanager
 from datetime import datetime, timedelta
 
 import pytest
@@ -8,44 +6,6 @@ from sqlalchemy import select
 
 from service.db.models import league_season
 from service.season_generator import SeasonGenerator
-from tests.utils import MockDatabase
-
-
-@pytest.fixture
-def database_context():
-    @asynccontextmanager
-    async def make_database(request):
-        def opt(val):
-            return request.config.getoption(val)
-
-        host, user, pw, name, port = (
-            opt("--mysql_host"),
-            opt("--mysql_username"),
-            opt("--mysql_password"),
-            opt("--mysql_database"),
-            opt("--mysql_port")
-        )
-        db = MockDatabase(asyncio.get_running_loop())
-
-        await db.connect(
-            host=host,
-            user=user,
-            password=pw or None,
-            port=port,
-            db=name
-        )
-
-        yield db
-
-        await db.close()
-
-    return make_database
-
-
-@pytest.fixture
-async def database(request, database_context):
-    async with database_context(request) as db:
-        yield db
 
 
 @pytest.fixture

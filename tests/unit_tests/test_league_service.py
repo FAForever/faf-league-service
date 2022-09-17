@@ -1,6 +1,3 @@
-import asyncio
-from contextlib import asynccontextmanager
-
 import pytest
 from asynctest import CoroutineMock
 from sqlalchemy import select
@@ -10,46 +7,8 @@ from service.league_service import LeagueService
 from service.league_service.league_service import ServiceNotReadyError
 from service.league_service.typedefs import (InvalidScoreError, League,
                                              LeagueScore)
-from tests.utils import MockDatabase
 
 pytestmark = pytest.mark.asyncio
-
-
-@pytest.fixture
-def database_context():
-    @asynccontextmanager
-    async def make_database(request):
-        def opt(val):
-            return request.config.getoption(val)
-
-        host, user, pw, name, port = (
-            opt("--mysql_host"),
-            opt("--mysql_username"),
-            opt("--mysql_password"),
-            opt("--mysql_database"),
-            opt("--mysql_port")
-        )
-        db = MockDatabase(asyncio.get_running_loop())
-
-        await db.connect(
-            host=host,
-            user=user,
-            password=pw or None,
-            port=port,
-            db=name
-        )
-
-        yield db
-
-        await db.close()
-
-    return make_database
-
-
-@pytest.fixture
-async def database(request, database_context):
-    async with database_context(request) as db:
-        yield db
 
 
 @pytest.fixture

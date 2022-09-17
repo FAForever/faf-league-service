@@ -1,11 +1,51 @@
+import asyncio
+from contextlib import asynccontextmanager
 from datetime import datetime, timedelta
-from unittest.mock import patch
 
 import pytest
+from freezegun import freeze_time
 from sqlalchemy import select
 
 from service.db.models import league_season
 from service.season_generator import SeasonGenerator
+from tests.utils import MockDatabase
+
+
+@pytest.fixture
+def database_context():
+    @asynccontextmanager
+    async def make_database(request):
+        def opt(val):
+            return request.config.getoption(val)
+
+        host, user, pw, name, port = (
+            opt("--mysql_host"),
+            opt("--mysql_username"),
+            opt("--mysql_password"),
+            opt("--mysql_database"),
+            opt("--mysql_port")
+        )
+        db = MockDatabase(asyncio.get_running_loop())
+
+        await db.connect(
+            host=host,
+            user=user,
+            password=pw or None,
+            port=port,
+            db=name
+        )
+
+        yield db
+
+        await db.close()
+
+    return make_database
+
+
+@pytest.fixture
+async def database(request, database_context):
+    async with database_context(request) as db:
+        yield db
 
 
 @pytest.fixture
@@ -15,23 +55,20 @@ def season_generator(database):
     return season_generator
 
 
-@patch('season_generator.now')
-async def test_early_season_check(mock_now, season_generator):
-    mock_now.return_value = datetime.now() - timedelta(days=5)
+@freeze_time(datetime.now() - timedelta(days=5))
+async def test_early_season_check(season_generator):
     await season_generator.check_season_end()
     assert season_generator._db.acquire().call_count == 1
 
 
-@patch('season_generator.now')
-async def test_late_season_check(mock_now, season_generator):
-    mock_now.return_value = datetime.now() + timedelta(days=5)
+@freeze_time(datetime.now() + timedelta(days=5))
+async def test_late_season_check(season_generator):
     await season_generator.check_season_end()
     assert season_generator._db.acquire().call_count == 2
 
 
-@patch('season_generator.now')
-async def test_season_check_after_season_end(mock_now, season_generator):
-    mock_now.return_value = datetime.now() + timedelta(days=20)
+@freeze_time(datetime.now() + timedelta(days=20))
+async def test_season_check_after_season_end(season_generator):
     await season_generator.check_season_end()
     assert season_generator._db.acquire().call_count == 2
 

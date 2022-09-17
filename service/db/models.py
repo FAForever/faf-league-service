@@ -43,6 +43,8 @@ league_season_division = Table(
     Column("id",               Integer, primary_key=True),
     Column("league_season_id", Integer, ForeignKey("league_season.id")),
     Column("division_index",   Integer),
+    Column("description_key",  String),
+    Column("name_key",         String),
 )
 
 league_season_division_subdivision = Table(

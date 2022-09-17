@@ -14,7 +14,8 @@ SET FOREIGN_KEY_CHECKS=1;
 insert into leaderboard (id, technical_name) values
   (1, "global"),
   (2, "ladder_1v1"),
-  (3, "tmm_2v2");
+  (3, "tmm_2v2"),
+  (4, "tmm_4v4");
 
 INSERT INTO league (id, technical_name, enabled, image_url, medium_image_url, small_image_url, name_key, description_key) VALUES
   (1, "test_league", TRUE, "https://faf.com/", "https://faf.com/medium/", "https://faf.com/small/", "L1", "description_key"),

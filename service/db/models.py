@@ -17,6 +17,7 @@ league = Table(
     metadata,
     Column("id", Integer, primary_key=True),
     Column("technical_name", String, nullable=False, unique=True),
+    Column("enabled", Boolean, nullable=False),
     Column("image_url", String, nullable=False),
     Column("medium_image_url", String, nullable=False),
     Column("small_image_url", String, nullable=False),

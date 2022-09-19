@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<database name="faf-league" schema="faf-league" type="MySQL - 5.5.5-10.6.8-MariaDB-1:10.6.8+maria~focal">
+<database name="faf-league" schema="faf-league" type="MySQL - 5.5.5-10.6.9-MariaDB-1:10.6.9+maria~ubu2004">
    <tables>
-      <table catalog="faf-league" name="_yoyo_log" numRows="14" remarks="" type="TABLE">
+      <table catalog="faf-league" name="_yoyo_log" numRows="16" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="36" type="VARCHAR" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="migration_hash" nullable="true" remarks="" size="64" type="VARCHAR" typeCode="12">
             <parent catalog="faf-league" column="migration_hash" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="_yoyo_migration"/>
@@ -17,7 +17,7 @@
             <column ascending="true" name="id"/>
          </index>
       </table>
-      <table catalog="faf-league" name="_yoyo_migration" numRows="14" remarks="" type="TABLE">
+      <table catalog="faf-league" name="_yoyo_migration" numRows="16" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="migration_hash" nullable="false" remarks="" size="64" type="VARCHAR" typeCode="12">
             <child catalog="faf-league" column="migration_hash" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="_yoyo_log"/>
          </column>
@@ -49,18 +49,19 @@
             <column ascending="true" name="technical_name"/>
          </index>
       </table>
-      <table catalog="faf-league" name="league" numRows="4" remarks="" type="TABLE">
+      <table catalog="faf-league" name="league" numRows="2" remarks="" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="5" type="SMALLINT UNSIGNED" typeCode="5">
             <child catalog="faf-league" column="league_id" foreignKey="league_season_ibfk_1" implied="false" onDeleteCascade="false" table="league_season"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="technical_name" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="image_url" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="medium_image_url" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="small_image_url" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="name_key" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="description_key" nullable="false" remarks="The league's i18n description key" size="255" type="VARCHAR" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="current_timestamp()" digits="0" id="7" name="create_time" nullable="false" remarks="" size="26" type="TIMESTAMP" typeCode="93"/>
-         <column autoUpdated="false" defaultValue="current_timestamp()" digits="0" id="8" name="update_time" nullable="false" remarks="" size="26" type="TIMESTAMP" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="1" digits="0" id="2" name="enabled" nullable="false" remarks="" size="1" type="BIT" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="image_url" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="medium_image_url" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="small_image_url" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="name_key" nullable="false" remarks="" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="description_key" nullable="false" remarks="The league's i18n description key" size="255" type="VARCHAR" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="current_timestamp()" digits="0" id="8" name="create_time" nullable="false" remarks="" size="26" type="TIMESTAMP" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="current_timestamp()" digits="0" id="9" name="update_time" nullable="false" remarks="" size="26" type="TIMESTAMP" typeCode="93"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="PRIMARY" unique="true">
             <column ascending="true" name="id"/>

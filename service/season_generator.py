@@ -12,6 +12,7 @@ from service.decorators import with_logger
 @with_logger
 class SeasonGenerator:
     def __init__(self, database: FAFDatabase):
+        self._logger.info("Season generator created.")
         self._db = database
 
     def initialize(self):

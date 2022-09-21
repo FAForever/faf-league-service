@@ -22,9 +22,7 @@ class SeasonGenerator:
     async def check_season_end(self):
         self._logger.debug("Checking if latest season ends soon.")
         async with self._db.acquire() as conn:
-            sql = (
-                select([league_season])
-            )
+            sql = (select([league_season]))
             result = await conn.execute(sql)
             rows = await result.fetchall()
 
@@ -33,8 +31,8 @@ class SeasonGenerator:
         if max_date < datetime.now() + timedelta(days=SEASON_GENERATION_DAYS_BEFORE_SEASON_END):
             try:
                 await self.generate_season()
-            except Exception as e:
-                self._logger.exception("Failed to generate new season. Raised exception %s", e)
+            except Exception:
+                self._logger.exception("Failed to generate new season")
             else:
                 self._logger.info("Season successfully created!")
 
@@ -44,7 +42,3 @@ class SeasonGenerator:
             with open("service/generate_season.sql") as file:
                 query = text(file.read())
                 await conn.execute(query)
-
-
-
-

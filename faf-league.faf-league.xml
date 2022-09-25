@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<database name="faf-league" schema="faf-league" type="MySQL - 5.5.5-10.6.9-MariaDB-1:10.6.9+maria~ubu2004">
+<database name="faf-league" schema="faf-league" type="MySQL - 5.5.5-10.6.10-MariaDB-1:10.6.10+maria~ubu2004">
    <tables>
       <table catalog="faf-league" name="_yoyo_log" numRows="16" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="36" type="VARCHAR" typeCode="12"/>

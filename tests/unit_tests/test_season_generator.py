@@ -62,5 +62,3 @@ async def test_generate_season_only_once(season_generator, database):
         rows = await seasons.fetchall()
         assert len(rows) == 7
         assert max(row[league_season.c.season_number] for row in rows) == 4
-
-

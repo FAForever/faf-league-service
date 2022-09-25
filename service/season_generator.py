@@ -23,7 +23,7 @@ class SeasonGenerator:
     async def check_season_end(self):
         self._logger.debug("Checking if latest season ends soon.")
         async with self._db.acquire() as conn:
-            sql = (select([league_season]))
+            sql = select([league_season])
             result = await conn.execute(sql)
             rows = await result.fetchall()
 

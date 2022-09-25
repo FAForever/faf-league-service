@@ -17,6 +17,7 @@ aio_pika = "*"
 aiocron = "*"
 prometheus_client = "*"
 yoyo-migrations = "*"
+pamqp = "==2.3.0"
 
 [dev-packages]
 pytest = "*"
@@ -27,6 +28,7 @@ python-coveralls = "*"
 mock = "*"
 pytest-mock = "*"
 vulture = "*"
+freezegun = "*"
 
 [requires]
 python_version = "3.7"

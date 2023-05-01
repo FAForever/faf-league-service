@@ -2,11 +2,12 @@ from datetime import datetime, timedelta
 
 import aiocron
 from dateutil.relativedelta import relativedelta
-from sqlalchemy import select, func, insert
+from sqlalchemy import func, insert, select
 
 from service.config import SEASON_GENERATION_DAYS_BEFORE_SEASON_END
 from service.db import FAFDatabase
-from service.db.models import league_season, league, league_season_division, league_season_division_subdivision
+from service.db.models import (league, league_season, league_season_division,
+                               league_season_division_subdivision)
 from service.decorators import with_logger
 
 

@@ -6,7 +6,7 @@ import service
 
 setup(
     name="Forged Alliance Forever Server",
-    version="dev",
+    version="1.0",
     packages=["service"] + find_packages(),
     url="http://www.faforever.com",
     license=service.__license__,

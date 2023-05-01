@@ -17,7 +17,6 @@ from service.db.models import (leaderboard, league, league_score_journal,
 from service.decorators import with_logger
 from service.message_queue_service import MessageQueueService, message_to_dict
 from service.metrics import league_service_backlog
-
 from .league_rater import LeagueRater
 from .typedefs import (InvalidScoreError, League, LeagueDivision,
                        LeagueRatingRequest, LeagueScore, ServiceNotReadyError)
@@ -148,7 +147,7 @@ class LeagueService:
 
     async def _load_score(self, player_id: int, league: League) -> LeagueScore:
         async with self._db.acquire() as conn:
-            sql = select([league_season_score]).where(
+            sql = select(league_season_score).where(
                 and_(
                     league_season_score.c.login_id == player_id,
                     league_season_score.c.league_season_id == league.current_season_id,

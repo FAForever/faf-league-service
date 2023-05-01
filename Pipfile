@@ -18,6 +18,7 @@ aiocron = "*"
 prometheus_client = "*"
 yoyo-migrations = "*"
 pamqp = "==2.3.0"
+python-dateutil = "*"
 
 [dev-packages]
 pytest = "*"

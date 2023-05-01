@@ -11,7 +11,7 @@ INSERT INTO league (id, technical_name, enabled, name_key, description_key, imag
 
 -- season starts and ends at noon, so that all timezones see the same date in the client
 INSERT INTO league_season (id, league_id, leaderboard_id, placement_games, placement_games_returning_player, season_number, name_key, start_date, end_date) VALUES
-  (21, 5, 6, 10, 3, @Seasonnumber, "3v3_season", TIMESTAMP(CURRENT_DATE, "12:00:00"), TIMESTAMP(2023-06-30, "12:00:00"));
+  (21, 5, 6, 10, 3, @Seasonnumber, "3v3_season", TIMESTAMP(CURRENT_DATE, "12:00:00"), TIMESTAMP("2023-06-30", "12:00:00"));
 
 INSERT INTO league_season_division (id, league_season_id, division_index, description_key, name_key) VALUES
   (120 +  1, 21, 1, CONCAT("3v3_season_", @Seasonnumber, ".division.1"), "bronze"),

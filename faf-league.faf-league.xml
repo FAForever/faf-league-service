@@ -136,7 +136,7 @@
             <column ascending="true" name="league_id"/>
          </index>
       </table>
-      <table catalog="faf-league" name="league_season_division" numRows="67" remarks="" type="TABLE">
+      <table catalog="faf-league" name="league_season_division" numRows="66" remarks="" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT UNSIGNED" typeCode="4">
             <child catalog="faf-league" column="league_season_division_id" foreignKey="league_season_division_subdivision_ibfk_1" implied="false" onDeleteCascade="false" table="league_season_division_subdivision"/>
          </column>

@@ -11,7 +11,7 @@ verify_ssl = true
 
 [packages]
 trueskill = "*"
-sqlalchemy = "*"
+sqlalchemy = "==1.4.*"
 aiomysql = "*"
 aio_pika = "*"
 aiocron = "*"

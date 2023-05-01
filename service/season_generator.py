@@ -59,9 +59,9 @@ class SeasonGenerator:
             end_date = start_date + relativedelta(months=3) - relativedelta(days=1)
 
             for row in rows:
-                self.update_db(conn, row, start_date, end_date)
+                await self.update_db(conn, row, start_date, end_date)
 
-    def update_db(self, conn, league_row, start_date, end_date):
+    async def update_db(self, conn, league_row, start_date, end_date):
         season_sql = select([league_season]).where(league_season.c.league_id == league_row[league.c.id])
         season_row = await conn.execute(season_sql).fetchall()
         season_id = conn.execute(select([func.max(league_season.c.id)])).scalar() + 1

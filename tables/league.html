@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>league - faf-league Database</title>
+        <title>league - faf-league.faf-league</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="icon" type="image/png" sizes="16x16" href="../favicon.png">
@@ -46,7 +46,7 @@
                 <nav class="navbar navbar-static-top">
                     <div class="container">
                         <div class="navbar-header">
-                            <a href="../index.html" class="navbar-brand"><b>faf-league</b> Database</a>
+                            <a href="../index.html" class="navbar-brand"><b>faf-league</b></a><span class="navbar-brand" style="padding-left: 0">.faf-league</span>
                             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"><i class="fa fa-bars"></i></button>
                         </div>
 
@@ -87,7 +87,13 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <table id="standard_table" class="table table-bordered table-striped dataTable" role="grid">
+                            <table
+                                    id="standard_table"
+                                    class="table table-bordered table-striped dataTable"
+                                    role="grid"
+                                    data-paging="true"
+                                    data-page-length="10"
+                                    data-length-change="false">
                                 <thead align='left'>
                                 <tr>
                                     <th>Column</th>
@@ -113,7 +119,8 @@
                                         <table border='0' cellspacing='0' cellpadding='0'>
                                             <tr>
                                                 <td title="league_season.league_id references league.id via league_season_ibfk_1"><a href='league_season.html'>league_season</a><span class='relatedKey'>.league_id</span></td>
-                                                <td class="constraint detail">league_season_ibfk_1<span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
+                                                <td class="constraint detail">league_season_ibfk_1</td>
+                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
                                             </tr>
                                         </table>
                                     </td>
@@ -245,7 +252,7 @@
                                 <tr>
                                     <td><span id="create_time">create_time</span></td>
                                     <td>TIMESTAMP</td>
-                                    <td>26</td>
+                                    <td>19</td>
                                     <td title=''></td>
                                     <td title=''></td>
                                     <td>current_timestamp()</td>
@@ -262,7 +269,7 @@
                                 <tr>
                                     <td><span id="update_time">update_time</span></td>
                                     <td>TIMESTAMP</td>
-                                    <td>26</td>
+                                    <td>19</td>
                                     <td title=''></td>
                                     <td title=''></td>
                                     <td>current_timestamp()</td>
@@ -290,7 +297,13 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <table id="indexes_table" class="table table-bordered table-striped dataTable" role="grid">
+                            <table
+                                    id="indexes_table"
+                                    class="table table-bordered table-striped dataTable"
+                                    role="grid"
+                                    data-paging="true"
+                                    data-page-length="10"
+                                    data-length-change="false">
                                 <thead>
                                 <tr>
                                     <th>Constraint Name</th>
@@ -344,11 +357,11 @@
                                     </div>
                                     <div class="chart tab-pane " id="twodegreesDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="league_score_journal.html" target="_top" title="league_score_journal" alt="" coords="788,103,1031,191">
+<area shape="rect" id="node1" href="league_score_journal.html" target="_top" title="league_score_journal" alt="" coords="789,103,1034,191">
 <area shape="rect" id="node2" href="league_season.html" target="_top" title="league_season" alt="" coords="404,152,736,387">
-<area shape="rect" id="node3" href="leaderboard.html" target="_top" title="leaderboard" alt="" coords="93,385,273,473">
+<area shape="rect" id="node3" href="leaderboard.html" target="_top" title="leaderboard" alt="" coords="94,385,271,473">
 <area shape="rect" id="node4" href="league.html" target="_top" title="league" alt="" coords="5,5,360,368">
-<area shape="rect" id="node5" href="league_season_division.html" target="_top" title="league_season_division" alt="" coords="780,208,1039,296">
+<area shape="rect" id="node5" href="league_season_division.html" target="_top" title="league_season_division" alt="" coords="780,208,1043,296">
 </map>
                                         <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/league.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
@@ -361,12 +374,12 @@
                                     </div>
                                     <div class="chart tab-pane " id="twoimpliedDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="twoDegreesRelationshipsDiagramImplied" name="twoDegreesRelationshipsDiagramImplied">
-<area shape="rect" id="node1" href="league_score_journal.html" target="_top" title="league_score_journal" alt="" coords="788,49,1031,137">
+<area shape="rect" id="node1" href="league_score_journal.html" target="_top" title="league_score_journal" alt="" coords="789,49,1034,137">
 <area shape="rect" id="node2" href="league_season.html" target="_top" title="league_season" alt="" coords="404,152,736,387">
-<area shape="rect" id="node3" href="leaderboard.html" target="_top" title="leaderboard" alt="" coords="93,385,273,473">
+<area shape="rect" id="node3" href="leaderboard.html" target="_top" title="leaderboard" alt="" coords="94,385,271,473">
 <area shape="rect" id="node4" href="league.html" target="_top" title="league" alt="" coords="5,5,360,368">
-<area shape="rect" id="node5" href="league_season_division.html" target="_top" title="league_season_division" alt="" coords="780,155,1039,243">
-<area shape="rect" id="node6" href="league_season_score.html" target="_top" title="league_season_score" alt="" coords="790,260,1029,348">
+<area shape="rect" id="node5" href="league_season_division.html" target="_top" title="league_season_division" alt="" coords="780,155,1043,243">
+<area shape="rect" id="node6" href="league_season_score.html" target="_top" title="league_season_score" alt="" coords="789,260,1033,348">
 </map>
                                         <a name='diagram'><img id="twoimpliedDegreeImg" src="../diagrams/tables/league.implied2degrees.png" usemap="#twoDegreesRelationshipsDiagramImplied" class="diagram" border="0" align="left"></a>
                                     </div>
@@ -388,7 +401,7 @@
                         <a href="https://github.com/schemaspy/schemaspy" title="GitHub for SchemaSpy"><i class="fa fa-github-square fa-2x"></i></a>
                         <a href="http://stackoverflow.com/questions/tagged/schemaspy" title="StackOverflow for SchemaSpy"><i class="fa fa-stack-overflow fa-2x"></i></a>
                     </div>
-                    <strong>Generated by <a href="http://schemaspy.org/" class="logo-text"><i class="fa fa-database"></i> SchemaSpy 6.1.0</a></strong>
+                    <strong>Generated by <a href="http://schemaspy.org/" class="logo-text"><i class="fa fa-database"></i> SchemaSpy 6.2.2</a></strong>
                 </div>
                 <!-- /.container -->
             </footer>

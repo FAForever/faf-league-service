@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 import aiocron
-from sqlalchemy import select, text
+from sqlalchemy import select
 
 from service.config import SEASON_GENERATION_DAYS_BEFORE_SEASON_END
 from service.db import FAFDatabase
@@ -39,7 +39,4 @@ class SeasonGenerator:
 
     async def generate_season(self):
         self._logger.info("Generating new season...")
-        async with self._db.acquire() as conn:
-            with open("service/generate_season.sql") as file:
-                query = text(file.read())
-                await conn.execute(query)
+

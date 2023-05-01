@@ -23,10 +23,10 @@ INSERT INTO league (id, technical_name, enabled, image_url, medium_image_url, sm
   (3, "league_without_seasons", TRUE, "https://faf.com/", "https://faf.com/medium/", "https://faf.com/small/", "L3", "description_key");
 
 INSERT INTO league_season (id, league_id, leaderboard_id, placement_games, placement_games_returning_player, season_number, name_key, start_date, end_date) VALUES
-  (1, 1, 1, 10, 3, 1, "season.1", NOW() - interval 2 week, NOW() - interval 1 week),
-  (2, 1, 1, 10, 3, 2, "season.2", NOW() - interval 1 week, NOW() + interval 1 week),
-  (3, 2, 2, 10, 3, 1, "season.3", NOW() - interval 2 week, NOW() + interval 1 week),
-  (4, 1, 1, 10, 3, 3, "season.4", NOW() + interval 1 week, NOW() + interval 2 week);
+  (1, 1, 1, 10, 3, 1, "test_league.season.1", NOW() - interval 2 week, NOW() - interval 1 week),
+  (2, 1, 1, 10, 3, 2, "test_league.season.2", NOW() - interval 1 week, NOW() + interval 1 week),
+  (3, 2, 2, 10, 3, 1, "second_test_league.season.1", NOW() - interval 2 week, NOW() + interval 1 week),
+  (4, 1, 1, 10, 3, 3, "test_league.season.3", NOW() + interval 1 week, NOW() + interval 2 week);
 
 INSERT INTO league_season_division (id, league_season_id, division_index, name_key, description_key) VALUES
   (1, 1, 1, "L1D1", "description_key"),
@@ -45,7 +45,7 @@ INSERT INTO league_season_division_subdivision (id, league_season_division_id, s
   (6, 4, 2, "L2D2S2", "description_key", 300, 400, 10),
   (7, 5, 1, "L2D3S1", "description_key", 400, 500, 10),
   (8, 5, 2, "L2D3S2", "description_key", 500, 600, 100),
-  (9, 6, 1, "L3D1S1", "description_key", 0, 3000, 10);
+  (9, 6, 1, "L3D1S1", "description_key", 0, 3000, 20);
 
 INSERT INTO league_season_score (login_id, league_season_id, subdivision_id, score, game_count, returning_player) VALUES
   (1, 1, 1, 5, 5, FALSE),

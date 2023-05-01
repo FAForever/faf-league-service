@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 import aiocron
 from dateutil.relativedelta import relativedelta
-from sqlalchemy import func, insert, select
+from sqlalchemy import desc, func, insert, select
 
 from service.config import SEASON_GENERATION_DAYS_BEFORE_SEASON_END
 from service.db import FAFDatabase
@@ -42,7 +42,7 @@ class SeasonGenerator:
     async def generate_season(self):
         self._logger.info("Generating new season...")
         async with self._db.acquire() as conn:
-            sql = select([league]).where(league.c.enabled is True)
+            sql = select([league]).where(league.c.enabled == True)
             result = await conn.execute(sql)
             rows = await result.fetchall()
 
@@ -62,9 +62,22 @@ class SeasonGenerator:
                 await self.update_db(conn, row, start_date, end_date)
 
     async def update_db(self, conn, league_row, start_date, end_date):
-        season_sql = select([league_season]).where(league_season.c.league_id == league_row[league.c.id])
-        season_row = await conn.execute(season_sql).fetchall()
-        season_id = conn.execute(select([func.max(league_season.c.id)])).scalar() + 1
+        season_sql = (
+            select([league_season])
+            .where(league_season.c.league_id == league_row[league.c.id])
+            .order_by(desc(league_season.c.season_number))
+            .limit(1)
+        )
+        result = await conn.execute(season_sql)
+        season_row = await result.fetchone()
+        if season_row is None:
+            self._logger.warning(
+                "No season found for league %s. Skipping this league",
+                league_row[league.c.technical_name]
+            )
+            return
+        result = await conn.execute(select([func.max(league_season.c.id)]))
+        season_id = await result.scalar() + 1
         season_number = season_row[league_season.c.season_number] + 1
         season_insert_sql = (
             insert(league_season)
@@ -85,10 +98,20 @@ class SeasonGenerator:
             select([league_season_division])
             .where(league_season_division.c.league_season_id == season_row[league_season.c.id])
         )
-        season_division_rows = await conn.execute(division_sql).fetchall()
-        season_division_id = conn.execute(select([func.max(league_season.c.id)])).scalar()
-        for row in season_division_rows:
-            division_index = row[league_season_division.c.division_index]
+        result = await conn.execute(division_sql)
+        season_division_rows = await result.fetchall()
+        if len(season_division_rows) == 0:
+            self._logger.warning(
+                "No divisions found for season id %s. No divisions could be created. "
+                "Now season id %s has no divisions as well. This needs to be fixed manually",
+                season_row[league_season.c.id],
+                season_id
+            )
+            return
+        result = await conn.execute(select([func.max(league_season.c.id)]))
+        season_division_id = await result.scalar()
+        for division_row in season_division_rows:
+            division_index = division_row[league_season_division.c.division_index]
             season_division_id += 1
             division_insert_sql = (
                 insert(league_season_division)
@@ -97,39 +120,43 @@ class SeasonGenerator:
                     league_season_id=season_id,
                     division_index=division_index,
                     description_key=(
-                        "%s_%s.division.%s",
-                        season_row[league_season.c.name_key],
-                        season_number,
-                        division_index,
+                        f"{season_row[league_season.c.name_key]}_{season_number}.division.{division_index}"
                     ),
-                    name_key=row[league_season_division.c.name_key]
+                    name_key=division_row[league_season_division.c.name_key],
                 )
             )
             await conn.execute(division_insert_sql)
 
             subdivision_sql = (
                 select([league_season_division_subdivision])
-                .where(league_season_division_subdivision.c.league_season_division_id == season_division_id)
+                .where(league_season_division_subdivision.c.league_season_division_id ==
+                       division_row[league_season_division.c.id])
             )
-            subdivision_rows = await conn.execute(subdivision_sql).fetchall()
+            result = await conn.execute(subdivision_sql)
+            subdivision_rows = await result.fetchall()
+            if len(subdivision_rows) == 0:
+                self._logger.warning(
+                    "No subdivisions found for division id %s. No subdivisions could be created. "
+                    "Now division id %s has no subdivisions as well. This needs to be fixed manually",
+                    division_row[league_season_division.c.id],
+                    season_division_id
+                )
+                return
             for subdivision_row in subdivision_rows:
-                subdivision_index = row[league_season_division_subdivision.c.subdivision_index]
+                subdivision_index = subdivision_row[league_season_division_subdivision.c.subdivision_index]
                 subdivision_insert_sql = (
                     insert(league_season_division_subdivision)
                     .values(
                         league_season_division_id=season_division_id,
                         subdivision_index=subdivision_index,
                         description_key=(
-                            "%s_%s.subdivision.%s.%s",
-                            season_row[league_season.c.name_key],
-                            season_number,
-                            division_index,
-                            subdivision_index,
+                            f"{season_row[league_season.c.name_key]}_{season_number}"
+                            f".subdivision.{division_index}.{subdivision_index}"
                         ),
+                        name_key=subdivision_row[league_season_division_subdivision.c.name_key],
                         min_rating=subdivision_row[league_season_division_subdivision.c.min_rating],
                         max_rating=subdivision_row[league_season_division_subdivision.c.max_rating],
                         highest_score=subdivision_row[league_season_division_subdivision.c.highest_score],
-                        name_key=row[league_season_division_subdivision.c.name_key]
                     )
                 )
                 await conn.execute(subdivision_insert_sql)

@@ -50,9 +50,9 @@ async def test_generate_season(season_generator, database):
 
         divisions = await conn.execute(select(league_season_division))
         rows = await divisions.fetchall()
-        assert len(rows) == 7
-        new_division = await conn.execute(select(league_season_division).where(league_season_division.c.id == 7))
-        row = await new_division.fetchone()
+        assert len(rows) == 9
+        new_division_one = await conn.execute(select(league_season_division).where(league_season_division.c.id == 8))
+        row = await new_division_one.fetchone()
         assert row[league_season_division.c.league_season_id] == 6
         assert row[league_season_division.c.division_index] == 1
         assert row[league_season_division.c.name_key] == "L3D1"
@@ -63,7 +63,7 @@ async def test_generate_season(season_generator, database):
         assert len(rows) == 10
         new_subdivision = await conn.execute(
             select(league_season_division_subdivision)
-            .where(league_season_division_subdivision.c.league_season_division_id == 7)
+            .where(league_season_division_subdivision.c.league_season_division_id == 8)
         )
         row = await new_subdivision.fetchone()
         assert row[league_season_division_subdivision.c.subdivision_index] == 1

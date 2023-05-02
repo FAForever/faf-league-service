@@ -108,15 +108,15 @@ class SeasonGenerator:
                 season_id
             )
             return
-        result = await conn.execute(select([func.max(league_season.c.id)]))
-        season_division_id = await result.scalar()
+        result = await conn.execute(select([func.max(league_season_division.c.id)]))
+        division_id = await result.scalar()
         for division_row in season_division_rows:
             division_index = division_row[league_season_division.c.division_index]
-            season_division_id += 1
+            division_id += 1
             division_insert_sql = (
                 insert(league_season_division)
                 .values(
-                    id=season_division_id,
+                    id=division_id,
                     league_season_id=season_id,
                     division_index=division_index,
                     description_key=(
@@ -139,7 +139,7 @@ class SeasonGenerator:
                     "No subdivisions found for division id %s. No subdivisions could be created. "
                     "Now division id %s has no subdivisions as well. This needs to be fixed manually",
                     division_row[league_season_division.c.id],
-                    season_division_id
+                    division_id
                 )
                 return
             for subdivision_row in subdivision_rows:
@@ -147,7 +147,7 @@ class SeasonGenerator:
                 subdivision_insert_sql = (
                     insert(league_season_division_subdivision)
                     .values(
-                        league_season_division_id=season_division_id,
+                        league_season_division_id=division_id,
                         subdivision_index=subdivision_index,
                         description_key=(
                             f"{season_row[league_season.c.name_key]}_{season_number}"

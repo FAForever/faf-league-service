@@ -34,7 +34,8 @@ INSERT INTO league_season_division (id, league_season_id, division_index, name_k
   (3, 2, 1, "L2D1", "description_key"),
   (4, 2, 2, "L2D2", "description_key"),
   (5, 2, 3, "L2D3", "description_key"),
-  (6, 3, 1, "L3D1", "description_key");
+  (6, 3, 1, "L3D1", "description_key"),
+  (7, 3, 2, "L3D2", "description_key");
 
 INSERT INTO league_season_division_subdivision (id, league_season_division_id, subdivision_index, name_key, description_key, min_rating, max_rating, highest_score) VALUES
   (1, 1, 1, "L1D1S1", "description_key", 0, 150, 10),

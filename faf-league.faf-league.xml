@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><database name="faf-league" schema="faf-league" type="MySQL - 5.5.5-10.6.12-MariaDB-1:10.6.12+maria~ubu2004">
    <tables>
-      <table catalog="faf-league" name="_yoyo_log" numRows="16" remarks="" type="TABLE">
+      <table catalog="faf-league" name="_yoyo_log" numRows="17" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="36" type="VARCHAR" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="migration_hash" nullable="true" remarks="" size="64" type="VARCHAR" typeCode="12">
             <parent catalog="faf-league" column="migration_hash" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="_yoyo_migration"/>
@@ -16,7 +16,7 @@
             <column ascending="true" name="id"/>
          </index>
       </table>
-      <table catalog="faf-league" name="_yoyo_migration" numRows="16" remarks="" type="TABLE">
+      <table catalog="faf-league" name="_yoyo_migration" numRows="17" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="migration_hash" nullable="false" remarks="" size="64" type="VARCHAR" typeCode="12">
             <child catalog="faf-league" column="migration_hash" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="_yoyo_log"/>
          </column>
@@ -35,7 +35,7 @@
             <column ascending="true" name="version"/>
          </index>
       </table>
-      <table catalog="faf-league" name="leaderboard" numRows="5" remarks="" type="TABLE">
+      <table catalog="faf-league" name="leaderboard" numRows="6" remarks="" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="5" type="SMALLINT UNSIGNED" typeCode="5">
             <child catalog="faf-league" column="leaderboard_id" foreignKey="league_season_ibfk_2" implied="false" onDeleteCascade="false" table="league_season"/>
          </column>
@@ -48,7 +48,7 @@
             <column ascending="true" name="technical_name"/>
          </index>
       </table>
-      <table catalog="faf-league" name="league" numRows="2" remarks="" type="TABLE">
+      <table catalog="faf-league" name="league" numRows="3" remarks="" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="5" type="SMALLINT UNSIGNED" typeCode="5">
             <child catalog="faf-league" column="league_id" foreignKey="league_season_ibfk_1" implied="false" onDeleteCascade="false" table="league_season"/>
          </column>
@@ -100,7 +100,7 @@
             <column ascending="true" name="subdivision_id_before"/>
          </index>
       </table>
-      <table catalog="faf-league" name="league_season" numRows="7" remarks="" type="TABLE">
+      <table catalog="faf-league" name="league_season" numRows="8" remarks="" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="8" type="MEDIUMINT UNSIGNED" typeCode="4">
             <child catalog="faf-league" column="league_season_id" foreignKey="league_score_journal_ibfk_1" implied="false" onDeleteCascade="false" table="league_score_journal"/>
             <child catalog="faf-league" column="login_id" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="league_score_journal"/>
@@ -136,7 +136,7 @@
             <column ascending="true" name="league_id"/>
          </index>
       </table>
-      <table catalog="faf-league" name="league_season_division" numRows="66" remarks="" type="TABLE">
+      <table catalog="faf-league" name="league_season_division" numRows="72" remarks="" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT UNSIGNED" typeCode="4">
             <child catalog="faf-league" column="league_season_division_id" foreignKey="league_season_division_subdivision_ibfk_1" implied="false" onDeleteCascade="false" table="league_season_division_subdivision"/>
          </column>
@@ -154,7 +154,7 @@
             <column ascending="true" name="league_season_id"/>
          </index>
       </table>
-      <table catalog="faf-league" name="league_season_division_subdivision" numRows="286" remarks="" type="TABLE">
+      <table catalog="faf-league" name="league_season_division_subdivision" numRows="312" remarks="" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT UNSIGNED" typeCode="4">
             <child catalog="faf-league" column="subdivision_id_after" foreignKey="league_score_journal_ibfk_3" implied="false" onDeleteCascade="false" table="league_score_journal"/>
             <child catalog="faf-league" column="subdivision_id_before" foreignKey="league_score_journal_ibfk_2" implied="false" onDeleteCascade="false" table="league_score_journal"/>

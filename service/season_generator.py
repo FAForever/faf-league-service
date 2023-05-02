@@ -4,7 +4,8 @@ import aiocron
 from dateutil.relativedelta import relativedelta
 from sqlalchemy import desc, func, insert, select
 
-from service.config import SEASON_GENERATION_DAYS_BEFORE_SEASON_END
+from service.config import (SEASON_GENERATION_DAYS_BEFORE_SEASON_END,
+                            SEASON_LENGTH_MONTHS)
 from service.db import FAFDatabase
 from service.db.models import (league, league_season, league_season_division,
                                league_season_division_subdivision)
@@ -56,7 +57,7 @@ class SeasonGenerator:
                 month += 1
             # season starts and ends at noon, so that all timezones see the same date in the client
             start_date = datetime(year=year, month=month, day=1, hour=12)
-            end_date = start_date + relativedelta(months=3) - relativedelta(days=1)
+            end_date = start_date + relativedelta(months=SEASON_LENGTH_MONTHS) - relativedelta(days=1)
 
             for row in rows:
                 await self.update_db(conn, row, start_date, end_date)

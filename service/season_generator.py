@@ -47,16 +47,9 @@ class SeasonGenerator:
             result = await conn.execute(sql)
             rows = await result.fetchall()
 
-            now = datetime.now()
-            year = now.year
-            month = now.month
-            if month == 12:
-                month = 1
-                year += 1
-            else:
-                month += 1
+            next_month = datetime.now() + relativedelta(months=1)
             # season starts and ends at noon, so that all timezones see the same date in the client
-            start_date = datetime(year=year, month=month, day=1, hour=12)
+            start_date = datetime(year=next_month.year, month=next_month.month, day=1, hour=12)
             end_date = start_date + relativedelta(months=SEASON_LENGTH_MONTHS) - relativedelta(days=1)
 
             for row in rows:

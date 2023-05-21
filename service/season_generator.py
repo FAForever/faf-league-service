@@ -94,7 +94,7 @@ class SeasonGenerator:
         )
         result = await conn.execute(division_sql)
         season_division_rows = await result.fetchall()
-        if len(season_division_rows) == 0:
+        if not season_division_rows:
             self._logger.warning(
                 "No divisions found for season id %s. No divisions could be created. "
                 "Now season id %s has no divisions as well. This needs to be fixed manually",
@@ -128,7 +128,7 @@ class SeasonGenerator:
             )
             result = await conn.execute(subdivision_sql)
             subdivision_rows = await result.fetchall()
-            if len(subdivision_rows) == 0:
+            if not subdivision_rows:
                 self._logger.warning(
                     "No subdivisions found for division id %s. No subdivisions could be created. "
                     "Now division id %s has no subdivisions as well. This needs to be fixed manually",

@@ -22,6 +22,7 @@ MQ_VHOST = os.getenv("MQ_VHOST", "/faf-lobby")
 MQ_PREFETCH_COUNT = int(os.getenv("MQ_PREFETCH_COUNT", 300))
 
 SEASON_GENERATION_DAYS_BEFORE_SEASON_END = int(os.getenv("SEASON_GENERATION_DAYS_BEFORE_SEASON_END", 14))
+SEASON_LENGTH_MONTHS = int(os.getenv("SEASON_LENGTH_MONTHS", 3))
 
 EXCHANGE_NAME = os.getenv("EXCHANGE_NAME", "faf-rabbitmq")
 QUEUE_NAME = os.getenv("QUEUE_NAME", "faf-league-service")

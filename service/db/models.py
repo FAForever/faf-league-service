@@ -53,6 +53,8 @@ league_season_division_subdivision = Table(
     Column("id",                        Integer, primary_key=True),
     Column("league_season_division_id", Integer, ForeignKey("league_season_division.id")),
     Column("subdivision_index",         Integer),
+    Column("description_key",           String),
+    Column("name_key",                  String),
     Column("min_rating",                Float),
     Column("max_rating",                Float),
     Column("highest_score",             Integer),

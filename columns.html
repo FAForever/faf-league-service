@@ -181,15 +181,15 @@
         "comments": ""
     },
     {
-        "tableName": "_yoyo_migration",
-        "tableFileName": "_yoyo_migration",
+        "tableName": "yoyo_lock",
+        "tableFileName": "yoyo_lock",
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
-        "name": "migration_id",
-        "type": "VARCHAR",
-        "length": 255,
-        "nullable": "√",
+        "name": "pid",
+        "type": "INT",
+        "length": 10,
+        "nullable": "",
         "autoUpdated": "",
         "defaultValue": "null",
         "comments": ""
@@ -251,17 +251,17 @@
         "comments": ""
     },
     {
-        "tableName": "yoyo_lock",
-        "tableFileName": "yoyo_lock",
+        "tableName": "_yoyo_migration",
+        "tableFileName": "_yoyo_migration",
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
-        "name": "pid",
-        "type": "INT",
-        "length": 10,
+        "name": "applied_at_utc",
+        "type": "TIMESTAMP",
+        "length": 19,
         "nullable": "",
         "autoUpdated": "",
-        "defaultValue": "null",
+        "defaultValue": "current_timestamp()",
         "comments": ""
     },
     {
@@ -363,6 +363,20 @@
         "comments": "<p>The subdivision&rsquo;s i18n flavor text key<\/p>"
     },
     {
+        "tableName": "yoyo_lock",
+        "tableFileName": "yoyo_lock",
+        "tableType": "Table",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>locked",
+        "type": "INT",
+        "length": 10,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "1",
+        "comments": ""
+    },
+    {
         "tableName": "league",
         "tableFileName": "league",
         "tableType": "Table",
@@ -419,31 +433,31 @@
         "comments": ""
     },
     {
-        "tableName": "yoyo_lock",
-        "tableFileName": "yoyo_lock",
+        "tableName": "_yoyo_migration",
+        "tableFileName": "_yoyo_migration",
         "tableType": "Table",
         "keyClass": "primaryKey",
         "keyTitle": "Primary Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>locked",
-        "type": "INT",
-        "length": 10,
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>migration_hash",
+        "type": "VARCHAR",
+        "length": 64,
         "nullable": "",
         "autoUpdated": "",
-        "defaultValue": "1",
+        "defaultValue": "null",
         "comments": ""
     },
     {
-        "tableName": "yoyo_lock",
-        "tableFileName": "yoyo_lock",
+        "tableName": "_yoyo_migration",
+        "tableFileName": "_yoyo_migration",
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
-        "name": "ctime",
-        "type": "TIMESTAMP",
-        "length": 19,
-        "nullable": "",
+        "name": "migration_id",
+        "type": "VARCHAR",
+        "length": 255,
+        "nullable": "√",
         "autoUpdated": "",
-        "defaultValue": "current_timestamp()",
+        "defaultValue": "null",
         "comments": ""
     },
     {
@@ -853,20 +867,6 @@
         "comments": ""
     },
     {
-        "tableName": "_yoyo_migration",
-        "tableFileName": "_yoyo_migration",
-        "tableType": "Table",
-        "keyClass": "",
-        "keyTitle": "",
-        "name": "applied_at_utc",
-        "type": "TIMESTAMP",
-        "length": 19,
-        "nullable": "",
-        "autoUpdated": "",
-        "defaultValue": "current_timestamp()",
-        "comments": ""
-    },
-    {
         "tableName": "league_season",
         "tableFileName": "league_season",
         "tableType": "Table",
@@ -937,17 +937,17 @@
         "comments": ""
     },
     {
-        "tableName": "_yoyo_migration",
-        "tableFileName": "_yoyo_migration",
+        "tableName": "yoyo_lock",
+        "tableFileName": "yoyo_lock",
         "tableType": "Table",
-        "keyClass": "primaryKey",
-        "keyTitle": "Primary Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>migration_hash",
-        "type": "VARCHAR",
-        "length": 64,
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "ctime",
+        "type": "TIMESTAMP",
+        "length": 19,
         "nullable": "",
         "autoUpdated": "",
-        "defaultValue": "null",
+        "defaultValue": "current_timestamp()",
         "comments": ""
     },
     {

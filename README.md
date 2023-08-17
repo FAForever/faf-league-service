@@ -1,6 +1,6 @@
 # FA Forever - League Service
 
-This is the [Forged Alliance Forever](http://www.faforever.com/) league service.
+This is the [Forged Alliance Forever](http://www.faforever.com/) league service. It listens to the rating update messages, as specified in the config.py file, that the [server](https://github.com/FAForever/server) publishes to RabbitMQ and uses them to calculate league scores.
 
 You can find a visual representation of the current schema on this projects [Github page](https://faforever.github.io/faf-league-service/relationships.html).
 

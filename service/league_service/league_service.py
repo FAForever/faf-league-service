@@ -19,8 +19,8 @@ from service.message_queue_service import MessageQueueService, message_to_dict
 from service.metrics import league_service_backlog
 
 from .league_rater import LeagueRater
-from .typedefs import (InvalidScoreError, League, LeagueDivision,
-                       LeagueRatingRequest, LeagueScore, ServiceNotReadyError)
+from .typedefs import (GameID, InvalidScoreError, League, LeagueDivision,
+                       LeagueRatingRequest, LeagueScore, PlayerID, ServiceNotReadyError)
 
 
 @with_logger
@@ -142,11 +142,11 @@ class LeagueService:
             league, old_score, request.outcome, request.rating
         )
         await self._persist_score(
-            request.player_id, league.current_season_id, old_score, new_score
+            request.game_id, request.player_id, league.current_season_id, old_score, new_score
         )
-        await self._broadcast_score_change(request.player_id, league, new_score)
+        await self._broadcast_score_change(request.game_id, request.player_id, league, new_score)
 
-    async def _load_score(self, player_id: int, league: League) -> LeagueScore:
+    async def _load_score(self, player_id: PlayerID, league: League) -> LeagueScore:
         async with self._db.acquire() as conn:
             sql = select([league_season_score]).where(
                 and_(
@@ -167,7 +167,7 @@ class LeagueService:
             row[league_season_score.c.returning_player],
         )
 
-    async def is_returning_player(self, player_id: int, rating_type: str) -> bool:
+    async def is_returning_player(self, player_id: PlayerID, rating_type: str) -> bool:
         async with self._db.acquire() as conn:
             sql = (
                 select([league_season_score])
@@ -189,7 +189,7 @@ class LeagueService:
             return True
 
     async def _persist_score(
-        self, player_id: int, season_id: int, old_score: LeagueScore, new_score: LeagueScore
+        self, game_id: GameID, player_id: PlayerID, season_id: int, old_score: LeagueScore, new_score: LeagueScore
     ):
         async with self._db.acquire() as conn:
             # TODO this asserts that the passed season_id matches the
@@ -222,6 +222,7 @@ class LeagueService:
             journal_insert_sql = (
                 insert(league_score_journal)
                 .values(
+                    game_id=game_id,
                     login_id=player_id,
                     league_season_id=season_id,
                     subdivision_id_before=old_score.division_id,
@@ -253,7 +254,7 @@ class LeagueService:
             await conn.execute(score_insert_sql)
 
     async def _broadcast_score_change(
-        self, player_id, league: League, new_score: LeagueScore
+        self, game_id: GameID, player_id: PlayerID, league: League, new_score: LeagueScore
     ):
         pass
 

@@ -77,7 +77,7 @@ league_score_journal = Table(
     metadata,
     Column("id", Integer, primary_key=True),
     Column("game_id", Integer),
-    Column("login_id", Integer, ForeignKey("login.id")),
+    Column("login_id", Integer),
     Column("league_season_id", Integer, ForeignKey("league_season.id")),
     Column("subdivision_id_before", Integer, ForeignKey("league_season_division_subdivision.id")),
     Column("subdivision_id_after", Integer, ForeignKey("league_season_division_subdivision.id")),

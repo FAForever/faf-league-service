@@ -20,7 +20,8 @@ from service.metrics import league_service_backlog
 
 from .league_rater import LeagueRater
 from .typedefs import (GameID, InvalidScoreError, League, LeagueDivision,
-                       LeagueRatingRequest, LeagueScore, PlayerID, ServiceNotReadyError)
+                       LeagueRatingRequest, LeagueScore, PlayerID,
+                       ServiceNotReadyError)
 
 
 @with_logger

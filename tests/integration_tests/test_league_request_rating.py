@@ -19,6 +19,7 @@ async def test_rate_new_player(league_service):
     new_player_id = 50
     rating_type = "global"
     rating_change_message = {
+        "game_id": 22,
         "player_id": new_player_id,
         "rating_type": rating_type,
         "new_rating_mean": 1200,
@@ -40,6 +41,7 @@ async def test_rate_returning_player(league_service):
     returning_player_id = 2
     rating_type = "global"
     rating_change_message = {
+        "game_id": 22,
         "player_id": returning_player_id,
         "rating_type": rating_type,
         "new_rating_mean": 1200,
@@ -63,6 +65,7 @@ async def test_rate_new_player_twice(league_service):
 
     for _ in range(2):
         rating_change_message = {
+            "game_id": 22,
             "player_id": new_player_id,
             "rating_type": rating_type,
             "new_rating_mean": 1200,
@@ -85,6 +88,7 @@ async def test_rate_new_player_until_placement(league_service):
 
     for _ in range(10):
         rating_change_message = {
+            "game_id": 22,
             "player_id": new_player_id,
             "rating_type": rating_type,
             "new_rating_mean": 1200,
@@ -110,6 +114,7 @@ async def test_rate_returning_player_until_placement(league_service):
 
     for _ in range(3):
         rating_change_message = {
+            "game_id": 22,
             "player_id": new_player_id,
             "rating_type": rating_type,
             "new_rating_mean": 1200,

@@ -167,6 +167,7 @@ async def test_load_score_league_does_not_exist(league_service):
 
 
 async def test_persist_score_new_player(league_service, database):
+    game_id = 1
     new_player_id = 5
     season_id = 2
     division_id = 3
@@ -176,7 +177,7 @@ async def test_persist_score_new_player(league_service, database):
     old_score = LeagueScore(division_id, score, game_count, returning)
     new_score = LeagueScore(division_id, score - 1, game_count + 1, returning)
 
-    await league_service._persist_score(new_player_id, season_id, old_score, new_score)
+    await league_service._persist_score(game_id, new_player_id, season_id, old_score, new_score)
 
     league = league_service._leagues_by_rating_type["global"][0]
     loaded_score = await league_service._load_score(new_player_id, league)
@@ -187,6 +188,7 @@ async def test_persist_score_new_player(league_service, database):
         rows = await result.fetchall()
         assert len(rows) == 1
         for row in rows:
+            assert row["game_id"] == 1
             assert row["login_id"] == 5
             assert row["league_season_id"] == 2
             assert row["subdivision_id_before"] == 3
@@ -197,6 +199,7 @@ async def test_persist_score_new_player(league_service, database):
 
 
 async def test_persist_score_old_player(league_service, database):
+    game_id = 10
     old_player_id = 1
     season_id = 2
     division_id = 3
@@ -206,7 +209,7 @@ async def test_persist_score_old_player(league_service, database):
     old_score = LeagueScore(division_id, score, game_count, returning)
     new_score = LeagueScore(division_id, score - 1, game_count + 1, returning)
 
-    await league_service._persist_score(old_player_id, season_id, old_score, new_score)
+    await league_service._persist_score(game_id, old_player_id, season_id, old_score, new_score)
 
     league = league_service._leagues_by_rating_type["global"][0]
     loaded_score = await league_service._load_score(old_player_id, league)
@@ -217,6 +220,7 @@ async def test_persist_score_old_player(league_service, database):
         rows = await result.fetchall()
         assert len(rows) == 1
         for row in rows:
+            assert row["game_id"] == 10
             assert row["login_id"] == 1
             assert row["league_season_id"] == 2
             assert row["subdivision_id_before"] == 3
@@ -227,6 +231,7 @@ async def test_persist_score_old_player(league_service, database):
 
 
 async def test_persist_score_season_id_mismatch(league_service):
+    game_id = 10
     player_id = 1
     wrong_season_id = 1
     division_id = 3
@@ -237,10 +242,11 @@ async def test_persist_score_season_id_mismatch(league_service):
     new_score = LeagueScore(division_id, score - 1, game_count + 1, returning)
 
     with pytest.raises(InvalidScoreError):
-        await league_service._persist_score(player_id, wrong_season_id, old_score, new_score)
+        await league_service._persist_score(game_id, player_id, wrong_season_id, old_score, new_score)
 
 
 async def test_persist_score_division_without_score(league_service):
+    game_id = 10
     player_id = 1
     season_id = 2
     division_id = 3
@@ -251,4 +257,4 @@ async def test_persist_score_division_without_score(league_service):
     new_score = LeagueScore(division_id, no_score, game_count + 1, returning)
 
     with pytest.raises(InvalidScoreError):
-        await league_service._persist_score(player_id, season_id, old_score, new_score)
+        await league_service._persist_score(game_id, player_id, season_id, old_score, new_score)

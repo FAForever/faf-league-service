@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Callable, Dict, List, NamedTuple, Optional, Tuple
+from typing import Callable, Dict, List, NamedTuple, NewType, Optional, Tuple
 
 from ..decorators import with_logger
 
@@ -22,7 +22,8 @@ class InvalidScoreError(LeagueServiceError):
     pass
 
 
-PlayerID = int
+GameID = NewType("GameId", int)
+PlayerID = NewType("PlayerID", int)
 RatingType = str  # e.g. "ladder_1v1"
 Rating = Tuple[float, float]
 
@@ -114,6 +115,7 @@ class LeagueRatingRequest(NamedTuple):
     Includes a callback to acknowledge processing.
     """
 
+    game_id: GameID
     player_id: PlayerID
     rating_type: RatingType
     rating: Rating
@@ -123,6 +125,7 @@ class LeagueRatingRequest(NamedTuple):
     @classmethod
     def from_rating_change_dict(cls, message: Dict):
         return cls(
+            message["game_id"],
             message["player_id"],
             message["rating_type"],
             (message["new_rating_mean"], message["new_rating_deviation"]),

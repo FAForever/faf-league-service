@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Callable, Dict, List, NamedTuple, Optional, Tuple
+from typing import Callable, Dict, List, NamedTuple, Optional, Tuple, NewType
 
 from ..decorators import with_logger
 
@@ -22,8 +22,8 @@ class InvalidScoreError(LeagueServiceError):
     pass
 
 
-GameID = int
-PlayerID = int
+GameID = NewType("GameId", int)
+PlayerID = NewType("PlayerID", int)
 RatingType = str  # e.g. "ladder_1v1"
 Rating = Tuple[float, float]
 

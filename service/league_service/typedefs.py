@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Callable, Dict, List, NamedTuple, Optional, Tuple, NewType
+from typing import Callable, Dict, List, NamedTuple, NewType, Optional, Tuple
 
 from ..decorators import with_logger
 

@@ -11,18 +11,18 @@ verify_ssl = true
 
 [packages]
 trueskill = "*"
-sqlalchemy = "==1.4.*"
+sqlalchemy = "*"
 aiomysql = "*"
 aio_pika = "*"
 aiocron = "*"
 prometheus_client = "*"
 yoyo-migrations = "*"
-pamqp = "==2.3.0"
+pamqp = "*"
 python-dateutil = "*"
 
 [dev-packages]
 pytest = "*"
-pytest-asyncio = "==0.12.0"
+pytest-asyncio = "*"
 pytest-cov = "*"
 asynctest = "*"
 python-coveralls = "*"

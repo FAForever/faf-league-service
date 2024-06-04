@@ -106,15 +106,18 @@ class LeagueRater:
         reduction = 0
         higher_div = league.get_next_higher_division(player_div.id)
 
+        # Return score based on rating to have players in top division sorted by rating
+        if higher_div is None:
+            return (
+                    player_div.highest_score
+                    * (rating - player_div.min_rating)
+                    / (player_div.max_rating - player_div.min_rating)
+                )
+
         if rating > player_div.max_rating:
             boost = config.POSITIVE_BOOST
         elif rating < player_div.min_rating:
             reduction = config.NEGATIVE_BOOST
-        # Boost for high rated players with low score to have players in top division sorted by rating
-        elif higher_div is None and current_score.score < player_div.highest_score * (
-            rating - player_div.min_rating
-        ) / (player_div.max_rating - player_div.min_rating):
-            boost = config.HIGHEST_DIVISION_BOOST
 
         new_score = current_score.score
         if outcome is GameOutcome.VICTORY:

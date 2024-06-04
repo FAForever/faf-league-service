@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
+from unittest import mock
 
-import mock
 import pytest
 from freezegun import freeze_time
 from sqlalchemy import select

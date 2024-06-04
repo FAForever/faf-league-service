@@ -1,5 +1,6 @@
+from unittest import mock
+
 import aio_pika
-import mock
 import pytest
 
 from service import config

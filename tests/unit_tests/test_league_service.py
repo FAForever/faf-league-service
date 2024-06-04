@@ -1,5 +1,6 @@
+from unittest import mock
+
 import pytest
-from asynctest import CoroutineMock
 from sqlalchemy import select
 
 from service.db.models import league_score_journal
@@ -41,7 +42,7 @@ async def test_enqueue_manual_initialization(
 ):
     service = uninitialized_service
     await service.initialize()
-    service._rate_single_league = CoroutineMock()
+    service._rate_single_league = mock.AsyncMock()
     await service.enqueue(rating_change_message)
     await service.shutdown()
 
@@ -58,7 +59,7 @@ async def test_double_initialization_does_not_start_second_worker(league_service
 
 async def test_enqueue_initialized(league_service, rating_change_message):
     service = league_service
-    service._rate_single_league = CoroutineMock()
+    service._rate_single_league = mock.AsyncMock()
 
     await service.enqueue(rating_change_message)
     await service.shutdown()

@@ -9,8 +9,6 @@ from service.db.models import (league_season, league_season_division,
                                league_season_division_subdivision)
 from service.season_generator import SeasonGenerator
 
-pytestmark = pytest.mark.asyncio
-
 
 @pytest.fixture
 def season_generator(database):

@@ -8,8 +8,6 @@ from service.message_queue_service import (ConnectionAttemptFailed,
                                            MessageQueueService,
                                            message_to_dict)
 
-pytestmark = pytest.mark.asyncio
-
 
 @pytest.fixture
 async def mq_service():

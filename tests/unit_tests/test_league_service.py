@@ -9,8 +9,6 @@ from service.league_service.league_service import ServiceNotReadyError
 from service.league_service.typedefs import (InvalidScoreError, League,
                                              LeagueScore)
 
-pytestmark = pytest.mark.asyncio
-
 
 @pytest.fixture
 async def league_service(database, message_queue_service):

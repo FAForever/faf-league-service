@@ -68,7 +68,7 @@ class LeagueService:
                 .where(between(datetime.now(), league_season.c.start_date, league_season.c.end_date))
             )
             result = await conn.execute(sql)
-            division_rows = await result.fetchall()
+            division_rows = result.fetchall()
 
         # The concept of subdivisions exists only in the database and client,
         # but not in the rating service. We therefore treat every subdivision
@@ -152,7 +152,7 @@ class LeagueService:
                 )
             )
             result = await conn.execute(sql)
-            row = await result.fetchone()
+            row = result.fetchone()
         if row is None:
             returning_player = await self.is_returning_player(player_id, league.rating_type)
             return LeagueScore(None, None, 0, returning_player)
@@ -179,7 +179,7 @@ class LeagueService:
                 )
             )
             result = await conn.execute(sql)
-            row = await result.fetchone()
+            row = result.fetchone()
         if row is None or row[league_season_score.c.subdivision_id] is None:
             return False
         else:
@@ -211,7 +211,7 @@ class LeagueService:
                     )
                 )
                 result = await conn.execute(select_season_id)
-                row = await result.fetchone()
+                row = result.fetchone()
                 season_id_of_division = row.get("league_season_id")
                 if season_id != season_id_of_division:
                     raise InvalidScoreError("Division id did not match season id.")

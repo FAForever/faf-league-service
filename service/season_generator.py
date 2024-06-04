@@ -28,7 +28,7 @@ class SeasonGenerator:
         async with self._db.acquire() as conn:
             sql = select(league_season)
             result = await conn.execute(sql)
-            rows = await result.fetchall()
+            rows = result.fetchall()
 
             max_date = max(row[league_season.c.end_date] for row in rows)
 
@@ -45,7 +45,7 @@ class SeasonGenerator:
         async with self._db.acquire() as conn:
             sql = select(league).where(league.c.enabled == True)
             result = await conn.execute(sql)
-            rows = await result.fetchall()
+            rows = result.fetchall()
 
             next_month = datetime.now() + relativedelta(months=1)
             # season starts and ends at noon, so that all timezones see the same date in the client
@@ -63,7 +63,7 @@ class SeasonGenerator:
             .limit(1)
         )
         result = await conn.execute(season_sql)
-        season_row = await result.fetchone()
+        season_row = result.fetchone()
         if season_row is None:
             self._logger.warning(
                 "No season found for league %s. Skipping this league",
@@ -71,7 +71,7 @@ class SeasonGenerator:
             )
             return
         result = await conn.execute(select(func.max(league_season.c.id)))
-        season_id = await result.scalar() + 1
+        season_id = result.scalar() + 1
         season_number = season_row[league_season.c.season_number] + 1
         season_insert_sql = (
             insert(league_season)
@@ -93,7 +93,7 @@ class SeasonGenerator:
             .where(league_season_division.c.league_season_id == season_row[league_season.c.id])
         )
         result = await conn.execute(division_sql)
-        season_division_rows = await result.fetchall()
+        season_division_rows = result.fetchall()
         if not season_division_rows:
             self._logger.warning(
                 "No divisions found for season id %s. No divisions could be created. "
@@ -103,7 +103,7 @@ class SeasonGenerator:
             )
             return
         result = await conn.execute(select(func.max(league_season_division.c.id)))
-        division_id = await result.scalar()
+        division_id = result.scalar()
         for division_row in season_division_rows:
             division_index = division_row[league_season_division.c.division_index]
             division_id += 1
@@ -127,7 +127,7 @@ class SeasonGenerator:
                        division_row[league_season_division.c.id])
             )
             result = await conn.execute(subdivision_sql)
-            subdivision_rows = await result.fetchall()
+            subdivision_rows = result.fetchall()
             if not subdivision_rows:
                 self._logger.warning(
                     "No subdivisions found for division id %s. No subdivisions could be created. "

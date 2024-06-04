@@ -312,7 +312,7 @@ def test_promote_in_highest_division(example_league):
     current_score = LeagueScore(
         division_id=3, score=10, game_count=30, returning_player=False
     )
-    player_rating = (380.0, 0.0)
+    player_rating = (420.0, 0.0)
 
     new_score = LeagueRater.rate(
         example_league, current_score, GameOutcome.VICTORY, player_rating

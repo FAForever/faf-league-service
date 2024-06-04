@@ -73,7 +73,7 @@ async def test_data(request):
 
     with open("tests/data/test-data.sql") as f:
         async with db.acquire() as conn:
-            await conn.execute(f.read())
+            await conn.execute(f.read().replace(":", r"\:"))
 
     await db.close()
 

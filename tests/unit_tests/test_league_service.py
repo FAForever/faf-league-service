@@ -187,14 +187,14 @@ async def test_persist_score_new_player(league_service, database):
         rows = result.fetchall()
         assert len(rows) == 1
         for row in rows:
-            assert row["game_id"] == 1
-            assert row["login_id"] == 5
-            assert row["league_season_id"] == 2
-            assert row["subdivision_id_before"] == 3
-            assert row["subdivision_id_after"] == 3
-            assert row["score_before"] == 6
-            assert row["score_after"] == 5
-            assert row["game_count"] == 43
+            assert row.game_id == 1
+            assert row.login_id == 5
+            assert row.league_season_id == 2
+            assert row.subdivision_id_before == 3
+            assert row.subdivision_id_after == 3
+            assert row.score_before == 6
+            assert row.score_after == 5
+            assert row.game_count == 43
 
 
 async def test_persist_score_old_player(league_service, database):
@@ -219,14 +219,14 @@ async def test_persist_score_old_player(league_service, database):
         rows = result.fetchall()
         assert len(rows) == 1
         for row in rows:
-            assert row["game_id"] == 10
-            assert row["login_id"] == 1
-            assert row["league_season_id"] == 2
-            assert row["subdivision_id_before"] == 3
-            assert row["subdivision_id_after"] == 3
-            assert row["score_before"] == 6
-            assert row["score_after"] == 5
-            assert row["game_count"] == 43
+            assert row.game_id == 10
+            assert row.login_id == 1
+            assert row.league_season_id == 2
+            assert row.subdivision_id_before == 3
+            assert row.subdivision_id_after == 3
+            assert row.score_before == 6
+            assert row.score_after == 5
+            assert row.game_count == 43
 
 
 async def test_persist_score_season_id_mismatch(league_service):

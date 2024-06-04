@@ -76,7 +76,7 @@ class LeagueService:
         # (division_index, subdivision_index) indices.
         divisions_by_league = defaultdict(list)
         for row in division_rows:
-            divisions_by_league[row[league.c.technical_name]].append(row)
+            divisions_by_league[row.technical_name].append(row)
 
         self._leagues_by_rating_type = defaultdict(list)
         for league_name, division_list in divisions_by_league.items():
@@ -85,9 +85,9 @@ class LeagueService:
             placement_games_returning_player = division_list[0][league_season.c.placement_games_returning_player]
             division_list.sort(
                 key=lambda row: (
-                    row[league_season_division.c.division_index],
-                    row[league_season_division_subdivision.c.subdivision_index],
-                    row[league_season_division.c.id],
+                    row.division_index,
+                    row.subdivision_index,
+                    row.id,
                 )
             )
             self._leagues_by_rating_type[rating_type].append(
@@ -95,14 +95,14 @@ class LeagueService:
                     league_name,
                     [
                         LeagueDivision(
-                            row[league_season_division_subdivision.c.id],
-                            row[league_season_division_subdivision.c.min_rating],
-                            row[league_season_division_subdivision.c.max_rating],
-                            row[league_season_division_subdivision.c.highest_score],
+                            row.id,
+                            row.min_rating,
+                            row.max_rating,
+                            row.highest_score,
                         )
                         for row in division_list
                     ],
-                    division_list[0][league_season.c.id],
+                    division_list[0].id,
                     placement_games,
                     placement_games_returning_player,
                     rating_type,
@@ -158,10 +158,10 @@ class LeagueService:
             return LeagueScore(None, None, 0, returning_player)
 
         return LeagueScore(
-            row[league_season_score.c.subdivision_id],
-            row[league_season_score.c.score],
-            row[league_season_score.c.game_count],
-            row[league_season_score.c.returning_player],
+            row.subdivision_id,
+            row.score,
+            row.game_count,
+            row.returning_player,
         )
 
     async def is_returning_player(self, player_id: PlayerID, rating_type: str) -> bool:
@@ -180,7 +180,7 @@ class LeagueService:
             )
             result = await conn.execute(sql)
             row = result.fetchone()
-        if row is None or row[league_season_score.c.subdivision_id] is None:
+        if row is None or row.subdivision_id is None:
             return False
         else:
             return True

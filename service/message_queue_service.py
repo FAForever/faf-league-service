@@ -5,7 +5,7 @@ from typing import Dict
 import aio_pika
 from aio_pika import DeliveryMode, ExchangeType
 from aio_pika.exceptions import ProbableAuthenticationError
-from pamqp import specification
+from pamqp import commands
 
 from service import config
 from service.decorators import with_logger
@@ -114,7 +114,7 @@ class MessageQueueService:
         )
 
         confirmation = await exchange.publish(message, routing_key=routing)
-        if not isinstance(confirmation, specification.Basic.Ack):
+        if not isinstance(confirmation, commands.Basic.Ack):
             self._logger.warning(
                 "Message could not be delivered to %s, received %s",
                 routing,

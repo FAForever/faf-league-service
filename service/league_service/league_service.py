@@ -212,7 +212,7 @@ class LeagueService:
                 )
                 result = await conn.execute(select_season_id)
                 row = result.fetchone()
-                season_id_of_division = row.get("league_season_id")
+                season_id_of_division = row.league_season_id
                 if season_id != season_id_of_division:
                     raise InvalidScoreError("Division id did not match season id.")
 

@@ -47,23 +47,23 @@ async def test_generate_season(season_generator, database):
         assert max(row.season_number for row in rows) == 4
 
         divisions = await conn.execute(select(league_season_division))
-        rows = await divisions.fetchall()
+        rows = divisions.fetchall()
         assert len(rows) == 9
         new_division_one = await conn.execute(select(league_season_division).where(league_season_division.c.id == 8))
-        row = await new_division_one.fetchone()
+        row = new_division_one.fetchone()
         assert row.league_season_id == 6
         assert row.division_index == 1
         assert row.name_key == "L3D1"
         assert row.description_key == "second_test_league.season.1_2.division.1"
 
         subdivisions = await conn.execute(select(league_season_division_subdivision))
-        rows = await subdivisions.fetchall()
+        rows = subdivisions.fetchall()
         assert len(rows) == 10
         new_subdivision = await conn.execute(
             select(league_season_division_subdivision)
             .where(league_season_division_subdivision.c.league_season_division_id == 8)
         )
-        row = await new_subdivision.fetchone()
+        row = new_subdivision.fetchone()
         assert row.subdivision_index == 1
         assert row.name_key == "L3D1S1"
         assert row.description_key == "second_test_league.season.1_2.subdivision.1.1"

@@ -1,6 +1,5 @@
 import asyncio
 import json
-from typing import Dict
 
 import aio_pika
 from aio_pika import DeliveryMode, ExchangeType
@@ -96,7 +95,7 @@ class MessageQueueService:
         self,
         exchange_name: str,
         routing: str,
-        payload: Dict,
+        payload: dict,
         delivery_mode: DeliveryMode = DeliveryMode.PERSISTENT,
     ) -> None:
         if self._connection is None:
@@ -147,7 +146,7 @@ class MessageQueueService:
             )
 
 
-def message_to_dict(message: aio_pika.IncomingMessage) -> Dict:
+def message_to_dict(message: aio_pika.IncomingMessage) -> dict:
     decoded_dict = json.loads(message.body.decode())
     decoded_dict.update(
         {

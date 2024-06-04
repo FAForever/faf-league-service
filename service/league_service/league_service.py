@@ -1,7 +1,6 @@
 import asyncio
 from collections import defaultdict
 from datetime import datetime
-from typing import Dict
 
 import aiocron
 from aio_pika import IncomingMessage
@@ -17,7 +16,6 @@ from service.db.models import (leaderboard, league, league_score_journal,
 from service.decorators import with_logger
 from service.message_queue_service import MessageQueueService, message_to_dict
 from service.metrics import league_service_backlog
-
 from .league_rater import LeagueRater
 from .typedefs import (GameID, InvalidScoreError, League, LeagueDivision,
                        LeagueRatingRequest, LeagueScore, PlayerID,
@@ -276,7 +274,7 @@ class LeagueService:
         else:
             asyncio.create_task(self.enqueue(parsed_dict))
 
-    async def enqueue(self, rating_change_message: Dict) -> None:
+    async def enqueue(self, rating_change_message: dict) -> None:
         if not self._accept_input:
             self._logger.warning("Dropped league request %s", rating_change_message)
             raise ServiceNotReadyError(

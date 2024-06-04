@@ -16,6 +16,7 @@ from service.db.models import (leaderboard, league, league_score_journal,
 from service.decorators import with_logger
 from service.message_queue_service import MessageQueueService, message_to_dict
 from service.metrics import league_service_backlog
+
 from .league_rater import LeagueRater
 from .typedefs import (GameID, InvalidScoreError, League, LeagueDivision,
                        LeagueRatingRequest, LeagueScore, PlayerID,

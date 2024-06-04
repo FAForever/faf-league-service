@@ -41,7 +41,7 @@ async def test_season_check_after_season_end(season_generator):
 async def test_generate_season(season_generator, database):
     await season_generator.generate_season()
     async with database.acquire() as conn:
-        seasons = await conn.execute(select([league_season]))
+        seasons = await conn.execute(select(league_season))
         rows = await seasons.fetchall()
         assert len(rows) == 6
         assert max(row[league_season.c.season_number] for row in rows) == 4
@@ -77,7 +77,7 @@ async def test_generate_season_only_once(season_generator, database):
     await season_generator.check_season_end()
     await season_generator.check_season_end()
     async with database.acquire() as conn:
-        seasons = await conn.execute(select([league_season]))
+        seasons = await conn.execute(select(league_season))
         rows = await seasons.fetchall()
         assert len(rows) == 6
         assert max(row[league_season.c.season_number] for row in rows) == 4

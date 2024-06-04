@@ -53,14 +53,11 @@ class LeagueService:
         async with self._db.acquire() as conn:
             sql = (
                 select(
-                    [
-                        league_season,
-                        league,
-                        league_season_division,
-                        league_season_division_subdivision,
-                        leaderboard,
-                    ],
-                    use_labels=True,
+                    league_season,
+                    league,
+                    league_season_division,
+                    league_season_division_subdivision,
+                    leaderboard,
                 )
                 .select_from(
                     league_season_division_subdivision.outerjoin(league_season_division)
@@ -148,7 +145,7 @@ class LeagueService:
 
     async def _load_score(self, player_id: PlayerID, league: League) -> LeagueScore:
         async with self._db.acquire() as conn:
-            sql = select([league_season_score]).where(
+            sql = select(league_season_score).where(
                 and_(
                     league_season_score.c.login_id == player_id,
                     league_season_score.c.league_season_id == league.current_season_id,
@@ -170,7 +167,7 @@ class LeagueService:
     async def is_returning_player(self, player_id: PlayerID, rating_type: str) -> bool:
         async with self._db.acquire() as conn:
             sql = (
-                select([league_season_score])
+                select(league_season_score)
                 .select_from(
                     league_season_score.outerjoin(league_season)
                     .outerjoin(leaderboard))
@@ -203,7 +200,7 @@ class LeagueService:
                     raise InvalidScoreError("Missing score for non-null division.")
 
                 select_season_id = (
-                    select([league_season_division.c.league_season_id])
+                    select(league_season_division.c.league_season_id)
                     .select_from(
                         league_season_division_subdivision.outerjoin(
                             league_season_division

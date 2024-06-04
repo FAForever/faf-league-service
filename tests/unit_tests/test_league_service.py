@@ -183,7 +183,7 @@ async def test_persist_score_new_player(league_service, database):
     assert loaded_score == new_score
 
     async with database.acquire() as conn:
-        result = await conn.execute(select([league_score_journal]))
+        result = await conn.execute(select(league_score_journal))
         rows = await result.fetchall()
         assert len(rows) == 1
         for row in rows:
@@ -215,7 +215,7 @@ async def test_persist_score_old_player(league_service, database):
     assert loaded_score == new_score
 
     async with database.acquire() as conn:
-        result = await conn.execute(select([league_score_journal]))
+        result = await conn.execute(select(league_score_journal))
         rows = await result.fetchall()
         assert len(rows) == 1
         for row in rows:

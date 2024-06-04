@@ -26,7 +26,7 @@ class SeasonGenerator:
     async def check_season_end(self):
         self._logger.debug("Checking if latest season ends soon.")
         async with self._db.acquire() as conn:
-            sql = select([league_season])
+            sql = select(league_season)
             result = await conn.execute(sql)
             rows = await result.fetchall()
 
@@ -43,7 +43,7 @@ class SeasonGenerator:
     async def generate_season(self):
         self._logger.info("Generating new season...")
         async with self._db.acquire() as conn:
-            sql = select([league]).where(league.c.enabled == True)
+            sql = select(league).where(league.c.enabled == True)
             result = await conn.execute(sql)
             rows = await result.fetchall()
 
@@ -57,7 +57,7 @@ class SeasonGenerator:
 
     async def update_db(self, conn, league_row, start_date, end_date):
         season_sql = (
-            select([league_season])
+            select(league_season)
             .where(league_season.c.league_id == league_row[league.c.id])
             .order_by(desc(league_season.c.season_number))
             .limit(1)
@@ -70,7 +70,7 @@ class SeasonGenerator:
                 league_row[league.c.technical_name]
             )
             return
-        result = await conn.execute(select([func.max(league_season.c.id)]))
+        result = await conn.execute(select(func.max(league_season.c.id)))
         season_id = await result.scalar() + 1
         season_number = season_row[league_season.c.season_number] + 1
         season_insert_sql = (
@@ -89,7 +89,7 @@ class SeasonGenerator:
         await conn.execute(season_insert_sql)
 
         division_sql = (
-            select([league_season_division])
+            select(league_season_division)
             .where(league_season_division.c.league_season_id == season_row[league_season.c.id])
         )
         result = await conn.execute(division_sql)
@@ -102,7 +102,7 @@ class SeasonGenerator:
                 season_id
             )
             return
-        result = await conn.execute(select([func.max(league_season_division.c.id)]))
+        result = await conn.execute(select(func.max(league_season_division.c.id)))
         division_id = await result.scalar()
         for division_row in season_division_rows:
             division_index = division_row[league_season_division.c.division_index]
@@ -122,7 +122,7 @@ class SeasonGenerator:
             await conn.execute(division_insert_sql)
 
             subdivision_sql = (
-                select([league_season_division_subdivision])
+                select(league_season_division_subdivision)
                 .where(league_season_division_subdivision.c.league_season_division_id ==
                        division_row[league_season_division.c.id])
             )

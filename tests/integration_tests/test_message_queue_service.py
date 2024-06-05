@@ -107,7 +107,7 @@ async def test_incorrect_vhost(mocker, caplog):
 
 
 async def test_parse_incoming_message(mq_service, consumer):
-    payload = {"msg": "test message", "another_key": "value"}
+    payload = {"msg": "value"}
     exchange_name = config.EXCHANGE_NAME
     routing_key = "test.routing.key"
     delivery_mode = aio_pika.DeliveryMode.NOT_PERSISTENT

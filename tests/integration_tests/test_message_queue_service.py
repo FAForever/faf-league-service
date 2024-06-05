@@ -107,7 +107,7 @@ async def test_incorrect_vhost(mocker, caplog):
 
 
 async def test_parse_incoming_message(mq_service, consumer):
-    payload = {"msg": "value"}
+    payload = {"msg": "test message", "another_key": "value"}
     exchange_name = config.EXCHANGE_NAME
     routing_key = "test.routing.key"
     delivery_mode = aio_pika.DeliveryMode.NOT_PERSISTENT
@@ -116,7 +116,7 @@ async def test_parse_incoming_message(mq_service, consumer):
 
     await asyncio.sleep(0.1)
 
-    received_message = consumer.received_messages[0]
+    received_message = consumer.received_messages[-1]
     parsed_message = message_to_dict(received_message)
 
     for key, value in payload.items():

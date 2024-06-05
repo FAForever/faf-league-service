@@ -76,18 +76,18 @@ class LeagueService:
         # (division_index, subdivision_index) indices.
         divisions_by_league = defaultdict(list)
         for row in division_rows:
-            divisions_by_league[row.technical_name].append(row)
+            divisions_by_league[row.league_technical_name].append(row)
 
         self._leagues_by_rating_type = defaultdict(list)
         for league_name, division_list in divisions_by_league.items():
-            rating_type = division_list[0].technical_name
+            rating_type = division_list[0].leaderboard_technical_name
             placement_games = division_list[0].placement_games
             placement_games_returning_player = division_list[0].placement_games_returning_player
             division_list.sort(
                 key=lambda row: (
                     row.division_index,
                     row.subdivision_index,
-                    row.id,
+                    row.league_season_division_id,
                 )
             )
             self._leagues_by_rating_type[rating_type].append(
@@ -95,14 +95,14 @@ class LeagueService:
                     league_name,
                     [
                         LeagueDivision(
-                            row.id,
+                            row.league_season_division_subdivision_id,
                             row.min_rating,
                             row.max_rating,
                             row.highest_score,
                         )
                         for row in division_list
                     ],
-                    division_list[0].id,
+                    division_list[0].league_season_id,
                     placement_games,
                     placement_games_returning_player,
                     rating_type,

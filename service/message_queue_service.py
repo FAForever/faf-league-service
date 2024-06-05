@@ -45,13 +45,13 @@ class MessageQueueService:
                 ),
                 loop=asyncio.get_running_loop(),
             )
-        except ConnectionError as e:
-            self._logger.warning("Unable to connect to RabbitMQ. Is it running?")
-            raise ConnectionAttemptFailed from e
         except ProbableAuthenticationError as e:
             self._logger.warning(
                 "Unable to connect to RabbitMQ. Incorrect credentials?"
             )
+            raise ConnectionAttemptFailed from e
+        except ConnectionError as e:
+            self._logger.warning("Unable to connect to RabbitMQ. Is it running?")
             raise ConnectionAttemptFailed from e
         except Exception as e:
             self._logger.warning(

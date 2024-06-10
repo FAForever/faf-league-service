@@ -28,7 +28,7 @@ async def main():
         port=int(config.DB_PORT),
         user=config.DB_LOGIN,
         password=config.DB_PASSWORD,
-        db=config.DB_NAME
+        db=config.DB_NAME,
     )
     logger.info("Database connected.")
 

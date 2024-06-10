@@ -94,7 +94,7 @@ async def global_database(request) -> FAFDatabase:
         user=user,
         password=pw or "",
         port=port,
-        db=name
+        db=name,
     )
 
 
@@ -115,7 +115,7 @@ async def database(request, event_loop):
         user=user,
         password=pw or "",
         port=port,
-        db=name
+        db=name,
     )
     await db.connect()
 

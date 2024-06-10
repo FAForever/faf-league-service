@@ -103,7 +103,7 @@ class MockDatabase(FAFDatabase):
         user: str = "root",
         password: str = "",
         db: str = "faf_test",
-        **kwargs
+        **kwargs,
     ):
         super().__init__(host, port, user, password, db, **kwargs)
         self._connection = None

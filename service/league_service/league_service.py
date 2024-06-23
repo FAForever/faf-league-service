@@ -1,7 +1,6 @@
 import asyncio
 from collections import defaultdict
 from datetime import datetime
-from typing import Dict
 
 import aiocron
 from aio_pika import IncomingMessage
@@ -54,14 +53,11 @@ class LeagueService:
         async with self._db.acquire() as conn:
             sql = (
                 select(
-                    [
-                        league_season,
-                        league,
-                        league_season_division,
-                        league_season_division_subdivision,
-                        leaderboard,
-                    ],
-                    use_labels=True,
+                    league_season,
+                    league,
+                    league_season_division,
+                    league_season_division_subdivision,
+                    leaderboard,
                 )
                 .select_from(
                     league_season_division_subdivision.outerjoin(league_season_division)
@@ -72,7 +68,7 @@ class LeagueService:
                 .where(between(datetime.now(), league_season.c.start_date, league_season.c.end_date))
             )
             result = await conn.execute(sql)
-            division_rows = await result.fetchall()
+            division_rows = result.fetchall()
 
         # The concept of subdivisions exists only in the database and client,
         # but not in the rating service. We therefore treat every subdivision
@@ -80,18 +76,18 @@ class LeagueService:
         # (division_index, subdivision_index) indices.
         divisions_by_league = defaultdict(list)
         for row in division_rows:
-            divisions_by_league[row[league.c.technical_name]].append(row)
+            divisions_by_league[row.league_technical_name].append(row)
 
         self._leagues_by_rating_type = defaultdict(list)
         for league_name, division_list in divisions_by_league.items():
-            rating_type = division_list[0][leaderboard.c.technical_name]
-            placement_games = division_list[0][league_season.c.placement_games]
-            placement_games_returning_player = division_list[0][league_season.c.placement_games_returning_player]
+            rating_type = division_list[0].leaderboard_technical_name
+            placement_games = division_list[0].placement_games
+            placement_games_returning_player = division_list[0].placement_games_returning_player
             division_list.sort(
                 key=lambda row: (
-                    row[league_season_division.c.division_index],
-                    row[league_season_division_subdivision.c.subdivision_index],
-                    row[league_season_division.c.id],
+                    row.division_index,
+                    row.subdivision_index,
+                    row.league_season_division_id,
                 )
             )
             self._leagues_by_rating_type[rating_type].append(
@@ -99,14 +95,14 @@ class LeagueService:
                     league_name,
                     [
                         LeagueDivision(
-                            row[league_season_division_subdivision.c.id],
-                            row[league_season_division_subdivision.c.min_rating],
-                            row[league_season_division_subdivision.c.max_rating],
-                            row[league_season_division_subdivision.c.highest_score],
+                            row.league_season_division_subdivision_id,
+                            row.min_rating,
+                            row.max_rating,
+                            row.highest_score,
                         )
                         for row in division_list
                     ],
-                    division_list[0][league_season.c.id],
+                    division_list[0].league_season_id,
                     placement_games,
                     placement_games_returning_player,
                     rating_type,
@@ -149,29 +145,29 @@ class LeagueService:
 
     async def _load_score(self, player_id: PlayerID, league: League) -> LeagueScore:
         async with self._db.acquire() as conn:
-            sql = select([league_season_score]).where(
+            sql = select(league_season_score).where(
                 and_(
                     league_season_score.c.login_id == player_id,
                     league_season_score.c.league_season_id == league.current_season_id,
                 )
             )
             result = await conn.execute(sql)
-            row = await result.fetchone()
+            row = result.fetchone()
         if row is None:
             returning_player = await self.is_returning_player(player_id, league.rating_type)
             return LeagueScore(None, None, 0, returning_player)
 
         return LeagueScore(
-            row[league_season_score.c.subdivision_id],
-            row[league_season_score.c.score],
-            row[league_season_score.c.game_count],
-            row[league_season_score.c.returning_player],
+            row.subdivision_id,
+            row.score,
+            row.game_count,
+            row.returning_player,
         )
 
     async def is_returning_player(self, player_id: PlayerID, rating_type: str) -> bool:
         async with self._db.acquire() as conn:
             sql = (
-                select([league_season_score])
+                select(league_season_score)
                 .select_from(
                     league_season_score.outerjoin(league_season)
                     .outerjoin(leaderboard))
@@ -183,8 +179,8 @@ class LeagueService:
                 )
             )
             result = await conn.execute(sql)
-            row = await result.fetchone()
-        if row is None or row[league_season_score.c.subdivision_id] is None:
+            row = result.fetchone()
+        if row is None or row.subdivision_id is None:
             return False
         else:
             return True
@@ -204,7 +200,7 @@ class LeagueService:
                     raise InvalidScoreError("Missing score for non-null division.")
 
                 select_season_id = (
-                    select([league_season_division.c.league_season_id])
+                    select(league_season_division.c.league_season_id)
                     .select_from(
                         league_season_division_subdivision.outerjoin(
                             league_season_division
@@ -215,8 +211,8 @@ class LeagueService:
                     )
                 )
                 result = await conn.execute(select_season_id)
-                row = await result.fetchone()
-                season_id_of_division = row.get("league_season_id")
+                row = result.fetchone()
+                season_id_of_division = row.league_season_id
                 if season_id != season_id_of_division:
                     raise InvalidScoreError("Division id did not match season id.")
 
@@ -276,7 +272,7 @@ class LeagueService:
         else:
             asyncio.create_task(self.enqueue(parsed_dict))
 
-    async def enqueue(self, rating_change_message: Dict) -> None:
+    async def enqueue(self, rating_change_message: dict) -> None:
         if not self._accept_input:
             self._logger.warning("Dropped league request %s", rating_change_message)
             raise ServiceNotReadyError(

@@ -16,9 +16,9 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setup Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: '3.10'
 
       - name: Install dependencies
         run: pip install isort
@@ -46,7 +46,7 @@ jobs:
           MYSQL_PASSWORD: banana
 
       faf-rabbitmq:
-        image: rabbitmq:3.8-management-alpine
+        image: rabbitmq:3.9-alpine
         ports:
           - 5672:5672
         options: >-
@@ -65,9 +65,9 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setup Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: '3.10'
 
       - name: Setup RabbitMQ
         run: ./.github/workflows/scripts/init-rabbitmq.sh
@@ -84,8 +84,9 @@ jobs:
         run: pipenv run tests --cov-report=xml
 
       - name: Report coverage
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v4
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage.xml
           fail_ci_if_error: true
 

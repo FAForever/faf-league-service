@@ -1,5 +1,6 @@
+from unittest import mock
+
 import pytest
-from asynctest import CoroutineMock
 from sqlalchemy import select
 
 from service.db.models import league_score_journal
@@ -7,8 +8,6 @@ from service.league_service import LeagueService
 from service.league_service.league_service import ServiceNotReadyError
 from service.league_service.typedefs import (InvalidScoreError, League,
                                              LeagueScore)
-
-pytestmark = pytest.mark.asyncio
 
 
 @pytest.fixture
@@ -41,7 +40,7 @@ async def test_enqueue_manual_initialization(
 ):
     service = uninitialized_service
     await service.initialize()
-    service._rate_single_league = CoroutineMock()
+    service._rate_single_league = mock.AsyncMock()
     await service.enqueue(rating_change_message)
     await service.shutdown()
 
@@ -58,7 +57,7 @@ async def test_double_initialization_does_not_start_second_worker(league_service
 
 async def test_enqueue_initialized(league_service, rating_change_message):
     service = league_service
-    service._rate_single_league = CoroutineMock()
+    service._rate_single_league = mock.AsyncMock()
 
     await service.enqueue(rating_change_message)
     await service.shutdown()
@@ -184,18 +183,18 @@ async def test_persist_score_new_player(league_service, database):
     assert loaded_score == new_score
 
     async with database.acquire() as conn:
-        result = await conn.execute(select([league_score_journal]))
-        rows = await result.fetchall()
+        result = await conn.execute(select(league_score_journal))
+        rows = result.fetchall()
         assert len(rows) == 1
         for row in rows:
-            assert row["game_id"] == 1
-            assert row["login_id"] == 5
-            assert row["league_season_id"] == 2
-            assert row["subdivision_id_before"] == 3
-            assert row["subdivision_id_after"] == 3
-            assert row["score_before"] == 6
-            assert row["score_after"] == 5
-            assert row["game_count"] == 43
+            assert row.game_id == 1
+            assert row.login_id == 5
+            assert row.league_season_id == 2
+            assert row.subdivision_id_before == 3
+            assert row.subdivision_id_after == 3
+            assert row.score_before == 6
+            assert row.score_after == 5
+            assert row.game_count == 43
 
 
 async def test_persist_score_old_player(league_service, database):
@@ -216,18 +215,18 @@ async def test_persist_score_old_player(league_service, database):
     assert loaded_score == new_score
 
     async with database.acquire() as conn:
-        result = await conn.execute(select([league_score_journal]))
-        rows = await result.fetchall()
+        result = await conn.execute(select(league_score_journal))
+        rows = result.fetchall()
         assert len(rows) == 1
         for row in rows:
-            assert row["game_id"] == 10
-            assert row["login_id"] == 1
-            assert row["league_season_id"] == 2
-            assert row["subdivision_id_before"] == 3
-            assert row["subdivision_id_after"] == 3
-            assert row["score_before"] == 6
-            assert row["score_after"] == 5
-            assert row["game_count"] == 43
+            assert row.game_id == 10
+            assert row.login_id == 1
+            assert row.league_season_id == 2
+            assert row.subdivision_id_before == 3
+            assert row.subdivision_id_after == 3
+            assert row.score_before == 6
+            assert row.score_after == 5
+            assert row.game_count == 43
 
 
 async def test_persist_score_season_id_mismatch(league_service):

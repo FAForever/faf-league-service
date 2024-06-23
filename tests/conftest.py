@@ -73,12 +73,12 @@ async def test_data(request):
 
     with open("tests/data/test-data.sql") as f:
         async with db.acquire() as conn:
-            await conn.execute(f.read())
+            await conn.execute(f.read().replace(":", r"\:"))
 
     await db.close()
 
 
-async def global_database(request):
+async def global_database(request) -> FAFDatabase:
     def opt(val):
         return request.config.getoption(val)
 
@@ -89,11 +89,13 @@ async def global_database(request):
         opt("--mysql_database"),
         opt("--mysql_port"),
     )
-    db = FAFDatabase(asyncio.get_running_loop())
-
-    await db.connect(host=host, user=user, password=pw or None, port=port, db=name)
-
-    return db
+    return FAFDatabase(
+        host=host,
+        user=user,
+        password=pw or "",
+        port=port,
+        db=name,
+    )
 
 
 @pytest.fixture
@@ -108,9 +110,14 @@ async def database(request, event_loop):
         opt("--mysql_database"),
         opt("--mysql_port"),
     )
-    db = MockDatabase(event_loop)
-
-    await db.connect(host=host, user=user, password=pw or None, port=port, db=name)
+    db = MockDatabase(
+        host=host,
+        user=user,
+        password=pw or "",
+        port=port,
+        db=name,
+    )
+    await db.connect()
 
     yield db
 

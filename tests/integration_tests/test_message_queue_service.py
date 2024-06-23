@@ -8,8 +8,6 @@ from service.message_queue_service import (ConnectionAttemptFailed,
                                            MessageQueueService,
                                            message_to_dict)
 
-pytestmark = pytest.mark.asyncio
-
 
 @pytest.fixture
 async def mq_service():
@@ -118,7 +116,7 @@ async def test_parse_incoming_message(mq_service, consumer):
 
     await asyncio.sleep(0.1)
 
-    received_message = consumer.received_messages[0]
+    received_message = consumer.received_messages[-1]
     parsed_message = message_to_dict(received_message)
 
     for key, value in payload.items():

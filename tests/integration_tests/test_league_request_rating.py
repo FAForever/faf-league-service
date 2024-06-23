@@ -12,9 +12,6 @@ async def league_service(database, message_queue_service):
     service.kill()
 
 
-pytestmark = pytest.mark.asyncio
-
-
 async def test_rate_new_player(league_service):
     new_player_id = 50
     rating_type = "global"

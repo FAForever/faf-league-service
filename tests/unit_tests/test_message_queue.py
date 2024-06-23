@@ -4,8 +4,6 @@ import pytest
 from service.message_queue_service import (ConnectionAttemptFailed,
                                            MessageQueueService)
 
-pytestmark = pytest.mark.asyncio
-
 
 @pytest.fixture
 async def mq_service():

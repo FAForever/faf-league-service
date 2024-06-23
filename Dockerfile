@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM python:3.10-slim
 
 # Need git for installing aiomysql
 RUN apt-get update

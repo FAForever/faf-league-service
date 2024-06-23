@@ -109,10 +109,10 @@ class LeagueRater:
         # Return score based on rating to have players in top division sorted by rating
         if higher_div is None:
             return (
-                    player_div.highest_score
-                    * (rating - player_div.min_rating)
-                    / (player_div.max_rating - player_div.min_rating)
-                )
+                player_div.highest_score
+                * (rating - player_div.min_rating)
+                / (player_div.max_rating - player_div.min_rating)
+            )
 
         if rating > player_div.max_rating:
             boost = config.POSITIVE_BOOST

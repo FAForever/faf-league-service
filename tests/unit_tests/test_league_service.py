@@ -83,7 +83,7 @@ async def test_update_data(uninitialized_service):
 
     assert len(service._leagues_by_rating_type["global"]) == 1
     test_league = service._leagues_by_rating_type["global"][0]
-    assert test_league.current_season_id == 2
+    assert test_league.current_season_id == 3
     assert test_league.rating_type == "global"
     assert len(test_league.divisions) == 6
     assert [division.min_rating for division in test_league.divisions] == [
@@ -140,7 +140,7 @@ async def test_is_not_returning_player(league_service):
 async def test_load_score(league_service):
     player_id = 1
     rating_type = "global"
-    expected_division_id = 5
+    expected_division_id = 7
     expected_score = 3
     expected_game_count = 15
     expected_returning_player = True
@@ -184,8 +184,8 @@ async def test_load_score_league_does_not_exist(league_service):
 async def test_persist_score_new_player(league_service, database):
     game_id = 1
     new_player_id = 5
-    season_id = 2
-    division_id = 3
+    season_id = 3
+    division_id = 5
     score = 6
     game_count = 42
     returning = False
@@ -205,9 +205,9 @@ async def test_persist_score_new_player(league_service, database):
         for row in rows:
             assert row.game_id == 1
             assert row.login_id == 5
-            assert row.league_season_id == 2
-            assert row.subdivision_id_before == 3
-            assert row.subdivision_id_after == 3
+            assert row.league_season_id == 3
+            assert row.subdivision_id_before == 5
+            assert row.subdivision_id_after == 5
             assert row.score_before == 6
             assert row.score_after == 5
             assert row.game_count == 43
@@ -216,8 +216,8 @@ async def test_persist_score_new_player(league_service, database):
 async def test_persist_score_old_player(league_service, database):
     game_id = 10
     old_player_id = 1
-    season_id = 2
-    division_id = 3
+    season_id = 3
+    division_id = 5
     score = 6
     game_count = 42
     returning = True
@@ -237,9 +237,9 @@ async def test_persist_score_old_player(league_service, database):
         for row in rows:
             assert row.game_id == 10
             assert row.login_id == 1
-            assert row.league_season_id == 2
-            assert row.subdivision_id_before == 3
-            assert row.subdivision_id_after == 3
+            assert row.league_season_id == 3
+            assert row.subdivision_id_before == 5
+            assert row.subdivision_id_after == 5
             assert row.score_before == 6
             assert row.score_after == 5
             assert row.game_count == 43
@@ -248,8 +248,8 @@ async def test_persist_score_old_player(league_service, database):
 async def test_persist_score_season_id_mismatch(league_service):
     game_id = 10
     player_id = 1
-    wrong_season_id = 1
-    division_id = 3
+    wrong_season_id = 2
+    division_id = 5
     score = 6
     game_count = 42
     returning = False
@@ -263,8 +263,8 @@ async def test_persist_score_season_id_mismatch(league_service):
 async def test_persist_score_division_without_score(league_service):
     game_id = 10
     player_id = 1
-    season_id = 2
-    division_id = 3
+    season_id = 3
+    division_id = 5
     no_score = None
     game_count = 42
     returning = False

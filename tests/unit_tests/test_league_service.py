@@ -121,6 +121,22 @@ async def test_is_returning_player(league_service):
     assert is_returning
 
 
+async def test_is_not_returning_player(league_service):
+    player_id = 2
+    rating_type = "ladder_1v1"
+
+    is_returning = await league_service.is_returning_player(player_id, rating_type)
+
+    assert not is_returning
+
+    player_id = 4
+    rating_type = "global"
+
+    is_returning = await league_service.is_returning_player(player_id, rating_type)
+
+    assert not is_returning
+
+
 async def test_load_score(league_service):
     player_id = 1
     rating_type = "global"

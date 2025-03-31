@@ -52,5 +52,7 @@ INSERT INTO league_season_score (login_id, league_season_id, subdivision_id, sco
   (1, 1, 1, 5, 5, FALSE),
   (1, 2, 5, 3, 15, TRUE),
   (1, 3, 9, 1200, 120, FALSE),
-  (2, 1, 2, 0, 15, FALSE),
+  (2, 1, NULL, NULL, 5, FALSE),
+  (2, 2, 2, 0, 15, FALSE),
   (3, 2, 8, 5, 5, FALSE);
+  (4, 2, NULL, NULL, 3, FALSE),

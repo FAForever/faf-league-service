@@ -175,12 +175,14 @@ class LeagueService:
                     and_(
                         league_season_score.c.login_id == player_id,
                         leaderboard.c.technical_name == rating_type,
+                        league_season_score.c.subdivision_id.isnot(None),
                     )
                 )
+                .limit(1)
             )
             result = await conn.execute(sql)
-            rows = result.fetchall()
-        return any(row.subdivision_id is not None for row in rows)
+            row = result.fetchone()
+        return row is not None
 
     async def _persist_score(
         self, game_id: GameID, player_id: PlayerID, season_id: int, old_score: LeagueScore, new_score: LeagueScore
